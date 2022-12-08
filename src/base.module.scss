@@ -1,0 +1,23 @@
+:global(:root) {
+  --white: #ffffff;
+  --black: #000000;
+  --main-color: #ff6600;
+  --primary-color: #0062ff;
+  --secondary-color: #6c757d;
+  --success-color: #3dd598;
+  --warn-color: #ffc542;
+  --error-color: #fc5a5a;
+  --new-color: #50b5ff;
+  --main-font-family: 'Noto Sans TC', sans-serif;
+  --number-font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  --input-background: #f5f8fa;
+  --default-baseline: #657786;
+  --hover-focus-baseline: #50b5ff;
+  --navbar-default-text: #44444f;
+  --popularlist-background: #fafafb;
+  --main-text: #171725;
+  --modal-backdrop: #e5e5e5;
+}
