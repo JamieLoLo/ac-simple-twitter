@@ -34,4 +34,25 @@ body {
   --popularlist-background: #fafafb;
   --main-text: #171725;
   --modal-backdrop: #e5e5e5;
+  --control-container-border: #e6ecf0;
+}
+
+:global(.control-container) {
+  width: 639px;
+  border-left: 1px solid var(--control-container-border);
+  border-right: 1px solid var(--control-container-border);
+  margin: 0 24px;
+}
+@media screen and (min-width: 1200px) {
+  :global(.main__container) {
+    width: 1140px;
+    margin: 0 auto;
+    display: flex;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  :global(.main__container) {
+    width: 960px;
+    margin: 0 auto;
+  }
 }
