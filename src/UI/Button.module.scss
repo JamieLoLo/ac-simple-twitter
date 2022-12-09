@@ -1,0 +1,65 @@
+:global(.button) {
+  background-color: var(--white);
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+:global(.button__sm) {
+  width: 68px;
+  font-size: 16px;
+  border-radius: 50px;
+  padding: 3px 7px;
+  line-height: 24px;
+}
+:global(.button__md) {
+  width: 84px;
+  font-size: 16px;
+  border-radius: 50px;
+  padding: 7px 15px;
+  line-height: 24px;
+}
+:global(.button__lg) {
+  width: 112px;
+  font-size: 20px;
+  border-radius: 50px;
+  padding: 7px 23px;
+  line-height: 30px;
+}
+:global(.button__xl) {
+  width: 320px;
+  font-size: 20px;
+  border-radius: 50px;
+  padding: 7px 23px;
+  line-height: 30px;
+}
+:global(.button__rectangle__sm) {
+  width: 84px;
+  padding: 7px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 24px;
+}
+:global(.button__rectangle__lg) {
+  width: 112px;
+  padding: 7px 23px;
+  border-radius: 4.8px;
+  font-size: 20px;
+  line-height: 30px;
+}
+:global(.active) {
+  background-color: var(--main-color);
+  color: var(--white);
+}
+
+:global(.linkButton) {
+  padding: 0;
+  font-size: 16px;
+  line-height: 24px;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
