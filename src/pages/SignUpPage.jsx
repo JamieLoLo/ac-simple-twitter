@@ -13,9 +13,7 @@ const SignUpPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   return (
-    <>
-
-      <div className={styles.form__container} style={{display: "none"}}>
+      <div className={styles.form__container}>
         <div className={styles.logo}>
           <Logo />
         </div>
@@ -65,7 +63,6 @@ const SignUpPage = () => {
           </Link>
         </div>
       </div>
-    </>
   );
 };
 

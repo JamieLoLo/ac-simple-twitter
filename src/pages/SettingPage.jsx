@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
-import Navigation from '../UI/Navigation'
+import Navigation from '../Layout/Navigation'
 
 import styles from './SettingPage.module.scss'
 
