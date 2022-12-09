@@ -1,9 +1,18 @@
 import React from 'react'
 import styles from './AuthInput.module.scss'
 
-const AuthInput = ({ id, auth, type, label, value, placeholder, onChange }) => {
+const AuthInput = ({
+  id,
+  auth,
+  style,
+  type,
+  label,
+  value,
+  placeholder,
+  onChange,
+}) => {
   return (
-    <div className={styles.input__container}>
+    <div className={styles.input__container} style={style}>
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
@@ -11,6 +20,9 @@ const AuthInput = ({ id, auth, type, label, value, placeholder, onChange }) => {
         className={auth}
         placeholder={placeholder || ''}
         value={value || ''}
+        onChange={(event) => {
+          onChange?.(event.target.value)
+        }}
       />
       {/* 用來顯示警告訊息 以及告知字數限字 */}
       {/* 先comment掉 等之後要做驗證再決定要放什麼參數進來 */}
