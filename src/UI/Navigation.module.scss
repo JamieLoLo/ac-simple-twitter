@@ -1,0 +1,52 @@
+.nav {
+  width: 178px;
+  min-height: 1200px;
+	height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  li {
+    display: flex;
+    align-items: center;
+    height: 58px;
+    margin: 4px 0px;
+    padding: 16px;
+    cursor: pointer;
+    p {
+      font-weight: 700;
+      font-size: 18px;
+      padding-left: 16px;
+      color: var(--dark-90);
+    }
+    .icon__main {
+      content: url(../components/assets/icons/main.svg);
+    }
+    .icon__personal {
+      content: url(../components/assets/icons/personal.svg);
+    }
+    .icon__setting {
+      content: url(../components/assets/icons/setting.svg);
+    }
+    .icon__logout {
+      content: url(../components/assets/icons/logout.svg);
+    }
+    &:hover {
+      p {
+        color: var(--main-color);
+      }
+      .icon__main {
+        content: url(../components/assets/icons/main_active.svg);
+      }
+      .icon__personal {
+        content: url(../components/assets/icons/personal_active.svg);
+      }
+      .icon__setting {
+        content: url(../components/assets/icons/setting_active.svg);
+      }
+      .icon__logout {
+        content: url(../components/assets/icons/logout_active.svg);
+      }
+    }
+  }
+}
+
