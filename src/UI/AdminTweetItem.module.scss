@@ -1,0 +1,48 @@
+.tweet {
+  width: 1075px;
+  height: 86px;
+  padding-left: 24px;
+  border-bottom: solid 1px var(--border-color);
+  .tweetInfo {
+    display: flex;
+    .container {
+      display: flex;
+    }
+    .tweetCreatorInfo {
+      margin-left: 8px;
+      display: flex;
+      height: 24px;
+      .name {
+        font-weight: 700;
+        line-height: 26px;
+        color: var(--dark-100);
+      }
+      .account {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--secondary-color);
+        margin-left: 8px;
+      }
+    }
+  }
+  .tweetContent {
+    width: 993px;
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 17px;
+    margin-left: 58px;
+    transform: translateY(-22px);
+  }
+  .createTime {
+    color: var(--secondary-color);
+    line-height: 22px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .delBtn {
+    position: absolute;
+    top: 0px;
+    right: 72px;
+    content: url(../components/assets/icons/delBtn.svg);
+  }
+}
