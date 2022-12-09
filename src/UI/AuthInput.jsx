@@ -11,6 +11,9 @@ const AuthInput = ({ id, auth, type, label, value, placeholder, onChange }) => {
         className={auth}
         placeholder={placeholder || ''}
         value={value || ''}
+        onChange={(event) => {
+          onChange?.(event.target.value)
+        }}
       />
       {/* 用來顯示警告訊息 以及告知字數限字 */}
       {/* 先comment掉 等之後要做驗證再決定要放什麼參數進來 */}
