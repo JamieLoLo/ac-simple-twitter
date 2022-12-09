@@ -1,12 +1,12 @@
 import "./reset.module.scss";
 import "./base.module.scss";
-import "./Button.module.scss";
-import Navigation from "./components/Navigation";
+import "./UI/Button.module.scss";
+import Tweet from "./UI/Tweet";
 
 function App() {
   return (
     <div className="App">
-      <Navigation />
+      <Tweet />
     </div>
   );
 }

@@ -1,0 +1,30 @@
+*{
+	border: solid 1px;
+}
+
+.tweet {
+	width: 639px;
+	height: 335px;
+	.tweetInfo {
+		display: flex;
+		align-items: center;
+		.tweetCreatorInfo {
+			margin-left: 8px;
+			.name {
+				font-weight: 700;
+				line-height: 26px;
+				color: var(--dark-100);
+			}
+			.account {
+				font-size: 14px;
+				line-height: 22px;
+				color: var(--secondary-color);
+			}
+		}
+	}
+	.tweetContent {
+		width: 578px;
+		font-size: 24px;
+		line-height: 36px;
+	}
+}
