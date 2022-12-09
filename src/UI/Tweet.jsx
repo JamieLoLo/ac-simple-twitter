@@ -25,16 +25,19 @@ const Tweet = () => {
       </div>
       <div className={styles.createTime}>{currentTime}</div>
       <div className={styles.tweetFeedback}>
-        <div className={styles.replyNum}>
-          34
+        <div className={styles.num}>
+          34 
           <p>回覆</p>
         </div>
-        <div className={styles.likeNum}>
+        <div className={styles.num}>
           808
           <p>喜歡次數</p>
         </div>
       </div>
-      <div className={styles.actionIcons}></div>
+      <div className={styles.actionIcons}>
+				<div className={styles.messageIcon}></div>
+				<div className={styles.likeIcon}></div>
+			</div>
     </div>
   );
 };
