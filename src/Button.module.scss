@@ -3,6 +3,9 @@
   color: var(--main-color);
   border: 1px solid var(--main-color);
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 :global(.button__sm) {
   width: 68px;
