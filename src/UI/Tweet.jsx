@@ -30,10 +30,12 @@ const Tweet = () => {
           <p>回覆</p>
         </div>
         <div className={styles.num}>
+
           808
           <p>喜歡次數</p>
         </div>
       </div>
+
       <div className={styles.actionIcons}>
 				<div className={styles.messageIcon}></div>
 				<div className={styles.likeIcon}></div>

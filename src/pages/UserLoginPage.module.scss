@@ -1,0 +1,26 @@
+.form__container {
+  display: flex;
+  width: 356px;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+}
+h3 {
+  text-align: center;
+}
+.button__container {
+  margin: 8px 0;
+}
+.button__switch {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
