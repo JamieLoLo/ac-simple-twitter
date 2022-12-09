@@ -45,15 +45,15 @@ body {
 }
 @media screen and (min-width: 1200px) {
   :global(.main__container) {
+    display: flex;
     width: 1140px;
     margin: 0 auto;
-    display: flex;
   }
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
   :global(.main__container) {
+    display: flex;
     width: 960px;
     margin: 0 auto;
-    display: flex;
   }
 }
