@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap');
+
+* {
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
 :global(:root) {
   --white: #ffffff;
   --black: #000000;
@@ -8,8 +15,6 @@
   --warn-color: #ffc542;
   --error-color: #fc5a5a;
   --new-color: #50b5ff;
-  --main-font-family: "Noto Sans TC", sans-serif;
-  --number-font-family: "Montserrat", sans-serif;
   --dark-100: #171725;
   --dark-90: #44444f;
   --dark-80: #696974;
