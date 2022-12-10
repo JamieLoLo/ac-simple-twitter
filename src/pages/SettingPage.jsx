@@ -1,16 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
 import Navigation from '../UI/Navigation'
+import { useSelector, useDispatch } from 'react-redux'
+import { authInputActions } from '../store/authInput-slice'
 
 import styles from './SettingPage.module.scss'
 
 const SettingPage = () => {
-  const [account, setAccount] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
+  const dispatch = useDispatch()
+  const account = useSelector((state) => state.account)
+  const username = useSelector((state) => state.username)
+  const email = useSelector((state) => state.email)
+  const password = useSelector((state) => state.password)
+  const passwordCheck = useSelector((state) => state.passwordCheck)
+
+  const accountHandler = (useInput) => {
+    dispatch(authInputActions.accountAuth(useInput))
+  }
+  const usernameHandler = (useInput) => {
+    dispatch(authInputActions.usernameAuth(useInput))
+  }
+  const emailHandler = (useInput) => {
+    dispatch(authInputActions.emailAuth(useInput))
+  }
+  const passwordHandler = (useInput) => {
+    dispatch(authInputActions.passwordAuth(useInput))
+  }
+  const passwordCheckHandler = (useInput) => {
+    dispatch(authInputActions.passwordCheckAuth(useInput))
+  }
 
   return (
     <div className='main__container'>
@@ -23,39 +42,55 @@ const SettingPage = () => {
           <AuthInput
             label='帳號'
             placeholder='請輸入帳號'
-            value={account}
+            onChange={accountHandler}
+            value={account.content}
             style={{ width: '593px', marginTop: '24px' }}
-            onChange={(userInputValue) => setAccount(userInputValue)}
+            isValid={account.isValid}
+            message={account.message}
+            count={account.count}
+            upperLimit='30'
           />
           <AuthInput
             label='名稱'
             placeholder='請輸入使用者名稱'
-            value={username}
             style={{ width: '593px' }}
-            onChange={(userInputValue) => setUsername(userInputValue)}
+            onChange={usernameHandler}
+            value={username.content}
+            isValid={username.isValid}
+            message={username.message}
+            count={username.count}
+            upperLimit='50'
           />
           <AuthInput
             label='Email'
             placeholder='請輸入 Email'
-            value={email}
             style={{ width: '593px' }}
-            onChange={(userInputValue) => setEmail(userInputValue)}
+            onChange={emailHandler}
+            value={email.content}
+            isValid={email.isValid}
+            message={email.message}
           />
           <AuthInput
             label='密碼'
             placeholder='請設定密碼'
             type='password'
-            value={password}
             style={{ width: '593px' }}
-            onChange={(userInputValue) => setPassword(userInputValue)}
+            onChange={passwordHandler}
+            value={password.content}
+            isValid={password.isValid}
+            message={password.message}
+            count={password.count}
+            upperLimit='30'
           />
           <AuthInput
             label='密碼確認'
             placeholder='請再度輸入密碼'
             type='password'
-            value={passwordConfirm}
             style={{ width: '593px' }}
-            onChange={(userInputValue) => setPasswordConfirm(userInputValue)}
+            onChange={passwordCheckHandler}
+            value={passwordCheck.content}
+            isValid={passwordCheck.isValid}
+            message={passwordCheck.message}
           />
           <div className={styles.button__container}>
             <Button
