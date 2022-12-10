@@ -15,6 +15,7 @@
   --warn-color: #ffc542;
   --error-color: #fc5a5a;
   --new-color: #50b5ff;
+  --border-color: #E6ECF0;
   --dark-100: #171725;
   --dark-90: #44444f;
   --dark-80: #696974;
@@ -38,7 +39,6 @@ body {
 }
 
 :global(.control-container) {
-  width: 639px;
   border-left: 1px solid var(--control-container-border);
   border-right: 1px solid var(--control-container-border);
   margin: 0 24px;

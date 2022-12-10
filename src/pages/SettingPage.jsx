@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
-import Navigation from '../UI/Navigation'
+import Navigation from '../Layout/Navigation'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 
