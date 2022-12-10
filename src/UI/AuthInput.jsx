@@ -1,35 +1,47 @@
+import clsx from 'clsx'
 import React from 'react'
 import styles from './AuthInput.module.scss'
 
 const AuthInput = ({
   id,
-  auth,
   style,
   type,
   label,
   value,
   placeholder,
   onChange,
+  isValid,
+  message,
+  count,
+  upperLimit,
 }) => {
   return (
     <div className={styles.input__container} style={style}>
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
+        className={clsx('', {
+          error__baseline: !isValid,
+        })}
         type={type || 'text'}
-        className={auth}
         placeholder={placeholder || ''}
         value={value || ''}
         onChange={(event) => {
           onChange?.(event.target.value)
         }}
       />
-      {/* 用來顯示警告訊息 以及告知字數限字 */}
-      {/* 先comment掉 等之後要做驗證再決定要放什麼參數進來 */}
-      {/* <div className={styles.input__message__container}>
-        <p className={styles.input__message}>message</p>
-        <p className={styles.text__restriction__count}>0/50</p>
-      </div> */}
+      {!isValid && (
+        <div
+          className={clsx('', 'input__message__container', {
+            error__message__container: !isValid,
+          })}
+        >
+          <p className={styles.input__message}>{message}</p>
+          <p className={styles.text__restriction__count}>
+            {count !== undefined && `${count} / ${upperLimit}`}
+          </p>
+        </div>
+      )}
     </div>
   )
 }
