@@ -1,14 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
+import { useSelector, useDispatch } from 'react-redux'
+import { authInputActions } from '../store/authInput-slice'
 
 import styles from './UserLoginPage.module.scss'
 
 const UserLoginPage = () => {
-  const [account, setAccount] = useState('')
-  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const account = useSelector((state) => state.account)
+  const password = useSelector((state) => state.password)
+
+  const accountHandler = (useInput) => {
+    dispatch(authInputActions.accountAuth(useInput))
+  }
+  const passwordHandler = (useInput) => {
+    dispatch(authInputActions.passwordAuth(useInput))
+  }
 
   return (
     <div className={styles.form__container}>
@@ -19,15 +29,23 @@ const UserLoginPage = () => {
       <AuthInput
         label='帳號'
         placeholder='請輸入帳號'
-        value={account}
-        onChange={(userInputValue) => setAccount(userInputValue)}
+        onChange={accountHandler}
+        value={account.content}
+        isValid={account.isValid}
+        message={account.message}
+        count={account.count}
+        upperLimit='30'
       />
       <AuthInput
         label='密碼'
-        placeholder='請輸入密碼'
+        placeholder='請設定密碼'
         type='password'
-        value={password}
-        onChange={(userInputValue) => setPassword(userInputValue)}
+        onChange={passwordHandler}
+        value={password.content}
+        isValid={password.isValid}
+        message={password.message}
+        count={password.count}
+        upperLimit='30'
       />
       <div className={styles.button__container}>
         <Button
