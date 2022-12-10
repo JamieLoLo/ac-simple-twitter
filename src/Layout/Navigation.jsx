@@ -1,6 +1,6 @@
 import styles from "./Navigation.module.scss";
 import logoIcon from "../components/assets/icons/logo.svg";
-import Button from "./Button";
+import Button from "../UI/Button";
 
 const Navigation = () => {
   return (

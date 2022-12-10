@@ -1,0 +1,44 @@
+.recommendFollowList {
+  width: 273px;
+  height: 895px;
+  background-color: var(--dark-20);
+	border-radius: 16px;
+  .title {
+    padding: 24px 153px 24px 24px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 26px;
+    color: var(--dark-100);
+    border-bottom: solid 1px var(--border-color);
+  }
+  .recommendFollowItem {
+    display: flex;
+    width: 273px;
+    height: 82px;
+    padding: 16px;
+    align-items: center;
+    justify-content: space-between;
+    .tweetInfo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      margin-right: 13px;
+      .tweetCreatorInfo {
+        margin-left: 8px;
+        .name {
+          font-weight: 700;
+          line-height: 26px;
+          color: var(--dark-100);
+        }
+        .account {
+          font-size: 14px;
+          line-height: 22px;
+          color: var(--secondary-color);
+        }
+      }
+    }
+    .buttonContainer {
+			transform: translateY(-2px);
+    }
+  }
+}
