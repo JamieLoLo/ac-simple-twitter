@@ -1,11 +1,11 @@
 import React from 'react'
+import UserFollowListItem from '../components/UserFollowListItem'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
-import UserFollowListItem from '../components/UserFollowListItem'
 import { Link } from 'react-router-dom'
-import styles from './UserFollowerPage.module.scss'
+import styles from './UserFollowingPage.module.scss'
 
-const UserFollowerPage = () => {
+const UserFollowingPage = () => {
   return (
     <>
       <UserGrid>
@@ -20,12 +20,12 @@ const UserFollowerPage = () => {
             </div>
           </div>
           <div className={styles.switch__button__container}>
-            <p className={`${styles.switch__button} ${styles.active}`}>
-              追隨者
-            </p>
-            <Link to='/users/following' className={styles.link}>
-              <p className={styles.switch__button}>正在追隨</p>
+            <Link to='/users/follower' className={styles.link}>
+              <p className={styles.switch__button}>追隨者</p>
             </Link>
+            <p className={`${styles.switch__button} ${styles.active}`}>
+              正在追隨
+            </p>
           </div>
           <div className={styles.follow__list__container}>
             <UserFollowListItem />
@@ -39,4 +39,4 @@ const UserFollowerPage = () => {
   )
 }
 
-export default UserFollowerPage
+export default UserFollowingPage

@@ -37,6 +37,9 @@ input {
   &:hover {
     border-bottom: 2px solid var(--hover-focus-baseline);
   }
+  &:focus {
+    border-bottom: 2px solid var(--hover-focus-baseline);
+  }
 }
 :global(.input__message__container) {
   display: flex;
@@ -54,4 +57,21 @@ input {
 }
 :global(.error__message__container) {
   color: var(--error-color);
+}
+textarea {
+  resize: none;
+  border: none;
+  background-color: var(--input-background);
+  outline: none;
+  width: 602px;
+  height: 130px;
+  padding: 0 16px 2px 16px;
+  font-size: 16px;
+  border-bottom: 2px solid var(--dark-50);
+  &:hover {
+    border-bottom: 2px solid var(--hover-focus-baseline);
+  }
+  &:focus {
+    border-bottom: 2px solid var(--hover-focus-baseline);
+  }
 }
