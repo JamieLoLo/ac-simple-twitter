@@ -1,0 +1,37 @@
+.user__container {
+  display: flex;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--control-container-border);
+}
+.icon__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 19px;
+}
+.user__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--main-text);
+}
+.tweet__count {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+.switch__button__container {
+  display: flex;
+  border-bottom: 1px solid var(--control-container-border);
+}
+.switch__button {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22px;
+  padding: 15px 35px;
+  color: var(--default-baseline);
+  cursor: pointer;
+}
+.active {
+  color: var(--main-color);
+  border-bottom: 2px solid var(--main-color);
+}
