@@ -2,6 +2,7 @@ import React from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
 import Navigation from '../Layout/Navigation'
+import { UserGrid } from '../Layout/GridSystemWrapper'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 
@@ -32,76 +33,73 @@ const SettingPage = () => {
   }
 
   return (
-    <div className='main__container'>
-      <Navigation />
-      <div className='control-container'>
-        <div className={styles.form__title}>
-          <h3>帳戶設定</h3>
-        </div>
-        <div className={styles.form__container}>
-          <AuthInput
-            label='帳號'
-            placeholder='請輸入帳號'
-            onChange={accountHandler}
-            value={account.content}
-            style={{ width: '593px', marginTop: '24px' }}
-            isValid={account.isValid}
-            message={account.message}
-            count={account.count}
-            upperLimit='30'
+    <UserGrid page='settingPage'>
+      <div className={styles.form__title}>
+        <h3>帳戶設定</h3>
+      </div>
+      <div className={styles.form__container}>
+        <AuthInput
+          label='帳號'
+          placeholder='請輸入帳號'
+          onChange={accountHandler}
+          value={account.content}
+          style={{ width: '100%', marginTop: '24px' }}
+          isValid={account.isValid}
+          message={account.message}
+          count={account.count}
+          upperLimit='30'
+        />
+        <AuthInput
+          label='名稱'
+          placeholder='請輸入使用者名稱'
+          style={{ width: '100%' }}
+          onChange={usernameHandler}
+          value={username.content}
+          isValid={username.isValid}
+          message={username.message}
+          count={username.count}
+          upperLimit='50'
+        />
+        <AuthInput
+          label='Email'
+          placeholder='請輸入 Email'
+          style={{ width: '100%' }}
+          onChange={emailHandler}
+          value={email.content}
+          isValid={email.isValid}
+          message={email.message}
+        />
+        <AuthInput
+          label='密碼'
+          placeholder='請設定密碼'
+          type='password'
+          style={{ width: '100%' }}
+          onChange={passwordHandler}
+          value={password.content}
+          isValid={password.isValid}
+          message={password.message}
+          count={password.count}
+          upperLimit='30'
+        />
+        <AuthInput
+          label='密碼確認'
+          placeholder='請再度輸入密碼'
+          type='password'
+          style={{ width: '100%' }}
+          onChange={passwordCheckHandler}
+          value={passwordCheck.content}
+          isValid={passwordCheck.isValid}
+          message={passwordCheck.message}
+        />
+        <div className={styles.button__container}>
+          <Button
+            className='button button__lg active'
+            title='儲存'
+            style={{ width: '88px' }}
           />
-          <AuthInput
-            label='名稱'
-            placeholder='請輸入使用者名稱'
-            style={{ width: '593px' }}
-            onChange={usernameHandler}
-            value={username.content}
-            isValid={username.isValid}
-            message={username.message}
-            count={username.count}
-            upperLimit='50'
-          />
-          <AuthInput
-            label='Email'
-            placeholder='請輸入 Email'
-            style={{ width: '593px' }}
-            onChange={emailHandler}
-            value={email.content}
-            isValid={email.isValid}
-            message={email.message}
-          />
-          <AuthInput
-            label='密碼'
-            placeholder='請設定密碼'
-            type='password'
-            style={{ width: '593px' }}
-            onChange={passwordHandler}
-            value={password.content}
-            isValid={password.isValid}
-            message={password.message}
-            count={password.count}
-            upperLimit='30'
-          />
-          <AuthInput
-            label='密碼確認'
-            placeholder='請再度輸入密碼'
-            type='password'
-            style={{ width: '593px' }}
-            onChange={passwordCheckHandler}
-            value={passwordCheck.content}
-            isValid={passwordCheck.isValid}
-            message={passwordCheck.message}
-          />
-          <div className={styles.button__container}>
-            <Button
-              className='button button__lg active'
-              title='儲存'
-              style={{ width: '88px' }}
-            />
-          </div>
         </div>
       </div>
-    </div>
+    </UserGrid>
   )
 }
 
