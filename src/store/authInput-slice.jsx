@@ -105,9 +105,16 @@ const authInputSlice = createSlice({
         state.passwordCheck.message = ''
       }
     },
+    refreshAuthInput(state) {
+      state.account = initialState.account
+      state.username = initialState.username
+      state.email = initialState.email
+      state.password = initialState.password
+      state.passwordCheck = initialState.passwordCheck
+    },
   },
 })
 
 export const authInputActions = authInputSlice.actions
 
-export default authInputSlice
+export default authInputSlice.reducer
