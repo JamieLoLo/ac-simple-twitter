@@ -5,16 +5,18 @@ import Navigation from '../Layout/Navigation'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import {useLocation} from 'react-router-dom'
 
 import styles from './SettingPage.module.scss'
 
 const SettingPage = () => {
+  const pathname = useLocation().pathname
   const dispatch = useDispatch()
-  const account = useSelector((state) => state.account)
-  const username = useSelector((state) => state.username)
-  const email = useSelector((state) => state.email)
-  const password = useSelector((state) => state.password)
-  const passwordCheck = useSelector((state) => state.passwordCheck)
+  const account = useSelector((state) => state.authInput.account)
+  const username = useSelector((state) => state.authInput.username)
+  const email = useSelector((state) => state.authInput.email)
+  const password = useSelector((state) => state.authInput.password)
+  const passwordCheck = useSelector((state) => state.authInput.passwordCheck)
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -33,7 +35,7 @@ const SettingPage = () => {
   }
 
   return (
-    <UserGrid page='settingPage'>
+    <UserGrid page='settingPage' pathname={pathname}>
       <div className={styles.form__title}>
         <h3>帳戶設定</h3>
       </div>

@@ -10,8 +10,8 @@ import styles from './AdminLoginPage.module.scss'
 
 const AdminLoginPage = () => {
   const dispatch = useDispatch()
-  const account = useSelector((state) => state.account)
-  const password = useSelector((state) => state.password)
+  const account = useSelector((state) => state.authInput.account)
+  const password = useSelector((state) => state.authInput.password)
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))

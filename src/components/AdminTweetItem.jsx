@@ -1,31 +1,22 @@
 import styles from './AdminTweetItem.module.scss'
-import moment from 'moment'
-import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 
-const AdminTweetItem = () => {
-  useMoment()
-  const timestamp = moment().valueOf()
-  const currentTime = moment(timestamp).format(
-    'Ah:mm:ss[・]YYYY[年]MM[月]DD[日]'
-  )
+const AdminTweetItem = ({ data }) => {
+  const { description, createdAt, User } = data
+  const { account, name, avatar } = User
   return (
     <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
-        <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
+        <img className={styles.avatar} src={avatar} alt='avatar' />
         <div className={styles.tweetCreatorInfo}>
           <div className={styles.container}>
-            <div className={styles.name}>Apple</div>
-            <div className={styles.account}>@apple</div>
+            <div className={styles.name}>{name}</div>
+            <div className={styles.account}>@{account}</div>
           </div>
-          <div className={styles.createTime}>・{currentTime}</div>
+          <div className={styles.createTime}>・下午4:54:09・2022年12月11日</div>
         </div>
       </div>
-      <div className={styles.tweetContent}>
-        Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-        cillum dolor. Voluptate exercitation incididunt aliquip deserunt
-        reprehenderit elit laborum.
-      </div>
+      <div className={styles.tweetContent}>{description}</div>
       <div className={styles.delBtn}></div>
     </div>
   )

@@ -13,11 +13,13 @@
     padding: 16px;
     cursor: pointer;
     p {
-      width: 72px;
       font-weight: 700;
       font-size: 17px;
       margin-left: 12px;
       color: var(--dark-90);
+      &.active {
+        color: var(--main-color);
+      }
     }
     .icon__main {
       content: url(../components/assets/icons/main.svg);
@@ -51,3 +53,13 @@
   }
 }
 
+.icon__main__active {
+content: url(../components/assets/icons/main_active.svg);
+}
+
+.icon__personal__active {
+  content: url(../components/assets/icons/personal_active.svg);
+}
+.icon__setting__active {
+  content: url(../components/assets/icons/setting_active.svg);
+}
