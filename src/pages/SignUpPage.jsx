@@ -5,6 +5,7 @@ import { authInputActions } from '../store/authInput-slice'
 import Button from '../UI/Button'
 import AuthInput from '../UI/AuthInput'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
+import { userSignup } from '../store/user-action'
 import styles from './SignUpPage.module.scss'
 
 const SignUpPage = () => {
@@ -30,6 +31,19 @@ const SignUpPage = () => {
   const passwordCheckHandler = (useInput) => {
     dispatch(authInputActions.passwordCheckAuth(useInput))
   }
+  const userSignupHandler = async () => {
+    const response = await dispatch(
+      userSignup({
+        name: name.content,
+        account: account.content,
+        email: email.content,
+        password: password.content,
+        checkPassword: checkPassword.content,
+      })
+    )
+    console.log(response)
+  }
+
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
@@ -93,6 +107,7 @@ const SignUpPage = () => {
           className='button button__xl active'
           title='註冊'
           style={{ width: '356px' }}
+          onClick={userSignupHandler}
         />
       </div>
       <div className={styles.button__switch}>
