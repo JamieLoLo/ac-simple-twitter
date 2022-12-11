@@ -23,6 +23,9 @@
   display: flex;
   border-bottom: 1px solid var(--control-container-border);
 }
+.link {
+  text-decoration: none;
+}
 .switch__button {
   font-size: 15px;
   font-weight: 700;
