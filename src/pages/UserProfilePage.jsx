@@ -6,7 +6,7 @@ import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
 const UserProfilePage = () => {
   const pathname = useLocation().pathname
@@ -38,13 +38,19 @@ const UserProfilePage = () => {
               amet sint.
             </div>
             <div className={styles.followInfo}>
-              <>
-                <div className={styles.num}>34個</div>
+              <Link to='/users/following' className={styles.link}>
+                <div className={styles.num} style={{ color: '#171725' }}>
+                  34個
+                </div>
                 <p>跟隨中</p>
-              </>
+              </Link>
               <div className={styles.container}>
-                <div className={styles.num}>59位</div>
-                <p>跟隨者</p>
+                <Link to='/users/follower' className={styles.link}>
+                  <div className={styles.num} style={{ color: '#171725' }}>
+                    59位
+                  </div>
+                  <p>跟隨者</p>
+                </Link>
               </div>
             </div>
           </div>

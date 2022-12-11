@@ -3,8 +3,21 @@ import Button from './Button'
 import cover from '../components/assets/icons/cover.svg'
 import cameraIcon from '../components/assets/icons/camera.svg'
 import delBtn from '../components/assets/icons/delBtn_white.svg'
+import AuthInput from './AuthInput'
+import { useSelector, useDispatch } from 'react-redux'
+import { authInputActions } from '../store/authInput-slice'
 
 const EditProfileModal = () => {
+  const dispatch = useDispatch()
+  const username = useSelector((state) => state.authInput.username)
+  const info = useSelector((state) => state.authInput.info)
+
+  const usernameHandler = (useInput) => {
+    dispatch(authInputActions.usernameAuth(useInput))
+  }
+  const infoHandler = (useInput) => {
+    dispatch(authInputActions.infoAuth(useInput))
+  }
   return (
     <div className={styles.modal}>
       <div className={styles.backdrop}></div>
@@ -31,6 +44,29 @@ const EditProfileModal = () => {
             className={styles.avatar}
             src='https://pbs.twimg.com/profile_images/1465102977312636929/oXKdq9aL_400x400.jpg'
             alt='avatar'
+          />
+        </div>
+        <div className={styles.auth__input__container}>
+          <AuthInput
+            label='名稱'
+            style={{ width: '602px' }}
+            onChange={usernameHandler}
+            value={username.content}
+            isValid={username.isValid}
+            message={username.message}
+            count={username.count}
+            upperLimit='50'
+          />
+          <AuthInput
+            label='自我介紹'
+            textArea={true}
+            style={{ width: '602px' }}
+            onChange={infoHandler}
+            value={info.content}
+            isValid={info.isValid}
+            message={info.message}
+            count={info.count}
+            upperLimit='160'
           />
         </div>
       </div>
