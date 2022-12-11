@@ -14,6 +14,7 @@ import UserProfilePage from './pages/UserProfilePage'
 import UserFollowerPage from './pages/UserFollowerPage'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import UserFollowingPage from './pages/UserFollowingPage'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='admin/allusers' element={<AdminAllUsersPage />} />
           <Route path='users/setting' element={<SettingPage />} />
           <Route path='users/follower' element={<UserFollowerPage />} />
+          <Route path='users/following' element={<UserFollowingPage />} />
         </Routes>
       </BrowserRouter>
     </div>
