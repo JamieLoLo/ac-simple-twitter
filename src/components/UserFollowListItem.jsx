@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from './UserFollowListItem.module.scss'
-import { ReactComponent as Avatar } from './assets/icons/defaultFig.svg'
+import defaultFig from './assets/icons/defaultFig.svg'
 import Button from '../UI/Button'
 
 const UserFollowListItem = () => {
   return (
     <div className={styles.item__container}>
       <div className={styles.avatar__container}>
-        <Avatar />
+        <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
       </div>
       <div className={styles.info__container}>
         <div className={styles.info__header}>
