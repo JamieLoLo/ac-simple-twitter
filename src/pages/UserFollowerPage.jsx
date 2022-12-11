@@ -1,8 +1,8 @@
 import React from 'react'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
-import styles from './UserFollowerPage.module.scss'
 import UserFollowListItem from '../components/UserFollowListItem'
+import styles from './UserFollowerPage.module.scss'
 
 const UserFollowerPage = () => {
   return (

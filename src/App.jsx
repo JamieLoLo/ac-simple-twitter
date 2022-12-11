@@ -12,9 +12,9 @@ import MainPage from './pages/MainPage'
 import DetailTweetPage from './pages/DetailTweetPage'
 import UserProfilePage from './pages/UserProfilePage'
 import UserFollowerPage from './pages/UserFollowerPage'
+import UserFollowingPage from './pages/UserFollowingPage'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import UserFollowingPage from './pages/UserFollowingPage'
 
 function App() {
   return (
