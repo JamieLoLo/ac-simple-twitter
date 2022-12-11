@@ -1,68 +1,140 @@
 import styles from './AdminAllUsersPage.module.scss'
 import { AdminGrid } from '../Layout/GridSystemWrapper'
-import cover from '../components/assets/icons/cover.svg'
 import { useLocation } from 'react-router-dom'
-
+import AdminUserItem from '../components/AdminUserItem'
+const response = [
+  {
+    id: 44,
+    account: 'user4',
+    name: 'User4',
+    avatar: 'https://loremflickr.com/320/240/logo/?lock=4',
+    cover: 'https://loremflickr.com/720/240/landscape/?lock=4',
+    tweetsCount: 10,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 54,
+    account: 'user5',
+    name: 'User5',
+    avatar: 'https://loremflickr.com/320/240/logo/?lock=5',
+    cover: 'https://loremflickr.com/720/240/landscape/?lock=5',
+    tweetsCount: 10,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 14,
+    account: 'user1',
+    name: 'User1',
+    avatar: 'https://loremflickr.com/320/240/logo/?lock=1',
+    cover: 'https://loremflickr.com/720/240/landscape/?lock=1',
+    tweetsCount: 10,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 24,
+    account: 'user2',
+    name: 'User2',
+    avatar: 'https://loremflickr.com/320/240/logo/?lock=2',
+    cover: 'https://loremflickr.com/720/240/landscape/?lock=2',
+    tweetsCount: 10,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 34,
+    account: 'user3',
+    name: 'User3',
+    avatar: 'https://loremflickr.com/320/240/logo/?lock=3',
+    cover: 'https://loremflickr.com/720/240/landscape/?lock=3',
+    tweetsCount: 10,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 104,
+    account: 'Jamielolo111',
+    name: 'Jamielolo111',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 64,
+    account: '20221209s',
+    name: '20221209',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 4,
+    account: 'root',
+    name: 'Root',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 74,
+    account: 'Jamielolo',
+    name: 'Jamielolo',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 84,
+    account: 'Jamielolo1',
+    name: 'Jamielolo1',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+  {
+    id: 94,
+    account: 'Jamielolo11',
+    name: 'Jamielolo11',
+    avatar: null,
+    cover: null,
+    tweetsCount: 0,
+    likesCount: 0,
+    followingsCount: 0,
+    followersCount: 0,
+  },
+]
 
 const AdminAllUsersPage = () => {
   const pathname = useLocation().pathname
-  const UserCard = () => {
-    return (
-      <div className={styles.userCard}>
-        <img className={styles.cover} src={cover} alt='cover' />
-        <img
-          className={styles.avatar}
-          src='https://media-s3-us-east-1.ceros.com/forbes/images/2021/12/06/bbff530cddcb7ed1b79ecee931f9f854/artboard-2-copy-6.jpg'
-          alt='avatar'
-        />
-        <div className={styles.info}>
-          <div className={styles.name}>John Doe</div>
-          <div className={styles.account}>@heyjohn</div>
-          <div className={styles.tweetInfo}>
-            <div className={styles.tweetNum}>
-              <div className={styles.icon}></div>
-              <div className={styles.num}>1.5k</div>
-            </div>
-            <div className={styles.likeNum}>
-              <div className={styles.icon}></div>
-              <div className={styles.num}>20k</div>
-            </div>
-          </div>
-          <div className={styles.followInfo}>
-            <p>
-              34個<span className={styles.sub}>跟隨中</span>
-            </p>
-
-            <p>
-              59位<span className={styles.sub}>跟隨者</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const adminUserItemHelper = response.map((data) => 
+    <AdminUserItem data={data} key={data.id} />
+  )
   return (
     <AdminGrid pathname={pathname}>
       <div className={styles.title}>使用者列表</div>
-      <div className={styles.userCardList}>
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-      </div>
+      <div className={styles.userCardList}>{adminUserItemHelper}</div>
     </AdminGrid>
   )
 }

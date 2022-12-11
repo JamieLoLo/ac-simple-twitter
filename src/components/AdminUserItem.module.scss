@@ -1,0 +1,71 @@
+.userCard {
+  width: 249px;
+  height: 314px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f6f7f8;
+  .cover {
+    height: 140px;
+  }
+  .avatar {
+    position: absolute;
+    top: 20.38%;
+    left: 29.72%;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border: solid 4px white;
+  }
+  .info {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    .name {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 26px;
+    }
+    .account {
+      color: var(--secondary-color);
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+}
+
+.tweetInfo {
+  display: flex;
+  margin: 16px 0px 8px 0px;
+  .tweetNum {
+    display: flex;
+    .icon {
+      width: 24px;
+      content: url(../components/assets/icons/tweetNum.svg);
+    }
+  }
+  .likeNum {
+    display: flex;
+    margin-left: 16px;
+    .icon {
+      width: 24px;
+      content: url(../components/assets/icons/like.svg);
+    }
+  }
+  .num {
+    margin-left: 2px;
+  }
+}
+
+.followInfo {
+  display: flex;
+  font-size: 14px;
+  line-height: 22px;
+  gap: 8px;
+  .sub {
+    color: var(--secondary-color);
+  }
+}
