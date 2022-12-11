@@ -11,6 +11,7 @@ import AdminAllUsersPage from './pages/AdminAllUsersPage'
 import MainPage from './pages/MainPage'
 import DetailTweetPage from './pages/DetailTweetPage'
 import UserProfilePage from './pages/UserProfilePage'
+import UserFollowerPage from './pages/UserFollowerPage'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='admin/alltweets' element={<AdminAllTweetsPage />} />
           <Route path='admin/allusers' element={<AdminAllUsersPage />} />
           <Route path='users/setting' element={<SettingPage />} />
+          <Route path='users/follower' element={<UserFollowerPage />} />
         </Routes>
       </BrowserRouter>
     </div>
