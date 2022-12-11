@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { signup } from '../store/auth-actions'
 import Button from '../UI/Button'
 import AuthInput from '../UI/AuthInput'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
@@ -33,17 +32,6 @@ const SignUpPage = () => {
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
-  }
-  const signupHandler = async () => {
-    await dispatch(
-      signup({
-        name,
-        account,
-        email,
-        password,
-        checkPassword,
-      })
-    )
   }
 
   return (
@@ -105,7 +93,6 @@ const SignUpPage = () => {
           className='button button__xl active'
           title='註冊'
           style={{ width: '356px' }}
-          onClick={signupHandler}
         />
       </div>
       <div className={styles.button__switch}>
