@@ -19,6 +19,9 @@ const AdminLoginPage = () => {
   const passwordHandler = (useInput) => {
     dispatch(authInputActions.passwordAuth(useInput))
   }
+  const refreshHandler = () => {
+    dispatch(authInputActions.refreshAuthInput())
+  }
 
   return (
     <div className={styles.form__container}>
@@ -56,7 +59,11 @@ const AdminLoginPage = () => {
       </div>
       <div className={styles.button__switch}>
         <Link to='/users/login'>
-          <Button className='button linkButton' title='前台登入' />
+          <Button
+            className='button linkButton'
+            title='前台登入'
+            onClick={refreshHandler}
+          />
         </Link>
       </div>
     </div>

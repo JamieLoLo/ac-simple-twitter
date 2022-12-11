@@ -13,16 +13,18 @@ export const AdminGrid = ({ children }) => {
   )
 }
 
-export const UserGrid = ({ children }) => {
+export const UserGrid = ({ children, page }) => {
   return (
     <div className='main__container'>
       <div className={`col-2 ${styles.col_2}`}>
         <Navigation condition='user' />
       </div>
       <div className={`col-7 ${styles.col_7}`}>{children}</div>
-      <div className={`col-3 ${styles.col_3}`}>
-        <RecommendFollowList />
-      </div>
+      {page !== 'settingPage' && (
+        <div className={`col-3 ${styles.col_3}`}>
+          <RecommendFollowList />
+        </div>
+      )}
     </div>
   )
 }

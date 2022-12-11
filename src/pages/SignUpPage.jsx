@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-
 import Button from '../UI/Button'
 import AuthInput from '../UI/AuthInput'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
@@ -10,11 +9,11 @@ import styles from './SignUpPage.module.scss'
 
 const SignUpPage = () => {
   const dispatch = useDispatch()
-  const account = useSelector((state) => state.account)
-  const username = useSelector((state) => state.username)
-  const email = useSelector((state) => state.email)
-  const password = useSelector((state) => state.password)
-  const passwordCheck = useSelector((state) => state.passwordCheck)
+  let account = useSelector((state) => state.account)
+  let name = useSelector((state) => state.username)
+  let email = useSelector((state) => state.email)
+  let password = useSelector((state) => state.password)
+  let checkPassword = useSelector((state) => state.passwordCheck)
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -31,7 +30,10 @@ const SignUpPage = () => {
   const passwordCheckHandler = (useInput) => {
     dispatch(authInputActions.passwordCheckAuth(useInput))
   }
-  console.log(account)
+  const refreshHandler = () => {
+    dispatch(authInputActions.refreshAuthInput())
+  }
+
   return (
     <div className={styles.form__container}>
       <div className={styles.logo}>
@@ -52,10 +54,10 @@ const SignUpPage = () => {
         label='名稱'
         placeholder='請輸入使用者名稱'
         onChange={usernameHandler}
-        value={username.content}
-        isValid={username.isValid}
-        message={username.message}
-        count={username.count}
+        value={name.content}
+        isValid={name.isValid}
+        message={name.message}
+        count={name.count}
         upperLimit='50'
       />
       <AuthInput
@@ -82,9 +84,9 @@ const SignUpPage = () => {
         placeholder='請再度輸入密碼'
         type='password'
         onChange={passwordCheckHandler}
-        value={passwordCheck.content}
-        isValid={passwordCheck.isValid}
-        message={passwordCheck.message}
+        value={checkPassword.content}
+        isValid={checkPassword.isValid}
+        message={checkPassword.message}
       />
       <div className={styles.button__container}>
         <Button
@@ -95,7 +97,11 @@ const SignUpPage = () => {
       </div>
       <div className={styles.button__switch}>
         <Link to='/users/login'>
-          <Button className='button linkButton' title='取消' />
+          <Button
+            className='button linkButton'
+            title='取消'
+            onClick={refreshHandler}
+          />
         </Link>
       </div>
     </div>

@@ -13,7 +13,8 @@
 
 .col_7,
 .col_10 {
-  border: solid 1px var(--border-color);
+  border-left: solid 1px var(--border-color);
+  border-right: solid 1px var(--border-color);
   height: 100vh;
   overflow: visible scroll;
   -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -22,5 +23,3 @@
     display: none; /* Safari and Chrome */
   }
 }
-
-
