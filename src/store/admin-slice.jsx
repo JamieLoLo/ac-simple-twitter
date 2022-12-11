@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-const initialState = {}
+
+const initialState = { allUsers: null, allTweets: null }
 
 const adminSlice = createSlice({
   name: 'admin',
   initialState: initialState,
-  reducers: {
-
-  }
+  reducers: {},
 })
 
 export const adminActions = adminSlice.actions

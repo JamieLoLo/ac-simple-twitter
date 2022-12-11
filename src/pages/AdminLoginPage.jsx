@@ -5,6 +5,7 @@ import Button from '../UI/Button'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import { adminLogin } from '../store/admin-action'
 
 import styles from './AdminLoginPage.module.scss'
 
@@ -19,6 +20,14 @@ const AdminLoginPage = () => {
   const passwordHandler = (useInput) => {
     dispatch(authInputActions.passwordAuth(useInput))
   }
+
+  const adminLoginHandler = async () => {
+    const response = await dispatch(
+      adminLogin({ account: account.content, password: password.content })
+    )
+    console.log(response)
+  }
+
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
@@ -55,6 +64,7 @@ const AdminLoginPage = () => {
           className='button button__xl active'
           style={{ width: '356px' }}
           title='登入'
+          onClick={adminLoginHandler}
         />
       </div>
       <div className={styles.button__switch}>
