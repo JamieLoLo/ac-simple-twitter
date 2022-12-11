@@ -1,19 +1,18 @@
-import styles from "./AdminTweetItem.module.scss";
-import moment from "moment";
-import useMoment from "../hooks/useMoment";
-import defaultFig from "../components/assets/icons/defaultFig.svg";
+import styles from './AdminTweetItem.module.scss'
+import moment from 'moment'
+import useMoment from '../hooks/useMoment'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 
-const DetailTweetItem = () => {
-  useMoment();
-  const timestamp = moment().valueOf();
+const AdminTweetItem = () => {
+  useMoment()
+  const timestamp = moment().valueOf()
   const currentTime = moment(timestamp).format(
-    "Ah:mm:ss[・]YYYY[年]MM[月]DD[日]"
-  );
-
+    'Ah:mm:ss[・]YYYY[年]MM[月]DD[日]'
+  )
   return (
     <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
-        <img className={styles.avatar} src={defaultFig} alt="Default Fig" />
+        <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
         <div className={styles.tweetCreatorInfo}>
           <div className={styles.container}>
             <div className={styles.name}>Apple</div>
@@ -29,7 +28,7 @@ const DetailTweetItem = () => {
       </div>
       <div className={styles.delBtn}></div>
     </div>
-  );
-};
+  )
+}
 
-export default DetailTweetItem;
+export default AdminTweetItem

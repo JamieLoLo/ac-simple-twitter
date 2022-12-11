@@ -16,7 +16,7 @@ const RecommendFollowList = () => {
         <div className={styles.buttonContainer}>
           <Button
             className="button active button__md"
-            style={{ width: "100px" }}
+            style={{ width: "90px", fontSize: '14px' }}
             title="正在跟隨"
           />
           <Button
@@ -32,8 +32,6 @@ const RecommendFollowList = () => {
     <div className={styles.recommendFollowList}>
       <div className={styles.title}>推薦跟隨</div>
       <RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
 			<RecommendFollowItem />
 			<RecommendFollowItem />
 			<RecommendFollowItem />

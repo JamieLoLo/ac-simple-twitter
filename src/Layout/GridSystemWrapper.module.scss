@@ -1,0 +1,26 @@
+.col_2 {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.col_3 {
+  padding-top: 16px;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.col_7,
+.col_10 {
+  border: solid 1px var(--border-color);
+  height: 100vh;
+  overflow: visible scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+}
+
+

@@ -1,6 +1,6 @@
 .nav {
-  width: 178px;
-  min-height: 1200px;
+  width: 100%;
+  margin-right:24px;
 	height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,9 +13,10 @@
     padding: 16px;
     cursor: pointer;
     p {
+      width: 72px;
       font-weight: 700;
-      font-size: 18px;
-      padding-left: 16px;
+      font-size: 17px;
+      margin-left: 12px;
       color: var(--dark-90);
     }
     .icon__main {

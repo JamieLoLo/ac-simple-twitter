@@ -1,17 +1,17 @@
-.tweet {
+.replyItem {
   width: 100%;
-  padding: 0px 24px;
+  padding: 16px 24px 0 24px;
   border-bottom: solid 1px #e6ecf0;
-  margin-top: 16px;
+  padding-bottom: -10px;
   .tweetInfo {
     display: flex;
     margin-bottom: 8px;
-    .container {
-      display: flex;
-    }
+		.container {
+			display: flex;
+		}
     .tweetCreatorInfo {
       margin-left: 8px;
-      display: flex;
+			display: flex;
       height: 26px;
       .avatar {
         width: 50px;
@@ -26,22 +26,30 @@
         font-size: 14px;
         line-height: 22px;
         color: var(--secondary-color);
-        margin-left: 8px;
+				margin-left: 8px;
       }
     }
   }
   .tweetContent {
     transform: translateY(-35px);
+    margin-bottom: -17px;
     width: 89%;
     font-size: 16px;
     line-height: 36px;
-    margin-left: 58px;
+		margin-left: 58px;
+    .replyTo {
+      font-size: 13px;
+      color: var(--default-baseline);
+      .highlight {
+        color: var(--main-color);
+      }
+    }
   }
   .createTime {
     color: var(--secondary-color);
     line-height: 22px;
     font-weight: 500;
-    font-size: 14px;
+		font-size: 14px;
   }
   .tweetFeedback {
     border-bottom: solid 1px #e6ecf0;
@@ -49,25 +57,27 @@
     padding-bottom: 17px;
     display: flex;
     font-size: 14px;
-    .like,
-    .reply {
-      display: flex;
-      justify-content: center;
-    }
-    .reply {
-      margin-left: 58px;
-    }
-    .like {
-      margin-left: 40px;
-    }
-    .num {
-      color: var(--secondary-color);
-      margin-left: 8px;
-    }
+		.like, .reply {
+			display: flex;
+		}
+		.reply {
+			margin-left: 58px;
+		}
+		.like {
+			margin-left: 40px;
+		}
+		.num {
+			color: var(--secondary-color);
+			margin-left: 8px;
+		}
 
     .messageIcon {
       width: 16px;
       content: url(../components/assets/icons/message.svg);
+    }
+    .likeIcon {
+      width: 16px;
+      content: url(../components/assets/icons/like.svg);
     }
   }
 }

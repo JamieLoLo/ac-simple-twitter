@@ -1,38 +1,54 @@
-import styles from "./Navigation.module.scss";
-import logoIcon from "../components/assets/icons/logo.svg";
-import Button from "../UI/Button";
+import styles from './Navigation.module.scss'
+import logoIcon from '../components/assets/icons/logo.svg'
+import Button from '../UI/Button'
 
-const Navigation = () => {
+const Navigation = ({condition}) => {
   return (
     <nav className={styles.nav}>
       <ul>
-        <li style={{ cursor: "default" }}>
-          <img src={logoIcon} alt="logoIcon" />
+        <li style={{ cursor: 'default' }}>
+          <img src={logoIcon} alt='logoIcon' />
         </li>
-        <li>
-          <div className={styles.icon__main}></div>
-          <p>首頁</p>
-        </li>
-        <li>
-          <div className={styles.icon__personal}></div>
-          <p>個人資料</p>
-        </li>
-        <li>
-          <div className={styles.icon__setting}></div>
-          <p>設定</p>
-        </li>
-        <Button
-          className="button button__xl active"
-          title="推文"
-          style={{ width: "178px" }}
-        />
+        {condition === 'user' && (
+          <>
+            <li>
+              <div className={styles.icon__main}></div>
+              <p>首頁</p>
+            </li>
+            <li>
+              <div className={styles.icon__personal}></div>
+              <p>個人資料</p>
+            </li>
+            <li>
+              <div className={styles.icon__setting}></div>
+              <p>設定</p>
+            </li>
+            <Button
+              className='button button__xl active'
+              title='推文'
+              style={{ width: '100%' }}
+            />
+          </>
+        )}
+        {condition === 'admin' && (
+          <>
+            <li>
+              <div className={styles.icon__main}></div>
+              <p>推文清單</p>
+            </li>
+            <li>
+              <div className={styles.icon__personal}></div>
+              <p>使用者列表</p>
+            </li>
+          </>
+        )}
       </ul>
       <li>
         <div className={styles.icon__logout}></div>
         <p>登出</p>
       </li>
     </nav>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation
