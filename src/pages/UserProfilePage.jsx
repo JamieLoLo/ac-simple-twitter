@@ -6,12 +6,14 @@ import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
+import { useLocation } from 'react-router-dom'
 
 const UserProfilePage = () => {
+  const pathname = useLocation().pathname
   return (
     <>
-      <EditProfileModal/>
-      <UserGrid>
+      {/* <EditProfileModal/> */}
+      <UserGrid pathname={pathname}>
         <div className={styles.title}>
           <img src={prevLogo} alt='prev' />
           <div className={styles.container}>

@@ -9,11 +9,11 @@ import styles from './SignUpPage.module.scss'
 
 const SignUpPage = () => {
   const dispatch = useDispatch()
-  let account = useSelector((state) => state.account)
-  let name = useSelector((state) => state.username)
-  let email = useSelector((state) => state.email)
-  let password = useSelector((state) => state.password)
-  let checkPassword = useSelector((state) => state.passwordCheck)
+  let account = useSelector((state) => state.authInput.account)
+  let name = useSelector((state) => state.authInput.username)
+  let email = useSelector((state) => state.authInput.email)
+  let password = useSelector((state) => state.authInput.password)
+  let checkPassword = useSelector((state) => state.authInput.passwordCheck)
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))

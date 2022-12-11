@@ -2,22 +2,22 @@ import Navigation from './Navigation'
 import RecommendFollowList from '../components/RecommendFollowList'
 import styles from './GridSystemWrapper.module.scss'
 
-export const AdminGrid = ({ children }) => {
+export const AdminGrid = ({ children, pathname }) => {
   return (
     <div className='main__container'>
       <div className={`col-2 ${styles.col_2}`}>
-        <Navigation condition='admin' />
+        <Navigation condition='admin' pathname={pathname} />
       </div>
       <div className={`col-10 ${styles.col_10}`}>{children}</div>
     </div>
   )
 }
 
-export const UserGrid = ({ children, page }) => {
+export const UserGrid = ({ children, page,pathname }) => {
   return (
     <div className='main__container'>
       <div className={`col-2 ${styles.col_2}`}>
-        <Navigation condition='user' />
+        <Navigation condition='user' pathname={pathname}/>
       </div>
       <div className={`col-7 ${styles.col_7}`}>{children}</div>
       {page !== 'settingPage' && (

@@ -25,7 +25,7 @@ const EditProfileModal = () => {
           <img src={cover} alt='cover' />
         </div>
         <div className={styles.avatarContainer}>
-          <img className={styles.icon}src={cameraIcon} alt='camera' />
+          <img className={styles.icon} src={cameraIcon} alt='camera' />
           <div className={styles.backdrop}></div>
           <img
             className={styles.avatar}

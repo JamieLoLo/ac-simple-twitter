@@ -2,13 +2,15 @@ import { UserGrid } from '../Layout/GridSystemWrapper'
 import styles from './MainPage.module.scss'
 import TweetItem from '../components/TweetItem'
 import Button from '../UI/Button'
+import {useLocation} from 'react-router-dom' 
 
 const MainPage = () => {
+  const pathname = useLocation().pathname
   return (
     <>
       {/* <TweetModal/> */}
       {/* <ReplyModal/> */}
-      <UserGrid>
+      <UserGrid pathname={pathname}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweetInputArea}>
           <div className={styles.container}>

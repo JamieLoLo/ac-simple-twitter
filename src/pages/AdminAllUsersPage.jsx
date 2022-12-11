@@ -1,8 +1,11 @@
 import styles from './AdminAllUsersPage.module.scss'
 import { AdminGrid } from '../Layout/GridSystemWrapper'
 import cover from '../components/assets/icons/cover.svg'
+import { useLocation } from 'react-router-dom'
+
 
 const AdminAllUsersPage = () => {
+  const pathname = useLocation().pathname
   const UserCard = () => {
     return (
       <div className={styles.userCard}>
@@ -39,7 +42,7 @@ const AdminAllUsersPage = () => {
     )
   }
   return (
-    <AdminGrid>
+    <AdminGrid pathname={pathname}>
       <div className={styles.title}>使用者列表</div>
       <div className={styles.userCardList}>
         <UserCard />

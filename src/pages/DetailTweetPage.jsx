@@ -6,7 +6,9 @@ import DetailTweetItem from '../components/DetailTweetItem'
 import ReplyItem from '../components/ReplyItem'
 import ReplyModal from '../UI/ReplyModal'
 
+
 const DetailTweetPage = () => {
+
   return (
     <>
       {/* <ReplyModal /> */}
