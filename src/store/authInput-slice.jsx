@@ -29,6 +29,12 @@ const initialState = {
     isValid: true,
     message: '',
   },
+  info: {
+    content: '',
+    isValid: true,
+    message: '',
+    count: '',
+  },
 }
 
 const authInputSlice = createSlice({
@@ -40,12 +46,12 @@ const authInputSlice = createSlice({
         action.payload.trim().length < 4 ||
         action.payload.trim().length > 30
       ) {
-        state.account['content'] = action.payload
+        state.account.content = action.payload
         state.account.isValid = false
         state.account.message = '帳號請輸入 4 到 30 個字元的英文字母、數字!'
         state.account.count = action.payload.trim().length
       } else {
-        state.account['content'] = action.payload
+        state.account.content = action.payload
         state.account.isValid = true
         state.account.message = ''
         state.account.count = ''
@@ -53,15 +59,15 @@ const authInputSlice = createSlice({
     },
     usernameAuth(state, action) {
       if (
-        action.payload.trim().length < 4 ||
+        action.payload.trim().length < 1 ||
         action.payload.trim().length > 50
       ) {
-        state.username['content'] = action.payload
+        state.username.content = action.payload
         state.username.isValid = false
         state.username.message = '名稱請輸入 1 到 50 個字元'
         state.username.count = action.payload.trim().length
       } else {
-        state.username['content'] = action.payload
+        state.username.content = action.payload
         state.username.isValid = true
         state.username.message = ''
         state.username.count = ''
@@ -103,6 +109,22 @@ const authInputSlice = createSlice({
         state.passwordCheck.content = action.payload
         state.passwordCheck.isValid = true
         state.passwordCheck.message = ''
+      }
+    },
+    infoAuth(state, action) {
+      if (
+        action.payload.trim().length < 1 ||
+        action.payload.trim().length > 160
+      ) {
+        state.info.content = action.payload
+        state.info.isValid = false
+        state.info.message = '字數超出上限!'
+        state.info.count = action.payload.trim().length
+      } else {
+        state.info.content = action.payload
+        state.info.isValid = true
+        state.info.message = ''
+        state.info.count = ''
       }
     },
     refreshAuthInput(state) {
