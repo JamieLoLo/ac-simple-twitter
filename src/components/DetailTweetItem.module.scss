@@ -1,6 +1,6 @@
 .tweet {
-  width: 639px;
-  height: 335px;
+  border-bottom: solid 1px var(--border-color);
+  width: 100%;
   padding: 0px 16px;
   .tweetInfo {
     display: flex;
@@ -21,7 +21,7 @@
     }
   }
   .tweetContent {
-    width: 578px;
+    width: 100%;
     font-size: 24px;
     line-height: 36px;
     margin-bottom: 8px;
@@ -33,8 +33,8 @@
     margin-bottom: 8px;
   }
   .tweetFeedback {
-    width: 606.75px;
-    border: solid 1px #e6ecf0;
+    width: 100%;
+    border: solid 1px var(--border-color);
     padding: 16px 0px;
     display: flex;
     border-left: none;
@@ -55,7 +55,6 @@
   .actionIcons {
 		display: flex;
 		gap: 128px;
-		border-bottom: solid 1px #e6ecf0;
 		padding: 16px 0px;
     .messageIcon {
       content: url(../components/assets/icons/message.svg);
