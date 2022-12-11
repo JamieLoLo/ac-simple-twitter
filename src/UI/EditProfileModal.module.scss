@@ -1,0 +1,91 @@
+.modal {
+  position: absolute;
+  z-index: 2;
+  .backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modalContainer {
+    height: 610px;
+    overflow: hidden;
+    position: absolute;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 634px;
+    background-color: #fff;
+    border-radius: 14px;
+    .top {
+      width: 100%;
+      border-bottom: solid 1px var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 52px;
+      padding: 8px 16px;
+      .container {
+        display: flex;
+        .delBtn {
+          width: 24px;
+          height: 24px;
+          content: url(../components/assets/icons/delBtn_active.svg);
+        }
+        .title {
+          margin-left: 32px;
+          color: #1c1c1c;
+          font-weight: 700;
+          font-size: 18px;
+        }
+      }
+    }
+    .coverContainer {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      .icons {
+        position: absolute;
+        z-index: 5;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%);
+        img {
+          margin: 0 16px;
+          cursor: pointer;
+        }
+      }
+      .backdrop {
+        position: absolute;
+      }
+    }
+    .avatarContainer {
+      position: absolute;
+      top: 179px;
+      left: 16px;
+      width: 140px;
+      height: 140px;
+      overflow: hidden;
+      border-radius: 50%;
+      border: solid 4px white;
+      .icon {
+        position: absolute;
+        z-index: 5;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%);
+        cursor: pointer;
+      }
+      .backdrop {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      .avatar {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  }
+}

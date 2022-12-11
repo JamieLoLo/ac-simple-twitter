@@ -1,0 +1,63 @@
+.modal {
+  position: absolute;
+  z-index: 2;
+  .backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modalContainer {
+    position: absolute;
+    top: 56px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 634px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    .top {
+      width: 100%;
+      border-bottom: solid 1px var(--border-color);
+    }
+    .delBtn {
+      margin: 16px;
+      content: url(../components/assets/icons/delBtn_active.svg);
+    }
+    .tweetInputArea {
+      width: 100%;
+      margin-top: 16px;
+      height: 130px;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      .container {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-right: 8px;
+        }
+        textarea {
+          all: unset;
+          width: 528px;
+          height: 140px;
+          padding-top: 10px;
+          font-size: 18px;
+          overflow-wrap: break-word;
+          &::placeholder {
+            color: #9197A3;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 26px;
+          }
+        }
+      }
+    }
+  }
+}

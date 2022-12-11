@@ -1,8 +1,9 @@
 .tweet {
-  width: 1075px;
-  height: 86px;
+  margin-top: 16px;
+  width: 100%;
   padding-left: 24px;
   border-bottom: solid 1px var(--border-color);
+  position: relative;
   .tweetInfo {
     display: flex;
     .container {
@@ -26,10 +27,9 @@
     }
   }
   .tweetContent {
-    width: 993px;
+    width: 93.7%;
     font-size: 16px;
     line-height: 26px;
-    margin-bottom: 17px;
     margin-left: 58px;
     transform: translateY(-22px);
   }
@@ -42,7 +42,7 @@
   .delBtn {
     position: absolute;
     top: 0px;
-    right: 72px;
+    right: 0px;
     content: url(../components/assets/icons/delBtn.svg);
   }
 }

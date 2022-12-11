@@ -1,10 +1,11 @@
 .recommendFollowList {
+  transform: translateX(10%);
   width: 273px;
-  height: 895px;
+  height: 731px;
   background-color: var(--dark-20);
 	border-radius: 16px;
   .title {
-    padding: 24px 153px 24px 24px;
+    padding: 24px;
     font-weight: 700;
     font-size: 24px;
     line-height: 26px;
@@ -13,7 +14,7 @@
   }
   .recommendFollowItem {
     display: flex;
-    width: 273px;
+    width: 100%;
     height: 82px;
     padding: 16px;
     align-items: center;
@@ -23,6 +24,9 @@
       align-items: center;
       margin-bottom: 8px;
       margin-right: 13px;
+      .avatar {
+        width: 50px;
+      }
       .tweetCreatorInfo {
         margin-left: 8px;
         .name {

@@ -1,0 +1,36 @@
+.title {
+  padding: 24px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 26px;
+  border-bottom: solid 1px var(--border-color);
+}
+
+.tweetInputArea {
+  width: 100%;
+  margin-top: 16px;
+  height: 130px;
+  border-bottom: solid 10px var(--border-color);
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  .container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    p {
+      color: var(--secondary-color);
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 26px;
+    }
+  }
+}
+
