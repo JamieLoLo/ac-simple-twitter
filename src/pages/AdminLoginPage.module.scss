@@ -1,1 +1,7 @@
 @import './UserLoginPage.module.scss';
+
+.notification__container {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}

@@ -7,35 +7,35 @@ const ReplyModal = () => {
   return (
     <div className={styles.modal}>
       <div className={styles.backdrop}></div>
-      <div className={styles.modalContainer}>
+      <div className={styles.modal__container}>
         <div className={styles.top}>
-          <div className={styles.delBtn}></div>
+          <div className={styles.del__btn}></div>
         </div>
-        <div className={styles.tweetItem}>
+        <div className={styles.tweet__item}>
           <div className={styles.tweet}>
-            <div className={styles.tweetInfo}>
+            <div className={styles.tweet__info}>
               <img
                 className={styles.avatar}
                 src={defaultFig}
                 alt='Default Fig'
               />
-              <div className={styles.tweetCreatorInfo}>
+              <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
                   <div className={styles.name}>Apple</div>
                   <div className={styles.account}>@apple</div>
                 </div>
-                <div className={styles.createTime}>・{currentTime}</div>
+                <div className={styles.create__time}>・{currentTime}</div>
               </div>
             </div>
-            <div className={styles.tweetContent}>
+            <div className={styles.tweet__content}>
               哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-              <div className={styles.replyTo}>
+              <div className={styles.reply__to}>
                 回覆給<span className={styles.highlight}>{" "}@apple</span>
               </div>
             </div>
           </div>
         </div>
-        <div className={styles.replyInputArea}>
+        <div className={styles.reply__input__area}>
           <div className={styles.container}>
             <img
               className={styles.avatar}

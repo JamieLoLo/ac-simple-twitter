@@ -21,15 +21,15 @@ const EditProfileModal = () => {
   return (
     <div className={styles.modal}>
       <div className={styles.backdrop}></div>
-      <div className={styles.modalContainer}>
+      <div className={styles.modal__container}>
         <div className={styles.top}>
           <div className={styles.container}>
-            <div className={styles.delBtn}></div>
+            <div className={styles.del_btn}></div>
             <div className={styles.title}>編輯個人資料</div>
           </div>
           <Button className='button button__sm active' title='儲存' />
         </div>
-        <div className={styles.coverContainer}>
+        <div className={styles.cover__container}>
           <div className={styles.icons}>
             <img src={cameraIcon} alt='camera' />
             <img src={delBtn} alt='delete' />
@@ -37,7 +37,7 @@ const EditProfileModal = () => {
           <div className={styles.backdrop}></div>
           <img src={cover} alt='cover' />
         </div>
-        <div className={styles.avatarContainer}>
+        <div className={styles.avatar__container}>
           <img className={styles.icon} src={cameraIcon} alt='camera' />
           <div className={styles.backdrop}></div>
           <img
