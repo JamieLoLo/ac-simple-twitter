@@ -1,13 +1,13 @@
 import styles from './AdminAllUsersPage.module.scss'
 import { AdminGrid } from '../Layout/GridSystemWrapper'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import AdminUserItem from '../components/AdminUserItem'
-
 import { useState, useEffect } from 'react'
 import { adminGetAllUsersApi } from '../api/adminApi'
 
 const AdminAllUsersPage = () => {
   const [data, setData] = useState([])
+  const navigate = useNavigate()
   const pathname = useLocation().pathname
   useEffect(() => {
     const adminGetAllTweets = async () => {
@@ -16,6 +16,8 @@ const AdminAllUsersPage = () => {
         setData(res.data)
       } catch (error) {
         console.error(error)
+        navigate('/admin/login')
+        localStorage.removeItem('authToken')
       }
     }
     adminGetAllTweets()

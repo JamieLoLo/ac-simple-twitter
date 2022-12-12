@@ -24,15 +24,23 @@ const AdminLoginPage = () => {
   const passwordHandler = (useInput) => {
     dispatch(authInputActions.passwordAuth(useInput))
   }
+
   useEffect(() => {
     const token = localStorage.getItem('authToken')
     if (token) {
       navigate('/admin/alltweets')
     }
+  },[navigate])
+
+  useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {
       setTimeout(() => {
-        setLoadingStatus('finish')
-        navigate('/admin/alltweets')
+        if (loadingStatus === 'success') {
+          setLoadingStatus('finish')
+          navigate('/admin/alltweets')
+        } else {
+          setLoadingStatus('finish')
+        }
       }, 1000)
     }
   }, [loadingStatus, navigate])
