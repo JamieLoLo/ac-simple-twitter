@@ -4,14 +4,15 @@ import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
+import { useState } from 'react'
 
-const DetailTweetItem = ({ isFollowed }) => {
+const DetailTweetItem = ({ isFollowed, onClick }) => {
+  const [replyModal, setReplyModal] = useState(false)
   useMoment()
   const timestamp = moment().valueOf()
   const currentTime = moment(timestamp).format(
     'Ah:mm:ss[・]YYYY[年]MM[月]DD[日]'
   )
-
   return (
     <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
@@ -29,7 +30,7 @@ const DetailTweetItem = ({ isFollowed }) => {
       </div>
 
       <div className={styles.tweetFeedback}>
-        <div className={styles.reply}>
+        <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>
           <div className={styles.num}>13</div>
         </div>

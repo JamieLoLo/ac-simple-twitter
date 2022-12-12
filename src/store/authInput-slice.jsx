@@ -35,6 +35,18 @@ const initialState = {
     message: '',
     count: '',
   },
+  tweet: {
+    content: '',
+    isValid: true,
+    message: '內容不可空白',
+    count: '',
+  },
+  reply: {
+    content: '',
+    isValid: true,
+    message: '內容不可空白',
+    count: '',
+  },
 }
 
 const authInputSlice = createSlice({
@@ -127,12 +139,57 @@ const authInputSlice = createSlice({
         state.info.count = ''
       }
     },
+    tweetAuth(state, action) {
+      if (action.payload.trim().length === 0 || !action.payload.trim().length) {
+        state.tweet.content = action.payload
+        state.tweet.isValid = false
+        state.tweet.message = '內容不可空白'
+        state.tweet.count = action.payload.trim().length
+      } else if (
+        action.payload.trim().length < 1 ||
+        action.payload.trim().length > 140
+      ) {
+        state.tweet.content = action.payload
+        state.tweet.isValid = false
+        state.tweet.message = '字數不可超過140字'
+        state.tweet.count = action.payload.trim().length
+      } else {
+        state.tweet.content = action.payload
+        state.tweet.isValid = true
+        state.tweet.message = ''
+        state.tweet.count = ''
+      }
+    },
+
+    replyAuth(state, action) {
+      if (action.payload.trim().length === 0 || !action.payload.trim().length) {
+        state.reply.content = action.payload
+        state.reply.isValid = false
+        state.reply.message = '內容不可空白'
+        state.reply.count = action.payload.trim().length
+      } else if (
+        action.payload.trim().length < 1 ||
+        action.payload.trim().length > 140
+      ) {
+        state.reply.content = action.payload
+        state.reply.isValid = false
+        state.reply.message = '字數不可超過140字'
+        state.reply.count = action.payload.trim().length
+      } else {
+        state.reply.content = action.payload
+        state.reply.isValid = true
+        state.reply.message = ''
+        state.reply.count = ''
+      }
+    },
     refreshAuthInput(state) {
       state.account = initialState.account
       state.username = initialState.username
       state.email = initialState.email
       state.password = initialState.password
-      state.passwordCheck = initialState.passwordCheck
+      state.info = initialState.info
+      state.tweet = initialState.tweet
+      state.reply = initialState.reply
     },
   },
 })
