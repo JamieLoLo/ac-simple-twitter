@@ -34,3 +34,32 @@ export const userSignupApi = async (payload) => {
     }
   }
 }
+
+export const userLoginApi = async (payload) => {
+  if (payload) {
+    const { account, password } = payload
+    try {
+      const { data } = await axios.post(`${userURL}/login`, {
+        account,
+        password,
+      })
+      console.log(data)
+      const { status } = data
+      if (status === 'success') {
+        return { data }
+      }
+      return data
+    } catch (error) {
+      console.error('[User Login Failed]: ', error)
+    }
+  }
+}
+
+export const userGetProfileApi = async () => {
+  try {
+    const res = await axiosInstance.get(`${userURL}/:id`)
+    return [...res]
+  } catch (error) {
+    console.error('[User Get Profile Failed]: ', error)
+  }
+}
