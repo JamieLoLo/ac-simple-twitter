@@ -24,7 +24,6 @@ const AdminLoginPage = () => {
   const passwordHandler = (useInput) => {
     dispatch(authInputActions.passwordAuth(useInput))
   }
-
   useEffect(() => {
     const token = localStorage.getItem('authToken')
     if (token) {
@@ -76,7 +75,6 @@ const AdminLoginPage = () => {
           <Notification notification='success' title='登入成功' />
         )}
       </div>
-
       <div className={styles.form__container}>
         <div className={styles.logo}>
           <Logo />
