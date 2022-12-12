@@ -33,6 +33,7 @@ const ReplyModal = (props) => {
         onClick={() => {
           props.setReplyModal(false)
           refreshHandler()
+          setShowErrorMessage(false)
         }}
       ></div>
       <div className={styles.modal__container}>
@@ -42,6 +43,7 @@ const ReplyModal = (props) => {
             onClick={() => {
               props.setReplyModal(false)
               refreshHandler()
+              setShowErrorMessage(false)
             }}
           ></div>
         </div>

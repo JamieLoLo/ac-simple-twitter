@@ -32,6 +32,7 @@ const TweetModal = (props) => {
         onClick={() => {
           props.setTweetModal(false)
           refreshHandler()
+          setShowErrorMessage(false)
         }}
       ></div>
       <div className={styles.modal__container}>
