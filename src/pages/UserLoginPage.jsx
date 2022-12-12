@@ -5,6 +5,7 @@ import Button from '../UI/Button'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import { userLogin } from '../store/user-action'
 
 import styles from './UserLoginPage.module.scss'
 
@@ -19,6 +20,16 @@ const UserLoginPage = () => {
   const passwordHandler = (useInput) => {
     dispatch(authInputActions.passwordAuth(useInput))
   }
+  const userLoginHandler = async () => {
+    const response = await dispatch(
+      userLogin({
+        account: account.content,
+        password: password.content,
+      })
+    )
+    console.log(response)
+  }
+
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
@@ -55,6 +66,7 @@ const UserLoginPage = () => {
           className='button button__xl active'
           title='登入'
           style={{ width: '356px' }}
+          onClick={userLoginHandler}
         />
       </div>
       <div className={styles.button__switch}>
