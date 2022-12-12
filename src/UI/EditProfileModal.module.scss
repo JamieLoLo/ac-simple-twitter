@@ -31,6 +31,7 @@
           width: 24px;
           height: 24px;
           content: url(../components/assets/icons/delBtn_active.svg);
+          cursor: pointer;
         }
         .title {
           margin-left: 32px;
@@ -86,12 +87,6 @@
         width: 140px;
         height: 140px;
       }
-    }
-
-    .auth__input__container {
-      border: solid 1px;
-      position: relative;
-      top: 100px;
     }
   }
 }

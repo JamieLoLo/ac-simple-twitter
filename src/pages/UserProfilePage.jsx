@@ -7,12 +7,18 @@ import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
 import { useLocation, Link } from 'react-router-dom'
+import { useState } from 'react'
+import ReplyModal from '../UI/ReplyModal'
 
 const UserProfilePage = () => {
+  const [editModal, setEditModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
+
   const pathname = useLocation().pathname
   return (
     <>
-      {/* <EditProfileModal/> */}
+      <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
+      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>
           <img src={prevLogo} alt='prev' />
@@ -58,6 +64,7 @@ const UserProfilePage = () => {
             className={`button button__md ${styles.button}`}
             title='編輯個人資料'
             style={{ width: '140px' }}
+            onClick={() => setEditModal(true)}
           />
         </div>
         <ul className={styles.bookmark}>
@@ -86,12 +93,36 @@ const UserProfilePage = () => {
         <ReplyItem />
       </div> */}
         <div className={styles.like__tweet__list}>
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
+          <TweetItem
+            isFollowed={true}
+            setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}
+          />
         </div>
       </UserGrid>
     </>

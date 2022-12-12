@@ -15,10 +15,11 @@ const AuthInput = ({
   count,
   upperLimit,
   textArea,
+  modal,
 }) => {
   return (
     <div className={styles.input__container} style={style}>
-      <label htmlFor={id}>{label}</label>
+      {!modal && <label htmlFor={id}>{label}</label>}
       {!textArea && (
         <input
           id={id}
@@ -47,7 +48,7 @@ const AuthInput = ({
           }}
         ></textarea>
       )}
-      {!isValid && count !== 0 && (
+      {!isValid && count !== 0 && !modal && (
         <div
           className={clsx('', 'input__message__container', {
             error__message__container: !isValid,
