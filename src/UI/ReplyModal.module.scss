@@ -6,7 +6,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
   }
-  .modalContainer {
+  .modal__container {
     position: absolute;
     top: 56px;
     left: 50%;
@@ -23,7 +23,7 @@
       margin: 16px;
       content: url(../components/assets/icons/delBtn_active.svg);
     }
-    .replyInputArea {
+    .reply__input__area {
       width: 100%;
       margin-top: 16px;
       padding: 16px 24px;
@@ -63,7 +63,7 @@
   padding: 0px 24px;
   margin-top: 16px;
   margin-bottom: -55px;
-  .tweetInfo {
+  .tweet__info {
     display: flex;
     margin-bottom: 8px;
 		.container {
@@ -74,7 +74,7 @@
         height: 55px;
         border-bottom: solid 5px #FFFFFF;
       }
-    .tweetCreatorInfo {
+    .tweet__creator__info {
       margin-left: 8px;
 			display: flex;
       height: 26px;
@@ -92,7 +92,7 @@
       }
     }
   }
-  .tweetContent {
+  .tweet__content {
     top: -35px;
     left: -33px;
     width: 89%;
@@ -103,7 +103,7 @@
     padding-left: 33px;
     position: relative;
     z-index: -1;
-    .replyTo {
+    .reply__to {
       font-size: 13px;
       color: var(--default-baseline);
       .highlight {
@@ -111,7 +111,7 @@
       }
     }
   }
-  .createTime {
+  .create__time {
     color: var(--secondary-color);
     line-height: 22px;
     font-weight: 500;

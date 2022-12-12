@@ -12,7 +12,7 @@ const MainPage = () => {
       {/* <ReplyModal/> */}
       <UserGrid pathname={pathname}>
         <div className={styles.title}>首頁</div>
-        <div className={styles.tweetInputArea}>
+        <div className={styles.tweet__input__area}>
           <div className={styles.container}>
             <img
               className={styles.avatar}

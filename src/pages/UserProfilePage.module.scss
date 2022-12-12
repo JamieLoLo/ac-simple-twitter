@@ -13,7 +13,7 @@
       line-height: 26px;
       font-weight: 700;
     }
-    .tweetNum {
+    .tweet__num {
       color: var(--secondary-color);
       font-size: 13px;
       line-height: 19px;
@@ -25,7 +25,7 @@
   }
 }
 
-.userProfileCollection {
+.user__profile__collection {
   width: 100%;
   position: relative;
   display: flex;
@@ -48,7 +48,7 @@
     top: 124px;
     left: 16px;
   }
-  .userInfo {
+  .user__info {
     margin-left: 16px;
     .name {
       color: var(--dark-100);
@@ -65,7 +65,7 @@
       color: var(--dark-100);
       font-size: 14px;
     }
-    .followInfo {
+    .follow__info {
       display: flex;
       font-size: 14px;
       color: var(--dark-100);
@@ -80,7 +80,7 @@
   }
 }
 
-ul.bookMark {
+ul.bookmark {
   display: flex;
   list-style: none;
   border-bottom: solid 1px var(--border-color);

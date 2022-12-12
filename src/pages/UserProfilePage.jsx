@@ -18,10 +18,10 @@ const UserProfilePage = () => {
           <img src={prevLogo} alt='prev' />
           <div className={styles.container}>
             <div className={styles.name}>John Doe</div>
-            <div className={styles.tweetNum}>25 推文</div>
+            <div className={styles.tweet__num}>25 推文</div>
           </div>
         </div>
-        <div className={styles.userProfileCollection}>
+        <div className={styles.user__profile__collection}>
           <div className={styles.cover}>
             <img src={cover} alt='cover' />
           </div>
@@ -30,14 +30,14 @@ const UserProfilePage = () => {
             src='https://precisionhealth.iu.edu/images/BernicePescosolido.jpg'
             alt='avatar'
           />
-          <div className={styles.userInfo}>
+          <div className={styles.user__info}>
             <div className={styles.name}>John Doe</div>
             <div className={styles.account}>@heyjohn</div>
             <div className={styles.intro}>
               Amet minim mollit non deserunt ullamco est sit aliqua dolor do
               amet sint.
             </div>
-            <div className={styles.followInfo}>
+            <div className={styles.follow__info}>
               <Link to='/users/following' className={styles.link}>
                 <div className={styles.num} style={{ color: '#171725' }}>
                   34個
@@ -60,7 +60,7 @@ const UserProfilePage = () => {
             style={{ width: '140px' }}
           />
         </div>
-        <ul className={styles.bookMark}>
+        <ul className={styles.bookmark}>
           <li>推文</li>
           <li>回覆</li>
           <li>喜歡的內容</li>
@@ -85,7 +85,7 @@ const UserProfilePage = () => {
         <ReplyItem />
         <ReplyItem />
       </div> */}
-        <div className={styles.likeTweetList}>
+        <div className={styles.like__tweet__list}>
           <TweetItem isFollowed={true} />
           <TweetItem isFollowed={true} />
           <TweetItem isFollowed={true} />

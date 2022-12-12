@@ -6,7 +6,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
   }
-  .modalContainer {
+  .modal__container {
     height: 610px;
     overflow: hidden;
     position: absolute;
@@ -27,7 +27,7 @@
       padding: 8px 16px;
       .container {
         display: flex;
-        .delBtn {
+        .del__btn {
           width: 24px;
           height: 24px;
           content: url(../components/assets/icons/delBtn_active.svg);
@@ -40,7 +40,7 @@
         }
       }
     }
-    .coverContainer {
+    .cover__container {
       width: 100%;
       height: 200px;
       position: relative;
@@ -60,7 +60,7 @@
         position: absolute;
       }
     }
-    .avatarContainer {
+    .avatar__container {
       position: absolute;
       top: 179px;
       left: 16px;
@@ -87,7 +87,7 @@
         height: 140px;
       }
     }
-    .authInputContainer {
+    .auth__input__container {
       border: solid 1px;
       position: relative;
       top: 100px;

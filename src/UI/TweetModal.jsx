@@ -5,11 +5,11 @@ const TweetModal = () => {
   return (
     <div className={styles.modal}>
       <div className={styles.backdrop}></div>
-      <div className={styles.modalContainer}>
+      <div className={styles.modal__container}>
         <div className={styles.top}>
-          <div className={styles.delBtn}></div>
+          <div className={styles.del__btn}></div>
         </div>
-        <div className={styles.tweetInputArea}>
+        <div className={styles.tweet__input__area}>
           <div className={styles.container}>
             <img
               className={styles.avatar}

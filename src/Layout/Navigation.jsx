@@ -3,9 +3,17 @@ import logoIcon from '../components/assets/icons/logo.svg'
 import Button from '../UI/Button'
 import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
+import { authInputActions } from '../store/authInput-slice'
+import { useDispatch } from 'react-redux'
 
 const Navigation = ({ condition, pathname }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const logoutHandler = async () => {
+    localStorage.removeItem('authToken')
+    await dispatch(authInputActions.refreshAuthInput())
+    navigate('/users/login')
+  }
   return (
     <nav className={styles.nav}>
       <ul>
@@ -60,8 +68,7 @@ const Navigation = ({ condition, pathname }) => {
             >
               <div
                 className={clsx('', {
-                  [styles.icon__setting__active]:
-                    pathname === '/users/setting',
+                  [styles.icon__setting__active]: pathname === '/users/setting',
                   [styles.icon__setting]: pathname !== '/users/setting',
                 })}
               ></div>
@@ -124,11 +131,7 @@ const Navigation = ({ condition, pathname }) => {
           </>
         )}
       </ul>
-      <li
-        onClick={() => {
-          navigate('/users/login')
-        }}
-      >
+      <li onClick={logoutHandler}>
         <div className={styles.icon__logout}></div>
         <p>登出</p>
       </li>
