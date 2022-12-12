@@ -1,16 +1,37 @@
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import styles from './MainPage.module.scss'
-import TweetItem from '../components/TweetItem'
+import { MainTweetItem } from '../components/TweetItem'
 import Button from '../UI/Button'
-import { useLocation } from 'react-router-dom'
-import TweetModal from '../UI/TweetModal'
-import ReplyModal from '../UI/ReplyModal'
-import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { tweetGetAllApi } from '../api/tweetApi'
+import { useSelector } from 'react-redux'
 
 const MainPage = () => {
-  const [tweetModal, setTweetModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
+  const userInfo = useSelector((state) => state.user.userInfo)
   const pathname = useLocation().pathname
+  const navigate = useNavigate()
+  const [allTweetsData, setAllTweetsData] = useState([])
+
+  useEffect(() => {
+    const tweetGetAll = async () => {
+      try {
+        const res = await tweetGetAllApi()
+        if (res.status !== 200) {
+          navigate('/users/login')
+        }
+        await setAllTweetsData(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    tweetGetAll()
+  }, [])
+
+  const tweetsListHelper = allTweetsData.map((data) => (
+    <MainTweetItem data={data} key={data.id} setReplyModal={setReplyModal}
+            onClick={(replyModal) => setReplyModal(replyModal)}/>
+  ))
 
   return (
     <>
@@ -20,11 +41,7 @@ const MainPage = () => {
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
           <div className={styles.container}>
-            <img
-              className={styles.avatar}
-              src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80'
-              alt='user'
-            />
+            <img className={styles.avatar} src={userInfo.avatar} alt='user' />
             <p>有什麼新鮮事嗎?</p>
           </div>
           <Button
@@ -34,32 +51,7 @@ const MainPage = () => {
             onClick={() => setTweetModal(true)}
           />
         </div>
-        <div className={styles.tweetItemList}>
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-        </div>
+        <div>{tweetsListHelper}</div>
       </UserGrid>
     </>
   )

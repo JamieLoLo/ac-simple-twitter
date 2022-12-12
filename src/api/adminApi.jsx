@@ -12,6 +12,8 @@ axiosInstance.interceptors.request.use((config) => {
   return config
 })
 
+
+// OK
 export const adminGetAllUsersApi = async () => {
   try {
     const res = await axiosInstance.get(`${adminURL}/users`)
@@ -21,6 +23,7 @@ export const adminGetAllUsersApi = async () => {
   }
 }
 
+// OK
 export const adminGetAllTweetsApi = async () => {
   try {
     const res = await axiosInstance.get(`${adminURL}/tweets`)
@@ -30,6 +33,7 @@ export const adminGetAllTweetsApi = async () => {
   }
 }
 
+// OK
 export const adminLoginApi = async (payload) => {
   const { account, password } = payload
   try {
@@ -39,7 +43,7 @@ export const adminLoginApi = async (payload) => {
     })
     return res
   } catch (error) {
-    console.error(error)
+    console.error('[Admin Login Failed]: ',error)
     return error
   }
 }
