@@ -3,7 +3,7 @@
   width: 273px;
   height: 885px;
   background-color: var(--dark-20);
-	border-radius: 16px;
+  border-radius: 16px;
   .title {
     padding: 24px;
     font-weight: 700;
@@ -26,23 +26,33 @@
       margin-right: 13px;
       .avatar {
         width: 50px;
+        height: 50px;
+        border-radius: 50%;
       }
       .tweetCreatorInfo {
         margin-left: 8px;
         .name {
+          width: 100px;
           font-weight: 700;
           line-height: 26px;
           color: var(--dark-100);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .account {
+          width: 100px;
           font-size: 14px;
           line-height: 22px;
           color: var(--secondary-color);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
     }
     .buttonContainer {
-			transform: translateY(-2px);
+      transform: translateY(-2px);
     }
   }
 }

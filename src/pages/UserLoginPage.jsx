@@ -81,17 +81,8 @@ const UserLoginPage = () => {
       }
       const { data } = res
       const { token, user } = data
-      const { avatar, cover, createdAt, id, role, updatedAt } = user
-
       await dispatch(
-        userActions.initialSetUserInfo({
-          avatar,
-          cover,
-          createdAt,
-          id,
-          role,
-          updatedAt,
-        })
+        userActions.initialSetUserInfo(user)
       )
 
       localStorage.setItem('authToken', token)
