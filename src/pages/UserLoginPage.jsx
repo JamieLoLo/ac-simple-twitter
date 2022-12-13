@@ -19,7 +19,6 @@ const UserLoginPage = () => {
   const navigate = useNavigate()
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
-  
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')

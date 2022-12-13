@@ -52,7 +52,6 @@ const UserProfilePage = () => {
   }, [])
 
   const userTweetListHelper = userTweetsData.map((data) => (
-
     <TweetItem
       data={data}
       key={data.id}
@@ -122,7 +121,6 @@ const UserProfilePage = () => {
         </ul>
         <div className={styles.tweetlist}>{userTweetListHelper}</div>
         {/* <div className={styles.replylist}>
-
     <ReplyItem />
     <ReplyItem />
     <ReplyItem />
@@ -132,7 +130,6 @@ const UserProfilePage = () => {
     <ReplyItem />
     <ReplyItem />
    </div> */}
-
       </UserGrid>
     </>
   )
