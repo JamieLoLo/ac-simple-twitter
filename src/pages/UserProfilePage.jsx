@@ -1,20 +1,25 @@
 import styles from './UserProfilePage.module.scss'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import prevLogo from '../components/assets/icons/prev.svg'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 import cover from '../components/assets/icons/cover.svg'
-import { ProfileTweetItem } from '../components/TweetItem'
+import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
+
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { userGetProfileApi, userGetTweetsApi } from '../api/userApi'
+import ReplyModal from '../UI/ReplyModal'
 
 const UserProfilePage = () => {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const userInfo = useSelector((state) => state.user.userInfo)
+  const [editModal, setEditModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
   const [userProfileData, setUserProfileData] = useState({})
   const [userTweetsData, setUserTweetsData] = useState([])
   useEffect(() => {
@@ -24,6 +29,7 @@ const UserProfilePage = () => {
         if (res.status !== 200) {
           navigate('/users/login')
         }
+        console.log(res.data)
         await setUserProfileData(res.data)
       } catch (error) {
         console.error(error)
@@ -47,12 +53,18 @@ const UserProfilePage = () => {
   }, [])
 
   const userTweetListHelper = userTweetsData.map((data) => (
-    <ProfileTweetItem data={data} key={data.id} />
+    <TweetItem
+      data={data}
+      key={data.id}
+      setReplyModal={setReplyModal}
+      onClick={(replyModal) => setReplyModal(replyModal)}
+    />
   ))
 
   return (
     <>
-      {/* <EditProfileModal/> */}
+      <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
+      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>
           <img src={prevLogo} alt='prev' />
@@ -65,11 +77,14 @@ const UserProfilePage = () => {
         </div>
         <div className={styles.user__profile__collection}>
           <div className={styles.cover}>
-            <img src={userProfileData.cover} alt='cover' />
+            <img
+              src={userProfileData.cover ? userProfileData.cover : cover}
+              alt='cover'
+            />
           </div>
           <img
             className={styles.avatar}
-            src={userProfileData.avatar}
+            src={userProfileData.avatar ? userProfileData.avatar : defaultFig}
             alt='avatar'
           />
           <div className={styles.user__info}>
@@ -97,6 +112,7 @@ const UserProfilePage = () => {
             className={`button button__md ${styles.button}`}
             title='編輯個人資料'
             style={{ width: '140px' }}
+            onClick={() => setEditModal(true)}
           />
         </div>
         <ul className={styles.bookmark}>
@@ -106,23 +122,15 @@ const UserProfilePage = () => {
         </ul>
         <div className={styles.tweetlist}>{userTweetListHelper}</div>
         {/* <div className={styles.replylist}>
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-      </div> */}
-        {/* <div className={styles.like__tweet__list}>
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-          <TweetItem isFollowed={true} />
-        </div> */}
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+   </div> */}
       </UserGrid>
     </>
   )
