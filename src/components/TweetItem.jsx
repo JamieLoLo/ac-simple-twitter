@@ -21,59 +21,13 @@ const TweetItem = ({ data, onClick }) => {
   } = data
 
   const createTime = useMoment(createdAt)
+
   const toDetailPage = () => {
     const token = localStorage.getItem('authToken')
     if (token) {
-      navigate(`/users/tweet/${data.id}`)
+      navigate('/users/tweet')
     }
   }
-
-  return (
-    <div className={styles.tweet}>
-      <div className={styles.tweetInfo}>
-        <img
-          className={styles.avatar}
-          src={Useravatar === null ? defaultFig : Useravatar}
-          alt='Default Fig'
-        />
-        <div className={styles.tweetCreatorInfo}>
-          <div className={styles.container}>
-            <div className={styles.name}>{Username}</div>
-            <div className={styles.account}>@{Useraccount}</div>
-          </div>
-          <div className={styles.createTime}>・{createTime}</div>
-        </div>
-      </div>
-      <div className={styles.tweetContent} onClick={toDetailPage}>
-        {description}
-      </div>
-      <div className={styles.tweetFeedback}>
-        <div className={styles.reply} onClick={() => onClick?.(true)}>
-          <div className={styles.messageIcon}></div>
-          <div className={styles.num}>{replyCounts}</div>
-        </div>
-        <div className={styles.like}>
-          {isLiked ? (
-            <img
-              className={styles.likeIcon}
-              src={likeActiveIcon}
-              alt='like_active'
-            />
-          ) : (
-            <img className={styles.likeIcon} src={likeIcon} alt='like' />
-          )}
-
-          <div className={styles.num}>{likeCounts}</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export const ProfileTweetItem = ({ data, onClick }) => {
-  const { User, createdAt, description, isLiked, likeCounts, repliesCount } =
-    data
-  const createTime = useMoment(createdAt)
 
   return (
     <div className={styles.tweet}>
@@ -91,7 +45,9 @@ export const ProfileTweetItem = ({ data, onClick }) => {
           <div className={styles.createTime}>・{createTime}</div>
         </div>
       </div>
-      <div className={styles.tweetContent}>{description}</div>
+      <div className={styles.tweetContent} onClick={toDetailPage}>
+        {description}
+      </div>
 
       <div className={styles.tweetFeedback}>
         <div className={styles.reply} onClick={() => onClick?.(true)}>

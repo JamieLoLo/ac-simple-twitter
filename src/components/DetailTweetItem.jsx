@@ -3,7 +3,16 @@ import moment from 'moment'
 import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 
-const DetailTweetItem = ({ description }) => {
+const DetailTweetItem = ({
+  account,
+  name,
+  avatar,
+  createdAt,
+  description,
+  isLiked,
+  likeCounts,
+  replyCounts,
+}) => {
   useMoment()
   const timestamp = moment().valueOf()
   const currentTime = moment(timestamp).format(
@@ -15,19 +24,19 @@ const DetailTweetItem = ({ description }) => {
       <div className={styles.tweetInfo}>
         <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
         <div className={styles.tweetCreatorInfo}>
-          <div className={styles.name}>Apple</div>
-          <div className={styles.account}>@apple</div>
+          <div className={styles.name}>{name}</div>
+          <div className={styles.account}>{account}</div>
         </div>
       </div>
       <div className={styles.tweetContent}>{description}</div>
       <div className={styles.createTime}>{currentTime}</div>
       <div className={styles.tweetFeedback}>
         <div className={styles.num}>
-          34
+          {replyCounts}
           <p>回覆</p>
         </div>
         <div className={styles.num}>
-          808
+          {likeCounts}
           <p>喜歡次數</p>
         </div>
       </div>

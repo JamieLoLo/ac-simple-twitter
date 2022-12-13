@@ -1,6 +1,6 @@
 import styles from './ReplyItem.module.scss'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
-const ReplyItem = () => {
+const ReplyItem = ({ comment, name, account }) => {
   const currentTime = '上午 10:05・2021年11月10日'
   return (
     <div className={styles.replyItem}>
@@ -8,8 +8,8 @@ const ReplyItem = () => {
         <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
         <div className={styles.tweetCreatorInfo}>
           <div className={styles.container}>
-            <div className={styles.name}>Apple</div>
-            <div className={styles.account}>@apple</div>
+            <div className={styles.name}>{name}</div>
+            <div className={styles.account}>{account}</div>
           </div>
           <div className={styles.createTime}>・{currentTime}</div>
         </div>
@@ -18,7 +18,7 @@ const ReplyItem = () => {
         <div className={styles.replyTo}>
           回覆給<span className={styles.highlight}> @apple</span>
         </div>
-        哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+        {comment}
       </div>
     </div>
   )
