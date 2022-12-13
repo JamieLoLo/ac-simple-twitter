@@ -21,15 +21,10 @@ const TweetItem = ({ data, onClick }) => {
     id,
   } = data
   const createTime = useMoment(createdAt)
-  const clickHandler = async () => {
-    const res = await tweetGetOneApi(id)
-    console.log(res.data.User.name)
-  }
 
   return (
     <div
       className={styles.tweet}
-      onClick={clickHandler}
     >
       <div className={styles.tweetInfo}>
         <img

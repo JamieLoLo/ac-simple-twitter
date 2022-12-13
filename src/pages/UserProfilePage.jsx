@@ -81,7 +81,6 @@ const UserProfilePage = () => {
     const userGetLikes = async (data) => {
       try {
         const res = await userGetLikesApi(data)
-        console.log(res.data)
         await setUserLikesData(res.data)
       } catch (error) {
         console.error(error)
