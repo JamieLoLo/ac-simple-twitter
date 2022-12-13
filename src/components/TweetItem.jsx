@@ -4,6 +4,7 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // 這個有問題!!!勿觸
 
@@ -11,7 +12,7 @@ export const MainTweetItem = ({ data, onClick }) => {
   const [replyModal, setReplyModal] = useState(false)
   const values = Object.values(data)
   const keys = Object.keys(data).map((data) => data.replace('.', ''))
-
+  const navigate = useNavigate()
   const allTweetsData = {}
   for (let i = 0; i < keys.length; i++) {
     allTweetsData[keys[i]] = values[i]
@@ -30,6 +31,12 @@ export const MainTweetItem = ({ data, onClick }) => {
     replyCounts,
   } = allTweetsData
   const createTime = useMoment(createdAt)
+  const toDetailPage = () => {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      navigate(`/users/tweet/${data.id}`)
+    }
+  }
 
   return (
     <div className={styles.tweet}>
@@ -47,8 +54,9 @@ export const MainTweetItem = ({ data, onClick }) => {
           <div className={styles.createTime}>・{createTime}</div>
         </div>
       </div>
-      <div className={styles.tweetContent}>{description}</div>
-
+      <div className={styles.tweetContent} onClick={toDetailPage}>
+        {description}
+      </div>
       <div className={styles.tweetFeedback}>
         <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>

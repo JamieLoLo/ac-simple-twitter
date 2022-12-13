@@ -3,7 +3,7 @@ import moment from 'moment'
 import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 
-const DetailTweetItem = () => {
+const DetailTweetItem = ({ description }) => {
   useMoment()
   const timestamp = moment().valueOf()
   const currentTime = moment(timestamp).format(
@@ -19,10 +19,7 @@ const DetailTweetItem = () => {
           <div className={styles.account}>@apple</div>
         </div>
       </div>
-      <div className={styles.tweetContent}>
-        Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-        cillum dolor. Voluptate exercitation incididunt aliquip deserunt.{' '}
-      </div>
+      <div className={styles.tweetContent}>{description}</div>
       <div className={styles.createTime}>{currentTime}</div>
       <div className={styles.tweetFeedback}>
         <div className={styles.num}>
