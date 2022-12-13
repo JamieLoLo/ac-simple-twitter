@@ -6,30 +6,20 @@ import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// 這個有問題!!!勿觸
-
-export const MainTweetItem = ({ data, onClick }) => {
+const TweetItem = ({ data, onClick }) => {
   const [replyModal, setReplyModal] = useState(false)
-  const values = Object.values(data)
-  const keys = Object.keys(data).map((data) => data.replace('.', ''))
   const navigate = useNavigate()
-  const allTweetsData = {}
-  for (let i = 0; i < keys.length; i++) {
-    allTweetsData[keys[i]] = values[i]
-  }
   const {
-    UserId,
-    Useraccount,
-    Useravatar,
-    Userid,
-    Username,
+    User,
     createdAt,
     description,
-    id,
     isLiked,
     likeCounts,
     replyCounts,
-  } = allTweetsData
+    likesCount,
+    repliesCount,
+  } = data
+
   const createTime = useMoment(createdAt)
   const toDetailPage = () => {
     const token = localStorage.getItem('authToken')
@@ -84,6 +74,7 @@ export const ProfileTweetItem = ({ data, onClick }) => {
   const { User, createdAt, description, isLiked, likeCounts, repliesCount } =
     data
   const createTime = useMoment(createdAt)
+
   return (
     <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
@@ -105,7 +96,7 @@ export const ProfileTweetItem = ({ data, onClick }) => {
       <div className={styles.tweetFeedback}>
         <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>
-          <div className={styles.num}>{repliesCount}</div>
+          <div className={styles.num}>{replyCounts || repliesCount || 0}</div>
         </div>
         <div className={styles.like}>
           {isLiked ? (
@@ -117,10 +108,11 @@ export const ProfileTweetItem = ({ data, onClick }) => {
           ) : (
             <img className={styles.likeIcon} src={likeIcon} alt='like' />
           )}
-
-          <div className={styles.num}>{likeCounts}</div>
+          <div className={styles.num}>{likeCounts || likesCount || 0}</div>
         </div>
       </div>
     </div>
   )
 }
+
+export default TweetItem

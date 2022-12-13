@@ -1,6 +1,6 @@
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import styles from './MainPage.module.scss'
-import { MainTweetItem } from '../components/TweetItem'
+import TweetItem from '../components/TweetItem'
 import Button from '../UI/Button'
 import { useLocation, useNavigate } from 'react-router-dom'
 import TweetModal from '../UI/TweetModal'
@@ -33,7 +33,7 @@ const MainPage = () => {
   }, [])
 
   const tweetsListHelper = allTweetsData.map((data) => (
-    <MainTweetItem
+    <TweetItem
       data={data}
       key={data.id}
       setReplyModal={setReplyModal}

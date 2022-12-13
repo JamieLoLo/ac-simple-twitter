@@ -40,6 +40,26 @@ const UserLoginPage = () => {
     }
   }, [loadingStatus, navigate])
 
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      navigate('/users/main')
+    }
+  }, [navigate])
+
+  useEffect(() => {
+    if (loadingStatus === 'failed' || loadingStatus === 'success') {
+      setTimeout(() => {
+        if (loadingStatus === 'success') {
+          setLoadingStatus('finish')
+          navigate('/users/main')
+        } else {
+          setLoadingStatus('finish')
+        }
+      }, 1000)
+    }
+  }, [loadingStatus, navigate])
+
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
   }

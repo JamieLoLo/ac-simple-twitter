@@ -1,8 +1,9 @@
 import styles from './UserProfilePage.module.scss'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import prevLogo from '../components/assets/icons/prev.svg'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 import cover from '../components/assets/icons/cover.svg'
-import { ProfileTweetItem } from '../components/TweetItem'
+import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
@@ -51,7 +52,12 @@ const UserProfilePage = () => {
   }, [])
 
   const userTweetListHelper = userTweetsData.map((data) => (
-    <ProfileTweetItem data={data} key={data.id} />
+    <TweetItem
+      data={data}
+      key={data.id}
+      setReplyModal={setReplyModal}
+      onClick={(replyModal) => setReplyModal(replyModal)}
+    />
   ))
 
   return (
@@ -70,11 +76,14 @@ const UserProfilePage = () => {
         </div>
         <div className={styles.user__profile__collection}>
           <div className={styles.cover}>
-            <img src={userProfileData.cover} alt='cover' />
+            <img
+              src={userProfileData.cover ? userProfileData.cover : cover}
+              alt='cover'
+            />
           </div>
           <img
             className={styles.avatar}
-            src={userProfileData.avatar}
+            src={userProfileData.avatar ? userProfileData.avatar : defaultFig}
             alt='avatar'
           />
           <div className={styles.user__info}>
@@ -112,47 +121,15 @@ const UserProfilePage = () => {
         </ul>
         <div className={styles.tweetlist}>{userTweetListHelper}</div>
         {/* <div className={styles.replylist}>
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-        <ReplyItem />
-      </div> */}
-        {/* <div className={styles.like__tweet__list}>
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-          <TweetItem
-            isFollowed={true}
-            setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}
-          />
-        </div>*/}
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+    <ReplyItem />
+   </div> */}
       </UserGrid>
     </>
   )
