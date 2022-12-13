@@ -69,7 +69,11 @@ const DetailTweetPage = () => {
       />
       <UserGrid>
         <div className={styles.title}>
-          <img src={prevIcon} alt='prev' />
+          <img
+            src={prevIcon}
+            alt='prev'
+            onClick={() => navigate('/users/main')}
+          />
           推文
         </div>
         <DetailTweetItem
