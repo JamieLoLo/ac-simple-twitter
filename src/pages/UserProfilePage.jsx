@@ -62,6 +62,7 @@ const UserProfilePage = () => {
     userGetTweets(userInfo.id)
   }, [])
 
+
   //userGetReplys
   useEffect(() => {
     const userGetReplys = async (data) => {
@@ -91,6 +92,7 @@ const UserProfilePage = () => {
   }, [])
 
   const userTweetList = userTweetsData.map((data) => (
+
     <TweetItem
       data={data}
       key={data.id}

@@ -1,5 +1,6 @@
 import styles from './ReplyItem.module.scss'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
+
 import useMoment from '../hooks/useMoment'
 const ReplyItem = ({ data }) => {
   const { User, comment, createdAt, Tweet } = data
@@ -18,6 +19,7 @@ const ReplyItem = ({ data }) => {
   // }
 
   const createTime = useMoment(createdAt)
+
   return (
     <div className={styles.replyItem}>
       <div className={styles.tweetInfo}>

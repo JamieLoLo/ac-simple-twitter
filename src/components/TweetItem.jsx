@@ -5,10 +5,13 @@ import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import { tweetGetOneApi } from '../api/tweetApi'
+
 
 const TweetItem = ({ data, onClick }) => {
   const [replyModal, setReplyModal] = useState(false)
+  const navigate = useNavigate()
   const {
     User,
     createdAt,
@@ -20,7 +23,15 @@ const TweetItem = ({ data, onClick }) => {
     repliesCount,
     id,
   } = data
+
   const createTime = useMoment(createdAt)
+
+  const toDetailPage = () => {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      navigate('/users/tweet')
+    }
+  }
 
   return (
     <div
@@ -40,7 +51,9 @@ const TweetItem = ({ data, onClick }) => {
           <div className={styles.createTime}>・{createTime}</div>
         </div>
       </div>
-      <div className={styles.tweetContent}>{description}</div>
+      <div className={styles.tweetContent} onClick={toDetailPage}>
+        {description}
+      </div>
 
       <div className={styles.tweetFeedback}>
         <div className={styles.reply} onClick={() => onClick?.(true)}>
