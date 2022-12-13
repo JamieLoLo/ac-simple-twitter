@@ -32,15 +32,17 @@ const RecommendFollowList = () => {
     <div className={styles.recommendFollowList}>
       <div className={styles.title}>推薦跟隨</div>
       <RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
-			<RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
+      <RecommendFollowItem />
     </div>
-  );
+  )
 };
 
 export default RecommendFollowList;
