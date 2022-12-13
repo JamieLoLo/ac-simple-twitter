@@ -29,7 +29,6 @@ const UserProfilePage = () => {
         if (res.status !== 200) {
           navigate('/users/login')
         }
-        console.log(res.data)
         await setUserProfileData(res.data)
       } catch (error) {
         console.error(error)
