@@ -11,7 +11,6 @@ const RecommendFollowList = () => {
     const userGetTopUsers = async (data) => {
       try {
         const res = await userGetTopUsersApi(data)
-        console.log(res.data)
         await setUserRecommendFollowData(res.data)
       } catch (error) {
         console.error(error)
@@ -55,7 +54,7 @@ const RecommendFollowList = () => {
   }
 
   const userRecommendFollowList = userRecommendFollowData.map((data) => (
-    <RecommendFollowItem data={data} key={data.followerId} />
+    <RecommendFollowItem data={data} key={data.id} />
   ))
   return (
     <div className={styles.recommendFollowList}>

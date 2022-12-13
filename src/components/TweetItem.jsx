@@ -4,7 +4,8 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import { tweetGetOneApi } from '../api/tweetApi'
 
 const TweetItem = ({ data, onClick }) => {
   const [replyModal, setReplyModal] = useState(false)
@@ -17,11 +18,19 @@ const TweetItem = ({ data, onClick }) => {
     replyCounts,
     likesCount,
     repliesCount,
+    id,
   } = data
   const createTime = useMoment(createdAt)
+  const clickHandler = async () => {
+    const res = await tweetGetOneApi(id)
+    console.log(res.data.User.name)
+  }
 
   return (
-    <div className={styles.tweet}>
+    <div
+      className={styles.tweet}
+      onClick={clickHandler}
+    >
       <div className={styles.tweetInfo}>
         <img
           className={styles.avatar}
@@ -32,7 +41,6 @@ const TweetItem = ({ data, onClick }) => {
           <div className={styles.container}>
             <div className={styles.name}>{User.name}</div>
             <div className={styles.account}>@{User.account}</div>
-
           </div>
           <div className={styles.createTime}>・{createTime}</div>
         </div>
@@ -43,7 +51,6 @@ const TweetItem = ({ data, onClick }) => {
         <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>
           <div className={styles.num}>{replyCounts || repliesCount || 0}</div>
-
         </div>
         <div className={styles.like}>
           {isLiked ? (
