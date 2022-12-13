@@ -16,6 +16,7 @@ const initialState = {
   Following: null,
   editProfile: null,
   editAccount: null,
+  likeCount: null,
 }
 
 const userSlice = createSlice({
@@ -36,6 +37,10 @@ const userSlice = createSlice({
     },
     changeIsAuthenticated(state, action) {
       state.isAuthenticated = action.payload.isAuthenticated
+    },
+    changeLikeCount(state, action) {
+      state.likeCount = action.payload
+      console.log(action.payload)
     },
   },
 })
