@@ -14,12 +14,8 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const likeCount = useSelector((state) => state.user.likeCount)
-  useMoment()
-  const timestamp = moment().valueOf()
 
-  const currentTime = moment(timestamp).format(
-    'Ah:mm:ss[・]YYYY[年]MM[月]DD[日]'
-  )
+  const createTime = useMoment(tweetData.createdAt)
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
@@ -62,7 +58,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
         </div>
       </div>
       <div className={styles.tweet__content}>{tweetData.description}</div>
-      <div className={styles.create__time}>{currentTime}</div>
+      <div className={styles.create__time}>{createTime}</div>
       <div className={styles.tweet__feedback}>
         <div className={styles.num}>
           {tweetData.reply__counts}

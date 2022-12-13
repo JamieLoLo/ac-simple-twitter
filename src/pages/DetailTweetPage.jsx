@@ -3,7 +3,7 @@ import prevIcon from '../components/assets/icons/prev.svg'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import DetailTweetItem from '../components/DetailTweetItem'
 import { tweetGetOneApi, replyGetOneApi } from '../api/tweetApi'
-import ReplyItem from '../components/ReplyItem'
+import DetailReplyItem from '../components/DetailReplyItem'
 import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -54,7 +54,9 @@ const DetailTweetPage = () => {
     replyGetOne()
   }, [replyId, navigate])
 
-  const replyItemHelper = replyData.map((data) => <ReplyItem data={data} />)
+  const replyItemHelper = replyData.map((data) => (
+    <DetailReplyItem data={data} />
+  ))
 
   return (
     <>
