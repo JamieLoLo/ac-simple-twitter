@@ -5,11 +5,10 @@ import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
 
-
 // 這個有問題!!!勿觸
 
 export const MainTweetItem = ({ data, onClick }) => {
-const [replyModal, setReplyModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
   const values = Object.values(data)
   const keys = Object.keys(data).map((data) => data.replace('.', ''))
 
@@ -73,15 +72,9 @@ const [replyModal, setReplyModal] = useState(false)
   )
 }
 
-export const ProfileTweetItem = ({ data }) => {
-  const {
-    User,
-    createdAt,
-    description,
-    isLiked,
-    likeCounts,
-    repliesCount,
-  } = data
+export const ProfileTweetItem = ({ data, onClick }) => {
+  const { User, createdAt, description, isLiked, likeCounts, repliesCount } =
+    data
   const createTime = useMoment(createdAt)
   return (
     <div className={styles.tweet}>
@@ -102,7 +95,7 @@ export const ProfileTweetItem = ({ data }) => {
       <div className={styles.tweetContent}>{description}</div>
 
       <div className={styles.tweetFeedback}>
-        <div className={styles.reply}>
+        <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>
           <div className={styles.num}>{repliesCount}</div>
         </div>

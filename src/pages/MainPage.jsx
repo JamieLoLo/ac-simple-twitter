@@ -3,11 +3,15 @@ import styles from './MainPage.module.scss'
 import { MainTweetItem } from '../components/TweetItem'
 import Button from '../UI/Button'
 import { useLocation, useNavigate } from 'react-router-dom'
+import TweetModal from '../UI/TweetModal'
+import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { tweetGetAllApi } from '../api/tweetApi'
 import { useSelector } from 'react-redux'
 
 const MainPage = () => {
+  const [tweetModal, setTweetModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
   const userInfo = useSelector((state) => state.user.userInfo)
   const pathname = useLocation().pathname
   const navigate = useNavigate()
@@ -29,8 +33,12 @@ const MainPage = () => {
   }, [])
 
   const tweetsListHelper = allTweetsData.map((data) => (
-    <MainTweetItem data={data} key={data.id} setReplyModal={setReplyModal}
-            onClick={(replyModal) => setReplyModal(replyModal)}/>
+    <MainTweetItem
+      data={data}
+      key={data.id}
+      setReplyModal={setReplyModal}
+      onClick={(replyModal) => setReplyModal(replyModal)}
+    />
   ))
 
   return (

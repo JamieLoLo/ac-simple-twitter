@@ -5,7 +5,7 @@ import Button from '../UI/Button'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { userLoginApi} from '../api/userApi'
+import { userLoginApi } from '../api/userApi'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../UI/Notification'
@@ -19,7 +19,6 @@ const UserLoginPage = () => {
   const navigate = useNavigate()
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
-  
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')

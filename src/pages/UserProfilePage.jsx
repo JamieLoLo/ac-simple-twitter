@@ -13,14 +13,12 @@ import { useSelector } from 'react-redux'
 import { userGetProfileApi, userGetTweetsApi } from '../api/userApi'
 import ReplyModal from '../UI/ReplyModal'
 
-
 const UserProfilePage = () => {
-  const [editModal, setEditModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
-
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const userInfo = useSelector((state) => state.user.userInfo)
+  const [editModal, setEditModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
   const [userProfileData, setUserProfileData] = useState({})
   const [userTweetsData, setUserTweetsData] = useState([])
   useEffect(() => {
@@ -123,7 +121,7 @@ const UserProfilePage = () => {
         <ReplyItem />
         <ReplyItem />
       </div> */}
-       {/* <div className={styles.like__tweet__list}>
+        {/* <div className={styles.like__tweet__list}>
           <TweetItem
             isFollowed={true}
             setReplyModal={setReplyModal}

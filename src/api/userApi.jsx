@@ -12,7 +12,6 @@ axiosInstance.interceptors.request.use((config) => {
   return config
 })
 
-
 // OK
 export const userSignupApi = async (payload) => {
   const { name, account, email, password, checkPassword } = payload
@@ -31,7 +30,6 @@ export const userSignupApi = async (payload) => {
     return error
   }
 }
-
 
 // OK
 export const userLoginApi = async (payload) => {
@@ -82,7 +80,7 @@ export const userGetReplysApi = async (id) => {
   }
 }
 
-// 取得個別使用者點過 like 的推文 
+// 取得個別使用者點過 like 的推文
 
 export const userGetLikesApi = async (id) => {
   try {
