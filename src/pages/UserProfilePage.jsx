@@ -11,7 +11,12 @@ import EditProfileModal from '../UI/EditProfileModal'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { userGetProfileApi, userGetTweetsApi } from '../api/userApi'
+import {
+  userGetProfileApi,
+  userGetTweetsApi,
+  userGetReplysApi,
+  userGetLikesApi,
+} from '../api/userApi'
 import ReplyModal from '../UI/ReplyModal'
 
 const UserProfilePage = () => {
@@ -22,6 +27,11 @@ const UserProfilePage = () => {
   const [replyModal, setReplyModal] = useState(false)
   const [userProfileData, setUserProfileData] = useState({})
   const [userTweetsData, setUserTweetsData] = useState([])
+  const [userReplysData, setUserReplysData] = useState([])
+  const [userLikesData, setUserLikesData] = useState([])
+  const [profilePage, setProfilePage] = useState('reply')
+
+  // userGetProfile
   useEffect(() => {
     const userGetProfile = async (data) => {
       try {
@@ -38,6 +48,7 @@ const UserProfilePage = () => {
     userGetProfile(userInfo.id)
   }, [])
 
+  //userGetTweets
   useEffect(() => {
     const userGetTweets = async (data) => {
       try {
@@ -51,8 +62,36 @@ const UserProfilePage = () => {
     userGetTweets(userInfo.id)
   }, [])
 
-  const userTweetListHelper = userTweetsData.map((data) => (
+  //userGetReplys
+  useEffect(() => {
+    const userGetReplys = async (data) => {
+      try {
+        const res = await userGetReplysApi(data)
+        await setUserReplysData(res.data)
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetReplys(userInfo.id)
+  }, [])
 
+  //userGetLikes
+  useEffect(() => {
+    const userGetLikes = async (data) => {
+      try {
+        const res = await userGetLikesApi(data)
+        console.log(res.data)
+        await setUserLikesData(res.data)
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetLikes(userInfo.id)
+  }, [])
+
+  const userTweetList = userTweetsData.map((data) => (
     <TweetItem
       data={data}
       key={data.id}
@@ -61,13 +100,32 @@ const UserProfilePage = () => {
     />
   ))
 
+  // 目前 userLikeList 為空，續待確認
+  const userLikeList = userLikesData.map((data) => (
+    <TweetItem
+      data={data}
+      key={data.id}
+      setReplyModal={setReplyModal}
+      onClick={(replyModal) => setReplyModal(replyModal)}
+    />
+  ))
+  const userReplyList = userReplysData.map((data) => (
+    <ReplyItem data={data} key={data.id} />
+  ))
+
   return (
     <>
       <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
       <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>
-          <img src={prevLogo} alt='prev' />
+          <img
+            src={prevLogo}
+            alt='prev'
+            onClick={() => {
+              navigate('/users/main')
+            }}
+          />
           <div className={styles.container}>
             <div className={styles.name}>{userProfileData.name}</div>
             <div className={styles.tweet__num}>
@@ -116,23 +174,34 @@ const UserProfilePage = () => {
           />
         </div>
         <ul className={styles.bookmark}>
-          <li>推文</li>
-          <li>回覆</li>
-          <li>喜歡的內容</li>
+          <li
+            className={profilePage === 'tweet' && styles.active}
+            onClick={() => {
+              setProfilePage('tweet')
+            }}
+          >
+            推文
+          </li>
+          <li
+            className={profilePage === 'reply' && styles.active}
+            onClick={() => {
+              setProfilePage('reply')
+            }}
+          >
+            回覆
+          </li>
+          <li
+            className={profilePage === 'like' && styles.active}
+            onClick={() => {
+              setProfilePage('like')
+            }}
+          >
+            喜歡的內容
+          </li>
         </ul>
-        <div className={styles.tweetlist}>{userTweetListHelper}</div>
-        {/* <div className={styles.replylist}>
-
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-    <ReplyItem />
-   </div> */}
-
+        {profilePage === 'tweet' && userTweetList}
+        {profilePage === 'reply' && userReplyList}
+        {profilePage === 'like' && userLikeList}
       </UserGrid>
     </>
   )

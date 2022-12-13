@@ -12,7 +12,6 @@ axiosInstance.interceptors.request.use((config) => {
   return config
 })
 
-
 // OK
 export const userSignupApi = async (payload) => {
   const { name, account, email, password, checkPassword } = payload
@@ -31,7 +30,6 @@ export const userSignupApi = async (payload) => {
     return error
   }
 }
-
 
 // OK
 export const userLoginApi = async (payload) => {
@@ -59,7 +57,7 @@ export const userGetProfileApi = async (id) => {
   }
 }
 
-// 取得個別使用者的推文
+// 取得個別使用者的推文 OK
 export const userGetTweetsApi = async (id) => {
   try {
     const res = await axiosInstance.get(`${userURL}/${id}/tweets`)
@@ -70,7 +68,7 @@ export const userGetTweetsApi = async (id) => {
   }
 }
 
-// 取得個別使用者的回覆
+// 取得個別使用者的回覆 OK
 export const userGetReplysApi = async (id) => {
   try {
     const res = await axiosInstance.get(`${userURL}/${id}/replied_tweets`)
@@ -81,8 +79,7 @@ export const userGetReplysApi = async (id) => {
   }
 }
 
-
-// 取得個別使用者點過 like 的推文 
+// 取得個別使用者點過 like 的推文 OK
 export const userGetLikesApi = async (id) => {
   try {
     const res = await axiosInstance.get(`${userURL}/${id}/likes`)
@@ -95,7 +92,39 @@ export const userGetLikesApi = async (id) => {
 
 // 取得個別使用者跟隨中的人
 
+export const userGetFollowingsApi = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${userURL}/${id}/followings`)
+    return res
+  } catch (error) {
+    console.error('[User Get Followings Failed]: ', error)
+    return error
+  }
+}
+
 // 取得個別使用者的跟隨者
+
+export const userGetFollowersApi = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${userURL}/${id}/followers`)
+    return res
+  } catch (error) {
+    console.error('[User Get Followers Failed]: ', error)
+    return error
+  }
+}
+
+// 取得追隨者前10的使用者
+
+export const userGetTopUsersApi = async () => {
+  try {
+    const res = await axiosInstance.get(`${userURL}/topUsers`)
+    return res
+  } catch (error) {
+    console.error('[User Get Top Users Failed]: ', error)
+    return error
+  }
+}
 
 // 編輯自己的資料
 
