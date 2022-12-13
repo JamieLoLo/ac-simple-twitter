@@ -7,7 +7,7 @@ import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 
-const EditProfileModal = () => {
+const EditProfileModal = (props) => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
@@ -18,13 +18,29 @@ const EditProfileModal = () => {
   const infoHandler = (useInput) => {
     dispatch(authInputActions.infoAuth(useInput))
   }
-  return (
+  const refreshHandler = () => {
+    dispatch(authInputActions.refreshAuthInput())
+  }
+
+  return props.trigger ? (
     <div className={styles.modal}>
-      <div className={styles.backdrop}></div>
+      <div
+        className={styles.backdrop}
+        onClick={() => {
+          props.setEditModal(false)
+          refreshHandler()
+        }}
+      ></div>
       <div className={styles.modal__container}>
         <div className={styles.top}>
           <div className={styles.container}>
-            <div className={styles.del_btn}></div>
+            <div
+              className={styles.del__btn}
+              onClick={() => {
+                props.setEditModal(false)
+                refreshHandler()
+              }}
+            ></div>
             <div className={styles.title}>編輯個人資料</div>
           </div>
           <Button className='button button__sm active' title='儲存' />
@@ -71,6 +87,8 @@ const EditProfileModal = () => {
         </div>
       </div>
     </div>
+  ) : (
+    ''
   )
 }
 

@@ -15,15 +15,17 @@ const AuthInput = ({
   count,
   upperLimit,
   textArea,
+  modal,
 }) => {
   return (
     <div className={styles.input__container} style={style}>
-      <label htmlFor={id}>{label}</label>
+      {!modal && <label htmlFor={id}>{label}</label>}
       {!textArea && (
         <input
           id={id}
           className={clsx('', {
-            error__baseline: !isValid && count !== 0,
+            error__baseline:
+              !isValid && count !== 0 && count !== '' && value !== '',
           })}
           type={type || 'text'}
           placeholder={placeholder || ''}
@@ -37,7 +39,8 @@ const AuthInput = ({
         <textarea
           id={id}
           className={clsx('', {
-            error__baseline: !isValid && count !== 0,
+            error__baseline:
+              !isValid && count !== 0 && count !== '' && value !== '',
           })}
           type={type || 'text'}
           placeholder={placeholder || ''}
@@ -47,17 +50,17 @@ const AuthInput = ({
           }}
         ></textarea>
       )}
-      {!isValid && count !== 0 && (
+      {!isValid && count !== 0 && !modal && value !== '' && (
         <div
           className={clsx('', 'input__message__container', {
-            error__message__container: !isValid,
+            error__message__container: !isValid && count !== '' && value !== '',
           })}
         >
           {count !== 0 && message && (
             <p className={styles.input__message}>{message}</p>
           )}
           <p className={styles.text__restriction__count}>
-            {count !== undefined && count !== 0 && `${count} / ${upperLimit}`}
+            {count !== '' && count !== undefined && `${count} / ${upperLimit}`}
           </p>
         </div>
       )}

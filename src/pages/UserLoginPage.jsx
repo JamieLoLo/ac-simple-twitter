@@ -5,7 +5,7 @@ import Button from '../UI/Button'
 import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { userLoginApi} from '../api/userApi'
+import { userLoginApi } from '../api/userApi'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../UI/Notification'
@@ -20,6 +20,26 @@ const UserLoginPage = () => {
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
   
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      navigate('/users/main')
+    }
+  }, [navigate])
+
+  useEffect(() => {
+    if (loadingStatus === 'failed' || loadingStatus === 'success') {
+      setTimeout(() => {
+        if (loadingStatus === 'success') {
+          setLoadingStatus('finish')
+          navigate('/users/main')
+        } else {
+          setLoadingStatus('finish')
+        }
+      }, 1000)
+    }
+  }, [loadingStatus, navigate])
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
