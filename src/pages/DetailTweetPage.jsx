@@ -7,8 +7,7 @@ import ReplyItem from '../components/ReplyItem'
 import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { userActions } from '../store/user-slice'
+import { useSelector } from 'react-redux'
 
 const DetailTweetPage = () => {
   const [tweetData, setTweetData] = useState([])

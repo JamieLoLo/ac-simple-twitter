@@ -1,7 +1,6 @@
 import React from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
-import Navigation from '../Layout/Navigation'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'

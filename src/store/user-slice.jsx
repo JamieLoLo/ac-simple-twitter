@@ -2,12 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   userInfo: {
+    account: null,
     avatar: null,
     cover: null,
-    createdAt: null,
     id: null,
-    role: null,
-    updatedAt: null,
+    email: null,
+    introduction: null,
+    name: null,
   },
   Tweet: null,
   Reply: null,
@@ -24,13 +25,15 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     initialSetUserInfo(state, action) {
-      const { avatar, cover, createdAt, id, role, updatedAt } = action.payload
+      const { avatar, cover, id, email, introduction, name, account } =
+        action.payload
       state.userInfo.avatar = avatar
       state.userInfo.cover = cover
-      state.userInfo.createdAt = createdAt
       state.userInfo.id = id
-      state.userInfo.role = role
-      state.userInfo.updatedAt = updatedAt
+      state.userInfo.email = email
+      state.userInfo.introduction = introduction
+      state.userInfo.name = name
+      state.userInfo.account = account
     },
     changePayload(state, action) {
       state.payload = action.payload.payload

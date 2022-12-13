@@ -1,6 +1,7 @@
 import styles from './EditProfileModal.module.scss'
 import Button from './Button'
 import cover from '../components/assets/icons/cover.svg'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 import cameraIcon from '../components/assets/icons/camera.svg'
 import delBtn from '../components/assets/icons/delBtn_white.svg'
 import AuthInput from './AuthInput'
@@ -11,7 +12,8 @@ const EditProfileModal = (props) => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
-
+  const userInfo = useSelector((state) => state.user.userInfo)
+  console.log(userInfo)
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -51,14 +53,14 @@ const EditProfileModal = (props) => {
             <img src={delBtn} alt='delete' />
           </div>
           <div className={styles.backdrop}></div>
-          <img src={cover} alt='cover' />
+          <img src={userInfo.cover ? userInfo.cover : cover} alt='cover' />
         </div>
         <div className={styles.avatar__container}>
           <img className={styles.icon} src={cameraIcon} alt='camera' />
           <div className={styles.backdrop}></div>
           <img
             className={styles.avatar}
-            src='https://pbs.twimg.com/profile_images/1465102977312636929/oXKdq9aL_400x400.jpg'
+            src={userInfo.avatar ? userInfo.avatar : defaultFig}
             alt='avatar'
           />
         </div>
@@ -72,6 +74,7 @@ const EditProfileModal = (props) => {
             message={username.message}
             count={username.count}
             upperLimit='50'
+            placeholder={userInfo.name}
           />
           <AuthInput
             label='自我介紹'
@@ -83,6 +86,7 @@ const EditProfileModal = (props) => {
             message={info.message}
             count={info.count}
             upperLimit='160'
+            placeholder={userInfo.introduction}
           />
         </div>
       </div>

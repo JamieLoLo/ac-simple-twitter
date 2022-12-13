@@ -52,14 +52,12 @@ const AdminLoginPage = () => {
         account: account.content,
         password: password.content,
       })
-      console.log(res)
       if (res.status !== 200) {
         setLoadingStatus('failed')
         return
       }
       localStorage.setItem('authToken', res.data.token)
       setLoadingStatus('success')
-      console.log(loadingStatus)
     } catch (error) {
       console.error(error)
     }
