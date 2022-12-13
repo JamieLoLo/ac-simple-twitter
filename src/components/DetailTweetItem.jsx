@@ -15,12 +15,13 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
+  const tweetId = tweetData.id
 
   const likeHandler = () => {
     if (tweetData.isLiked === false) {
       const like = async () => {
         try {
-          const res = await likeApi(504)
+          const res = await likeApi(tweetId)
           setLikeData(res.data)
           likeCountHandler(res.data.isLiked)
           console.log(res.data)
@@ -32,7 +33,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
     } else if (tweetData.isLiked === true) {
       const unLike = async () => {
         try {
-          const res = await unLikeApi(504)
+          const res = await unLikeApi(tweetId)
           setLikeData(res.data.isLiked)
           likeCountHandler(res.data.isLiked)
           console.log(res.data)
