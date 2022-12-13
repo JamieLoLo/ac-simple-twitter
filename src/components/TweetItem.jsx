@@ -10,6 +10,7 @@ const TweetItem = ({ data, onClick }) => {
   const [replyModal, setReplyModal] = useState(false)
   const navigate = useNavigate()
   const {
+    id,
     User,
     createdAt,
     description,
@@ -26,6 +27,7 @@ const TweetItem = ({ data, onClick }) => {
     const token = localStorage.getItem('authToken')
     if (token) {
       navigate('/users/tweet')
+      localStorage.setItem('tweet_id', id)
     }
   }
 
