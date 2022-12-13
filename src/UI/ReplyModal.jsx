@@ -25,6 +25,7 @@ const ReplyModal = (props) => {
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
+  const tweetId = localStorage.getItem('tweet_id')
 
   const currentTime = '3 小時'
 
@@ -34,7 +35,7 @@ const ReplyModal = (props) => {
     } else {
       const AddReply = async () => {
         try {
-          const res = await AddReplyApi(504, content)
+          const res = await AddReplyApi(tweetId, content)
           setData(res.data)
           console.log(res.data)
           props.setReplyModal(false)
