@@ -13,9 +13,20 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 // 新增回覆
+export const AddReplyApi = async (tweet_id, comment) => {
+  try {
+    const res = await axiosInstance.post(`${replyURL}/${tweet_id}/replies`, {
+      comment,
+    })
+    return res
+  } catch (error) {
+    console.error(error)
+    console.error('[Add Reply Failed]: ', error)
+    return error
+  }
+}
 
 // 取得單一推文的回覆
-
 export const replyGetFromOneTweet = async (tweet_id) => {
   try {
     const res = await axiosInstance.get(`${replyURL}/${tweet_id}/replies`)
