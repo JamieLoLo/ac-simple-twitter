@@ -1,21 +1,17 @@
 import styles from './DetailTweetItem.module.scss'
-import moment from 'moment'
 import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { likeApi, unLikeApi } from '../api/likeApi'
-import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
-  const [replyModal, setReplyModal] = useState(false)
   const [likeData, setLikeData] = useState()
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const likeCount = useSelector((state) => state.user.likeCount)
-
   const createTime = useMoment(tweetData.createdAt)
+  const [countForRender, serCountForRender] = useState(likeCount)
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
@@ -61,7 +57,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       <div className={styles.create__time}>{createTime}</div>
       <div className={styles.tweet__feedback}>
         <div className={styles.num}>
-          {tweetData.reply__counts}
+          {tweetData.replyCounts}
           <p>回覆</p>
         </div>
         <div className={styles.num}>
@@ -73,14 +69,15 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       <div className={styles.action__icons}>
         <div
           className={styles.message__icon}
-          onClick={() => onClick?.(true)}
+          onClick={() => {
+            onClick?.(true)
+          }}
         ></div>
-        {tweetData.isLiked === true && (
+        {(tweetData.isLiked === true) === true && (
           <div
             className={styles.like__icon__active}
             onClick={() => {
               likeHandler()
-              onClick?.(likeCount)
             }}
           ></div>
         )}
@@ -89,7 +86,6 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
             className={styles.like__icon}
             onClick={() => {
               likeHandler()
-              onClick?.(likeCount)
             }}
           ></div>
         )}
