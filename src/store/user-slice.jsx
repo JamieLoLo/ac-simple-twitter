@@ -16,8 +16,6 @@ const initialState = {
   Following: null,
   editProfile: null,
   editAccount: null,
-  isAuthenticated: false,
-  payload: null,
 }
 
 const userSlice = createSlice({

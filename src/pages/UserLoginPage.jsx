@@ -19,6 +19,27 @@ const UserLoginPage = () => {
   const navigate = useNavigate()
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
+  
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    if (token) {
+      navigate('/users/main')
+    }
+  }, [navigate])
+
+  useEffect(() => {
+    if (loadingStatus === 'failed' || loadingStatus === 'success') {
+      setTimeout(() => {
+        if (loadingStatus === 'success') {
+          setLoadingStatus('finish')
+          navigate('/users/main')
+        } else {
+          setLoadingStatus('finish')
+        }
+      }, 1000)
+    }
+  }, [loadingStatus, navigate])
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
