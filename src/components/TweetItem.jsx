@@ -40,7 +40,7 @@ const TweetItem = ({ data, onClick }) => {
       <div className={styles.tweetFeedback}>
         <div className={styles.reply} onClick={() => onClick?.(true)}>
           <div className={styles.messageIcon}></div>
-          <div className={styles.num}>{replyCounts || repliesCount}</div>
+          <div className={styles.num}>{replyCounts || repliesCount || 0}</div>
         </div>
         <div className={styles.like}>
           {isLiked ? (
@@ -53,7 +53,7 @@ const TweetItem = ({ data, onClick }) => {
             <img className={styles.likeIcon} src={likeIcon} alt='like' />
           )}
 
-          <div className={styles.num}>{likeCounts || likesCount}</div>
+          <div className={styles.num}>{likeCounts || likesCount || 0}</div>
         </div>
       </div>
     </div>
