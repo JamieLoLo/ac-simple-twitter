@@ -4,15 +4,20 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { AddReplyApi } from '../api/replyApi'
+import { useNavigate } from 'react-router-dom'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
   const reply = useSelector((state) => state.authInput.reply)
   const message = useSelector((state) => state.authInput.reply.message)
-  const isValid = useSelector((state) => state.authInput.tweet.isValid)
-  const content = useSelector((state) => state.authInput.tweet.content)
+  const isValid = useSelector((state) => state.authInput.reply.isValid)
+  const content = useSelector((state) => state.authInput.reply.content)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const [replyId, setReplyId] = useState(null)
+  const [data, setData] = useState([])
+  const navigate = useNavigate()
 
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
@@ -20,10 +25,28 @@ const ReplyModal = (props) => {
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
+
   const currentTime = '3 小時'
+
   const submitHandler = () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
+    } else {
+      const AddReply = async () => {
+        try {
+          const res = await AddReplyApi(504, content)
+          setData(res.data)
+          console.log(res.data)
+          props.setReplyModal(false)
+          props.setReplyId(res.data.id)
+          refreshHandler()
+        } catch (error) {
+          console.error(error)
+          navigate('/users/login')
+          localStorage.removeItem('authToken')
+        }
+      }
+      AddReply()
     }
   }
   return props.trigger ? (
@@ -57,16 +80,22 @@ const ReplyModal = (props) => {
               />
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
-                  <div className={styles.name}>Apple</div>
-                  <div className={styles.account}>@apple</div>
+                  <div className={styles.name}>{props.tweetData.User.name}</div>
+                  <div className={styles.account}>
+                    @ {props.tweetData.User.account}
+                  </div>
                 </div>
                 <div className={styles.create__time}>・{currentTime}</div>
               </div>
             </div>
             <div className={styles.tweet__content}>
-              哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+              {props.tweetData.description}
               <div className={styles.reply__to}>
-                回覆給<span className={styles.highlight}> @apple</span>
+                回覆給
+                <span className={styles.highlight}>
+                  {' '}
+                  @{props.tweetData.User.account}
+                </span>
               </div>
             </div>
           </div>
