@@ -2,11 +2,11 @@
   border-bottom: solid 1px var(--border-color);
   width: 100%;
   padding: 0px 16px;
-  .tweetInfo {
+  .tweet__info {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
-    .tweetCreatorInfo {
+    .tweet__creator__info {
       margin-left: 8px;
       .name {
         font-weight: 700;
@@ -20,19 +20,19 @@
       }
     }
   }
-  .tweetContent {
+  .tweet__content {
     width: 100%;
     font-size: 24px;
     line-height: 36px;
     margin-bottom: 8px;
   }
-  .createTime {
+  .create__time {
     color: var(--secondary-color);
     line-height: 22px;
     font-weight: 500;
     margin-bottom: 8px;
   }
-  .tweetFeedback {
+  .tweet__feedback {
     width: 100%;
     border: solid 1px var(--border-color);
     padding: 16px 0px;
@@ -52,15 +52,23 @@
       }
     }
   }
-  .actionIcons {
-		display: flex;
-		gap: 128px;
-		padding: 16px 0px;
-    .messageIcon {
+  .action__icons {
+    display: flex;
+    gap: 128px;
+    padding: 16px 0px;
+    .message__icon {
       content: url(../components/assets/icons/message.svg);
+      cursor: pointer;
     }
-    .likeIcon {
+    .like__icon {
       content: url(../components/assets/icons/like.svg);
+      cursor: pointer;
+    }
+    .like__icon__active {
+      content: url(../components/assets/icons/like_active.svg);
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
     }
   }
 }

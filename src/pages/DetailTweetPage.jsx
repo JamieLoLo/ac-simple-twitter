@@ -3,75 +3,82 @@ import prevIcon from '../components/assets/icons/prev.svg'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import DetailTweetItem from '../components/DetailTweetItem'
 import { tweetGetOneApi, replyGetOneApi } from '../api/tweetApi'
-import ReplyItem from '../components/ReplyItem'
+import DetailReplyItem from '../components/DetailReplyItem'
 import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const DetailTweetPage = () => {
-  const [data, setData] = useState([])
+  const [tweetData, setTweetData] = useState([])
+  const [tweetUserData, setTweetUserData] = useState([])
   const [replyData, setReplyData] = useState([])
+  const [replyModal, setReplyModal] = useState(false)
+  const [replyId, setReplyId] = useState(null)
+  const likeCount = useSelector((state) => state.user.likeCount)
   const navigate = useNavigate()
 
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
-        const res = await tweetGetOneApi(4)
-        setData(res.data)
+        const tweetId = localStorage.getItem('tweet_id')
+        const res = await tweetGetOneApi(tweetId)
+        setTweetData(res.data)
+        setTweetUserData(res.data.User)
+        localStorage.setItem('tweet_user_account', res.data.User.account)
         console.log(res.data)
       } catch (error) {
         console.error(error)
+        localStorage.removeItem('tweet_id')
         navigate('/users/login')
         localStorage.removeItem('authToken')
       }
     }
     tweetGetOne()
-  }, [])
+  }, [likeCount, navigate])
 
-  // useEffect(() => {
-  //   const replyGetOne = async () => {
-  //     try {
-  //       const res = await replyGetOneApi(504)
-  //       setReplyData(res.data)
-  //       console.log(res.data)
-  //     } catch (error) {
-  //       console.error(error)
-  //       navigate('/users/login')
-  //       localStorage.removeItem('authToken')
-  //     }
-  //   }
-  //   replyGetOne()
-  // }, [])
+  useEffect(() => {
+    const tweetId = localStorage.getItem('tweet_id')
+    const replyGetOne = async () => {
+      try {
+        const res = await replyGetOneApi(tweetId)
+        setReplyData(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.error(error)
+        localStorage.removeItem('tweet_id')
+        navigate('/users/login')
+        localStorage.removeItem('authToken')
+      }
+    }
+    replyGetOne()
+  }, [replyId, navigate])
 
-  // const replyItemHelper = () => {
-  //   replyData.map((data) => (
-  //     <ReplyItem
-  //       comment={data.comment}
-  //       name={data.User.name}
-  //       account={data.User.account}
-  //     />
-  //   ))
-  // }
-  // console.log(data)
+  const replyItemHelper = replyData.map((data) => (
+    <DetailReplyItem data={data} />
+  ))
+
   return (
     <>
-      {/* <ReplyModal /> */}
+      <ReplyModal
+        trigger={replyModal}
+        setReplyModal={setReplyModal}
+        tweetData={tweetData}
+        tweetUserData={tweetUserData}
+        setReplyId={setReplyId}
+      />
       <UserGrid>
         <div className={styles.title}>
           <img src={prevIcon} alt='prev' />
           推文
         </div>
         <DetailTweetItem
-        // account={data.User.account}
-        // name={data.User.name}
-        // avatar={data.User.avatar}
-        // description={data.description}
-        // createdAt={data.createdAt}
-        // isLiked={data.isLiked}
-        // likeCounts={data.likeCounts}
-        // replyCounts={data.replyCounts}
+          tweetData={tweetData}
+          tweetUserData={tweetUserData}
+          setReplyModal={setReplyModal}
+          onClick={(replyModal) => setReplyModal(replyModal)}
         />
-        <ReplyItem />
+        {replyItemHelper}
       </UserGrid>
     </>
   )

@@ -81,6 +81,7 @@ export const userGetReplysApi = async (id) => {
 
 // 取得個別使用者點過 like 的推文 OK
 
+// 取得個別使用者點過 like 的推文
 export const userGetLikesApi = async (id) => {
   try {
     const res = await axiosInstance.get(`${userURL}/${id}/likes`)

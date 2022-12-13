@@ -11,6 +11,8 @@ const Navigation = ({ condition, pathname }) => {
   const dispatch = useDispatch()
   const logoutHandler = async () => {
     localStorage.removeItem('authToken')
+    localStorage.removeItem('tweet_user_account')
+    localStorage.removeItem('tweet_id')
     await dispatch(authInputActions.refreshAuthInput())
     navigate('/users/login')
   }
