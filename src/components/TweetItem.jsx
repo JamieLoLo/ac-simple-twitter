@@ -6,10 +6,10 @@ import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-
 const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
   const {
+    id,
     User,
     createdAt,
     description,
@@ -26,13 +26,12 @@ const TweetItem = ({ data, onClick }) => {
     const token = localStorage.getItem('authToken')
     if (token) {
       navigate('/users/tweet')
+      localStorage.setItem('tweet_id', id)
     }
   }
 
   return (
-    <div
-      className={styles.tweet}
-    >
+    <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
         <img
           className={styles.avatar}

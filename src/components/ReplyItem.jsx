@@ -20,6 +20,8 @@ const ReplyItem = ({ data }) => {
 
   const createTime = useMoment(createdAt)
 
+  const tweetUserAccount = localStorage.getItem('tweet_user_account')
+
   return (
     <div className={styles.replyItem}>
       <div className={styles.tweetInfo}>
