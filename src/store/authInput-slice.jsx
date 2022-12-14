@@ -190,6 +190,7 @@ const authInputSlice = createSlice({
       state.info = initialState.info
       state.tweet = initialState.tweet
       state.reply = initialState.reply
+      state.passwordCheck = initialState.passwordCheck
     },
   },
 })

@@ -3,22 +3,16 @@ import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { likeApi, unLikeApi } from '../api/likeApi'
+import { useDispatch } from 'react-redux'
+import { userActions } from '../store/user-slice'
 
-const TweetItem = ({ data, onClick }) => {
+const TweetItem = ({ data, onShowReplyModal }) => {
   const navigate = useNavigate()
-  const {
-    id,
-    User,
-    createdAt,
-    description,
-    isLiked,
-    likeCounts,
-    replyCounts,
-    likesCount,
-    repliesCount,
-  } = data
+  const dispatch = useDispatch()
+  const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
+    data
 
   const createTime = useMoment(createdAt)
 
@@ -28,6 +22,15 @@ const TweetItem = ({ data, onClick }) => {
       navigate('/users/tweet')
       localStorage.setItem('tweet_id', id)
     }
+  }
+  const likeHandler = async () => {
+    if (isLiked === true) {
+      await unLikeApi(id)
+      await dispatch(userActions.setIsChange())
+      return
+    }
+    await likeApi(id)
+    await dispatch(userActions.setIsChange())
   }
 
   return (
@@ -51,11 +54,14 @@ const TweetItem = ({ data, onClick }) => {
       </div>
 
       <div className={styles.tweetFeedback}>
-        <div className={styles.reply} onClick={() => onClick?.(true)}>
+        <div
+          className={styles.reply}
+          onClick={onShowReplyModal}
+        >
           <div className={styles.messageIcon}></div>
-          <div className={styles.num}>{replyCounts || repliesCount || 0}</div>
+          <div className={styles.num}>{replyCounts || 0}</div>
         </div>
-        <div className={styles.like}>
+        <div className={styles.like} onClick={likeHandler}>
           {isLiked ? (
             <img
               className={styles.likeIcon}
@@ -65,7 +71,7 @@ const TweetItem = ({ data, onClick }) => {
           ) : (
             <img className={styles.likeIcon} src={likeIcon} alt='like' />
           )}
-          <div className={styles.num}>{likeCounts || likesCount || 0}</div>
+          <div className={styles.num}>{likeCounts || 0}</div>
         </div>
       </div>
     </div>

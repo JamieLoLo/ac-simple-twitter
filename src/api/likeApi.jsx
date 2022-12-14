@@ -11,10 +11,11 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config
 })
-// 喜歡一則推文tweets/504/like
+// 喜歡一則推文
 export const likeApi = async (tweet_id) => {
   try {
     const res = await axiosInstance.post(`${likeURL}/${tweet_id}/like`)
+    console.log(res)
     return res
   } catch (error) {
     console.error(error)

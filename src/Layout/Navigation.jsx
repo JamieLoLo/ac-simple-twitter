@@ -13,6 +13,7 @@ const Navigation = ({ condition, pathname }) => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('tweet_user_account')
     localStorage.removeItem('tweet_id')
+    localStorage.removeItem('userId')
     await dispatch(authInputActions.refreshAuthInput())
     navigate('/users/login')
   }

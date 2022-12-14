@@ -29,7 +29,7 @@ const UserProfilePage = () => {
   const [userTweetsData, setUserTweetsData] = useState([])
   const [userReplysData, setUserReplysData] = useState([])
   const [userLikesData, setUserLikesData] = useState([])
-  const [profilePage, setProfilePage] = useState('reply')
+  const [profilePage, setProfilePage] = useState('tweet')
 
   // userGetProfile
   useEffect(() => {
@@ -39,6 +39,7 @@ const UserProfilePage = () => {
         if (res.status !== 200) {
           navigate('/users/login')
         }
+        console.log(res.data)
         await setUserProfileData(res.data)
       } catch (error) {
         console.error(error)
@@ -81,7 +82,9 @@ const UserProfilePage = () => {
     const userGetLikes = async (data) => {
       try {
         const res = await userGetLikesApi(data)
-        await setUserLikesData(res.data)
+        const temp = res.data
+        const tweetDatas = temp.map((data) => data.Tweet)
+        setUserLikesData(tweetDatas)
       } catch (error) {
         console.error(error)
         return error
@@ -99,7 +102,6 @@ const UserProfilePage = () => {
     />
   ))
 
-  // 目前 userLikeList 為空，續待確認
   const userLikeList = userLikesData.map((data) => (
     <TweetItem
       data={data}
@@ -151,14 +153,14 @@ const UserProfilePage = () => {
             <div className={styles.follow__info}>
               <Link to='/users/following' className={styles.link}>
                 <div className={styles.num} style={{ color: '#171725' }}>
-                  {userProfileData.followingsCount}個
+                  {userProfileData.followingCounts}個
                 </div>
                 <p>跟隨中</p>
               </Link>
               <div className={styles.container}>
                 <Link to='/users/follower' className={styles.link}>
                   <div className={styles.num} style={{ color: '#171725' }}>
-                    {userProfileData.followersCount}位
+                    {userProfileData.followerCounts}位
                   </div>
                   <p>跟隨者</p>
                 </Link>
