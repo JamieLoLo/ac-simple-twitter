@@ -4,9 +4,9 @@ name: Deploy to GitHub pages
 
 on:
   push:
-    branches: [main]
+    branches: [add-build-folder]
   pull_request:
-    branches: [main]
+    branches: [add-build-folder]
 
 jobs:
   build:
