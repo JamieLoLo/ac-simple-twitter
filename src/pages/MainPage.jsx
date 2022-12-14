@@ -8,6 +8,8 @@ import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { tweetGetAllApi } from '../api/tweetApi'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { authInputActions } from '../store/authInput-slice'
 
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
@@ -16,6 +18,11 @@ const MainPage = () => {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [allTweetsData, setAllTweetsData] = useState([])
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(authInputActions.refreshAuthInput())
+  }, [])
 
   useEffect(() => {
     const tweetGetAll = async () => {

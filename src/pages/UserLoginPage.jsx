@@ -81,9 +81,7 @@ const UserLoginPage = () => {
       }
       const { data } = res
       const { token, user } = data
-      await dispatch(
-        userActions.initialSetUserInfo(user)
-      )
+      await dispatch(userActions.initialSetUserInfo(user))
 
       localStorage.setItem('authToken', token)
       setLoadingStatus('success')

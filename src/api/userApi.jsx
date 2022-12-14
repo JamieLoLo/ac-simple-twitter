@@ -23,7 +23,6 @@ export const userSignupApi = async (payload) => {
       password,
       checkPassword,
     })
-    console.log(res)
     return res
   } catch (error) {
     console.error('[User Signup Failed]: ', error)
@@ -79,8 +78,6 @@ export const userGetReplysApi = async (id) => {
   }
 }
 
-// 取得個別使用者點過 like 的推文 OK
-
 // 取得個別使用者點過 like 的推文
 export const userGetLikesApi = async (id) => {
   try {
@@ -132,5 +129,22 @@ export const userGetTopUsersApi = async () => {
 // 上傳照片檔案的話請不要傳json，改用form傳，並設定Content-Type: multipart/form-data
 // 目前有設定mimetype: 'image/png'才可以傳
 
-
 // 編輯自己的帳號設定
+
+export const userPutSettingApi = async (payload) => {
+  console.log('OK')
+  const { account, name, email, password, checkPassword, id } = payload
+  try {
+    const res = await axiosInstance.put(`${userURL}/${id}/setting`, {
+      name,
+      account,
+      email,
+      password,
+      checkPassword,
+    })
+    return res
+  } catch (error) {
+    console.error('[User Put Setting Failed]: ', error)
+    return error
+  }
+}
