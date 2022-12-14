@@ -15,11 +15,12 @@ import UserFollowerPage from './pages/UserFollowerPage'
 import UserFollowingPage from './pages/UserFollowingPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-const basename = process.env.PUBLIC_URL
+// const basename = process.env.PUBLIC_URL
 
 function App() {
   return (
-    <div className='App' basename={basename}>
+    <div className='App'>
+      Hello world
       <BrowserRouter>
         <Routes>
           <Route path='users/profile' element={<UserProfilePage />} />
