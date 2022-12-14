@@ -114,7 +114,11 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
+      <EditProfileModal
+        trigger={editModal}
+        setEditModal={setEditModal}
+        userProfileData={userProfileData}
+      />
       <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>
