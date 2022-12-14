@@ -13,7 +13,6 @@ import { authInputActions } from '../store/authInput-slice'
 import { userGetProfileApi } from '../api/userApi'
 import { userActions } from '../store/user-slice'
 
-
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
   const [replyModal, setReplyModal] = useState(false)

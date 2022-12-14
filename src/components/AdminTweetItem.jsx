@@ -1,11 +1,19 @@
 import styles from './AdminTweetItem.module.scss'
 import useMoment from '../hooks/useMoment'
 import defaultAvatar from './assets/icons/defaultAvatar.svg'
+import { AdminDeleteTweetApi } from '../api/adminApi'
+import { userActions } from '../store/user-slice'
+import { useDispatch } from 'react-redux'
 
 const AdminTweetItem = ({ data }) => {
-  const { description, createdAt, User } = data
+  const { description, createdAt, User, id } = data
   const { account, name, avatar } = User
+  const dispatch = useDispatch();
   const time = useMoment(createdAt)
+  const deleteHandler = async () => {
+    await AdminDeleteTweetApi(id)
+    await dispatch(userActions.setIsUpdate())
+  }
   return (
     <div className={styles.tweet}>
       <div className={styles.tweetInfo}>
@@ -23,7 +31,7 @@ const AdminTweetItem = ({ data }) => {
         </div>
       </div>
       <div className={styles.tweetContent}>{description}</div>
-      <div className={styles.delBtn}></div>
+      <div className={styles.delBtn} onClick={deleteHandler}></div>
     </div>
   )
 }

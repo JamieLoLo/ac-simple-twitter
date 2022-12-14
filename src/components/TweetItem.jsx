@@ -26,11 +26,11 @@ const TweetItem = ({ data, onShowReplyModal }) => {
   const likeHandler = async () => {
     if (isLiked === true) {
       await unLikeApi(id)
-      await dispatch(userActions.setIsChange())
+      await dispatch(userActions.setIsUpdate())
       return
     }
     await likeApi(id)
-    await dispatch(userActions.setIsChange())
+    await dispatch(userActions.setIsUpdate())
   }
 
   return (

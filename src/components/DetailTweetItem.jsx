@@ -24,7 +24,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
           const res = await likeApi(tweetId)
           setLikeData(res.data)
           likeCountHandler(res.data.isLiked)
-          console.log(res.data)
+
         } catch (error) {
           console.error(error)
         }
@@ -36,7 +36,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
           const res = await unLikeApi(tweetId)
           setLikeData(res.data.isLiked)
           likeCountHandler(res.data.isLiked)
-          console.log(res.data)
+
         } catch (error) {
           console.error(error)
         }

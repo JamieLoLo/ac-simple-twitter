@@ -26,7 +26,6 @@ const DetailTweetPage = () => {
         setTweetData(res.data)
         setTweetUserData(res.data.User)
         localStorage.setItem('tweet_user_account', res.data.User.account)
-        console.log(res.data)
       } catch (error) {
         console.error(error)
         localStorage.removeItem('tweet_id')
@@ -43,7 +42,6 @@ const DetailTweetPage = () => {
       try {
         const res = await replyGetOneApi(tweetId)
         setReplyData(res.data)
-        console.log(res.data)
       } catch (error) {
         console.error(error)
         localStorage.removeItem('tweet_id')
