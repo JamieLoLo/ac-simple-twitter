@@ -3,7 +3,10 @@ import Button from './Button'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { userGetProfileApi } from '../api/userApi'
+import { userActions } from '../store/user-slice'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 
 const TweetModal = (props) => {
   const dispatch = useDispatch()
@@ -12,7 +15,21 @@ const TweetModal = (props) => {
   const isValid = useSelector((state) => state.authInput.tweet.isValid)
   const content = useSelector((state) => state.authInput.tweet.content)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const userId = localStorage.getItem('userId')
+  const userInfo = useSelector((state) => state.user.userInfo)
 
+  useEffect(() => {
+    const userGetProfile = async (data) => {
+      try {
+        const res = await userGetProfileApi(data)
+        await dispatch(userActions.initialSetUserInfo(res.data))
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetProfile(userId)
+  }, [dispatch, userId])
   const tweetHandler = (useInput) => {
     dispatch(authInputActions.tweetAuth(useInput))
   }
@@ -50,7 +67,7 @@ const TweetModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80'
+              src={userInfo.avatar ? userInfo.avatar : defaultFig}
               alt='user'
             />
             <div className={styles.auth__input__container}>

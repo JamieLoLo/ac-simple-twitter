@@ -7,6 +7,7 @@ import { authInputActions } from '../store/authInput-slice'
 import { useLocation } from 'react-router-dom'
 import styles from './SettingPage.module.scss'
 import { userPutSettingApi } from '../api/userApi'
+import { useNavigate } from 'react-router-dom'
 
 const SettingPage = () => {
   const pathname = useLocation().pathname
@@ -17,6 +18,7 @@ const SettingPage = () => {
   const password = useSelector((state) => state.authInput.password)
   const passwordCheck = useSelector((state) => state.authInput.passwordCheck)
   const userInfo = useSelector((state) => state.user.userInfo)
+  const navigate = useNavigate()
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -44,7 +46,9 @@ const SettingPage = () => {
         checkPassword: passwordCheck.content,
         id: userInfo.id,
       })
-      console.log(res)
+      if (res.status === 200) {
+        navigate('/users/main')
+      }
     } catch (error) {
       console.error(error)
     }

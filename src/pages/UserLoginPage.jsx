@@ -79,11 +79,12 @@ const UserLoginPage = () => {
         setLoadingStatus('failed')
         return
       }
-      const { data } = res
-      const { token, user } = data
-      await dispatch(userActions.initialSetUserInfo(user))
+      const { data } = await res
+      const { token, user } = await data
 
       localStorage.setItem('authToken', token)
+      localStorage.setItem('userId', user.id)
+      localStorage.setItem('tweet_id', 504)
       setLoadingStatus('success')
     } catch (error) {
       console.error(error)

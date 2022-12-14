@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  isUpdate: true,
   userInfo: {
     account: null,
     avatar: null,
@@ -34,6 +35,9 @@ const userSlice = createSlice({
       state.userInfo.introduction = introduction
       state.userInfo.name = name
       state.userInfo.account = account
+    },
+    setIsChange(state) {
+      state.isUpdate = !state.isUpdate
     },
     changePayload(state, action) {
       state.payload = action.payload.payload

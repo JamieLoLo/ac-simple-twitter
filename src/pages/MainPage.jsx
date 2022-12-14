@@ -10,25 +10,44 @@ import { tweetGetAllApi } from '../api/tweetApi'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import { userGetProfileApi } from '../api/userApi'
+import { userActions } from '../store/user-slice'
+
 
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
   const userInfo = useSelector((state) => state.user.userInfo)
+  const isUpdate = useSelector((state) => state.user.isUpdate)
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [allTweetsData, setAllTweetsData] = useState([])
   const dispatch = useDispatch()
+  const userId = localStorage.getItem('userId')
 
   useEffect(() => {
     dispatch(authInputActions.refreshAuthInput())
   }, [])
 
   useEffect(() => {
+    const userGetProfile = async (data) => {
+      try {
+        const res = await userGetProfileApi(data)
+        await dispatch(userActions.initialSetUserInfo(res.data))
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetProfile(userId)
+  }, [dispatch, userId])
+
+  useEffect(() => {
     const tweetGetAll = async () => {
       try {
         const res = await tweetGetAllApi()
         if (res.status !== 200) {
+          localStorage.removeItem('authToken')
           navigate('/users/login')
         }
         await setAllTweetsData(res.data)
@@ -37,14 +56,17 @@ const MainPage = () => {
       }
     }
     tweetGetAll()
-  }, [])
+  }, [isUpdate])
 
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem
       data={data}
       key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={(replyModal) => setReplyModal(replyModal)}
+      // setReplyModal={setReplyModal}
+      onShowReplyModal={() => {
+        setReplyModal(true)
+        localStorage.setItem('tweet_id', data.id)
+      }}
     />
   ))
 

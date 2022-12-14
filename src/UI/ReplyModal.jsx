@@ -4,9 +4,11 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AddReplyApi } from '../api/replyApi'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { tweetGetOneApi } from '../api/tweetApi'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -15,9 +17,23 @@ const ReplyModal = (props) => {
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const [replyId, setReplyId] = useState(null)
-  const [data, setData] = useState([])
   const navigate = useNavigate()
+  const tweet_id = localStorage.getItem('tweet_id')
+  const [tweetData, setTweetData] = useState([])
+  const { User } = tweetData
+  const userInfo = useSelector((state) => state.user.userInfo)
+
+  useEffect(() => {
+    const tweetGetOne = async (data) => {
+      try {
+        const res = await tweetGetOneApi(data)
+        setTweetData(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    tweetGetOne(tweet_id)
+  }, [])
 
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
@@ -29,15 +45,13 @@ const ReplyModal = (props) => {
 
   const currentTime = '3 小時'
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
     } else {
       const AddReply = async () => {
         try {
           const res = await AddReplyApi(tweetId, content)
-          setData(res.data)
-          console.log(res.data)
           props.setReplyModal(false)
           props.setReplyId(res.data.id)
           refreshHandler()
@@ -81,33 +95,24 @@ const ReplyModal = (props) => {
               />
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
-                  <div className={styles.name}>{props.tweetData.User.name}</div>
-                  <div className={styles.account}>
-                    @ {props.tweetData.User.account}
-                  </div>
+                  <div className={styles.name}>{User.name}</div>
+                  <div className={styles.account}>@ {User.account}</div>
                 </div>
                 <div className={styles.create__time}>・{currentTime}</div>
               </div>
             </div>
             <div className={styles.tweet__content}>
-              {props.tweetData.description}
+              {tweetData.description}
               <div className={styles.reply__to}>
                 回覆給
-                <span className={styles.highlight}>
-                  {' '}
-                  @{props.tweetData.User.account}
-                </span>
+                <span className={styles.highlight}> @{User.account}</span>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.reply__input__area}>
           <div className={styles.container}>
-            <img
-              className={styles.avatar}
-              src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80'
-              alt='user'
-            />
+            <img className={styles.avatar} src={userInfo.avatar} alt='user' />
             <div className={styles.auth__input__container}>
               <AuthInput
                 style={{
