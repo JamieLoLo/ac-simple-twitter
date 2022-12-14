@@ -12,6 +12,14 @@ axiosInstance.interceptors.request.use((config) => {
   return config
 })
 
+export const AdminDeleteTweetApi = async (id) => {
+  try {
+    const res = await axiosInstance.delete(`${adminURL}/tweets/${id}`)
+    return res
+  } catch (error) {
+    console.error('[Admin Delete Tweet Failed]: ', error)
+  }
+}
 
 // OK
 export const adminGetAllUsersApi = async () => {
@@ -43,7 +51,7 @@ export const adminLoginApi = async (payload) => {
     })
     return res
   } catch (error) {
-    console.error('[Admin Login Failed]: ',error)
+    console.error('[Admin Login Failed]: ', error)
     return error
   }
 }

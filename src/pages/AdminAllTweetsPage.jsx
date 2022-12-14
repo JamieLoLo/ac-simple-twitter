@@ -4,11 +4,13 @@ import { AdminGrid } from '../Layout/GridSystemWrapper'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { adminGetAllTweetsApi } from '../api/adminApi'
+import { useSelector } from 'react-redux'
 
 const AdminAllTweetsPage = () => {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [data, setData] = useState([])
+  const isUpdate = useSelector((state) => state.user.isUpdate)
   useEffect(() => {
     const adminGetAllTweets = async () => {
       try {
@@ -21,7 +23,7 @@ const AdminAllTweetsPage = () => {
       }
     }
     adminGetAllTweets()
-  }, [])
+  }, [isUpdate])
 
   const adminTweetItemHelper = data.map((data) => (
     <AdminTweetItem data={data} key={data.id} />

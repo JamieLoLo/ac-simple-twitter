@@ -50,14 +50,15 @@ const EditProfileModal = (props) => {
   console.log(avatar)
 
   const saveProfileHandler = async () => {
-    try {
-      const res = await editProfileApi(userId, formData)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-    console.log(editAvatarUrl)
-    formData.append('avatar', editAvatarFile)
+    console.log(formData)
+    // try {
+    //   const res = await editProfileApi(userId, formData)
+    //   console.log(res)
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    // console.log(editAvatarUrl)
+    // formData.append('avatar', editAvatarFile)
   }
 
   return props.trigger ? (

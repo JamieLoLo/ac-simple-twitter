@@ -11,11 +11,11 @@ const RecommendFollowItem = ({ data }) => {
   const dispatch = useDispatch()
   const unfollowHandler = async () => {
     await unfollowApi(data.id)
-    await dispatch(userActions.setIsChange())
+    await dispatch(userActions.setIsUpdate())
   }
   const followHandler = async () => {
     await followApi(data.id)
-    await dispatch(userActions.setIsChange())
+    await dispatch(userActions.setIsUpdate())
   }
 
   return (

@@ -36,7 +36,7 @@ const userSlice = createSlice({
       state.userInfo.name = name
       state.userInfo.account = account
     },
-    setIsChange(state) {
+    setIsUpdate(state) {
       state.isUpdate = !state.isUpdate
     },
     changePayload(state, action) {

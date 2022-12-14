@@ -20,7 +20,7 @@ const ReplyModal = (props) => {
   const navigate = useNavigate()
   const tweet_id = localStorage.getItem('tweet_id')
   const [tweetData, setTweetData] = useState([])
-  const { User } = tweetData
+
   const userInfo = useSelector((state) => state.user.userInfo)
 
   useEffect(() => {
@@ -42,8 +42,6 @@ const ReplyModal = (props) => {
     dispatch(authInputActions.refreshAuthInput())
   }
   const tweetId = localStorage.getItem('tweet_id')
-
-  const currentTime = '3 小時'
 
   const submitHandler = async () => {
     if (content === '' || !isValid) {
@@ -85,7 +83,7 @@ const ReplyModal = (props) => {
             }}
           ></div>
         </div>
-        <div className={styles.tweet__item}>
+        {/* <div className={styles.tweet__item}>
           <div className={styles.tweet}>
             <div className={styles.tweet__info}>
               <img
@@ -109,7 +107,7 @@ const ReplyModal = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={styles.reply__input__area}>
           <div className={styles.container}>
             <img className={styles.avatar} src={userInfo.avatar} alt='user' />
