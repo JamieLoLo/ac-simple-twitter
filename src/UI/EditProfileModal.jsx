@@ -2,12 +2,11 @@ import styles from './EditProfileModal.module.scss'
 import Button from './Button'
 import cover from '../components/assets/icons/cover.svg'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
-import cameraIcon from '../components/assets/icons/camera.svg'
 import delBtn from '../components/assets/icons/delBtn_white.svg'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
@@ -15,8 +14,13 @@ const EditProfileModal = (props) => {
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
 
-  const [editCover, setEditCover] = useState(userInfo.cover)
-  const [editAvatar, setEditAvatar] = useState(userInfo.avatar)
+  const [editCoverUrl, setEditCoverUrl] = useState(userInfo.cover)
+  const [editAvatarUrl, setEditAvatarUrl] = useState(userInfo.avatar)
+
+  const [editCoverFile, setEditCoverFile] = useState()
+  const [editAvatarFile, setEditAvatarFile] = useState()
+
+  const formData = new FormData()
 
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
@@ -29,15 +33,20 @@ const EditProfileModal = (props) => {
   }
 
   const changeCoverHandler = (event) => {
-    setEditCover(URL.createObjectURL(event.target.files[0]))
-    const coverFormData = new FormData()
+    setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
+    setEditCoverFile(event.target.files[0])
   }
   const changeAvatarHandler = (event) => {
-    setEditAvatar(URL.createObjectURL(event.target.files[0]))
-    const avatarFormData = new FormData()
+    setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
+    setEditAvatarFile(event.target.files[0])
   }
 
-  //
+  const saveProfileHandler = () => {
+    console.log(editAvatarFile)
+    formData.append('avatar')
+    console.log(formData)
+  }
+
   return props.trigger ? (
     <div className={styles.modal}>
       <div
@@ -59,7 +68,11 @@ const EditProfileModal = (props) => {
             ></div>
             <div className={styles.title}>編輯個人資料</div>
           </div>
-          <Button className='button button__sm active' title='儲存' />
+          <Button
+            className='button button__sm active'
+            title='儲存'
+            onClick={saveProfileHandler}
+          />
         </div>
         <div className={styles.cover__container}>
           <div className={styles.icons}>
@@ -76,12 +89,12 @@ const EditProfileModal = (props) => {
               src={delBtn}
               alt='delete'
               onClick={() => {
-                setEditCover(cover)
+                setEditCoverUrl(cover)
               }}
             />
           </div>
           <div className={styles.backdrop}></div>
-          <img src={editCover ? editCover : cover} alt='cover' />
+          <img src={editCoverUrl ? editCoverUrl : cover} alt='cover' />
         </div>
         <div className={styles.avatar__container}>
           <div className={styles.upload}>
@@ -96,7 +109,7 @@ const EditProfileModal = (props) => {
           <div className={styles.backdrop}></div>
           <img
             className={styles.avatar}
-            src={editAvatar ? editAvatar : defaultFig}
+            src={editAvatarUrl ? editAvatarUrl : defaultFig}
             alt='avatar'
           />
         </div>

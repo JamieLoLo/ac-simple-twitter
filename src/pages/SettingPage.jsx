@@ -4,9 +4,9 @@ import Button from '../UI/Button'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import {useLocation} from 'react-router-dom'
-
+import { useLocation } from 'react-router-dom'
 import styles from './SettingPage.module.scss'
+import { userPutSettingApi } from '../api/userApi'
 
 const SettingPage = () => {
   const pathname = useLocation().pathname
@@ -16,6 +16,7 @@ const SettingPage = () => {
   const email = useSelector((state) => state.authInput.email)
   const password = useSelector((state) => state.authInput.password)
   const passwordCheck = useSelector((state) => state.authInput.passwordCheck)
+  const userInfo = useSelector((state) => state.user.userInfo)
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -31,6 +32,22 @@ const SettingPage = () => {
   }
   const passwordCheckHandler = (useInput) => {
     dispatch(authInputActions.passwordCheckAuth(useInput))
+  }
+
+  const saveSettingHandler = async () => {
+    try {
+      const res = await userPutSettingApi({
+        account: account.content,
+        name: username.content,
+        email: email.content,
+        password: password.content,
+        checkPassword: passwordCheck.content,
+        id: userInfo.id,
+      })
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -93,10 +110,21 @@ const SettingPage = () => {
           message={passwordCheck.message}
         />
         <div className={styles.button__container}>
+          {(account.content || username.content || email.content) && (
+            <Button
+              className='button button__lg'
+              title='取消變更'
+              style={{ width: '130px', margin: '0px 20px' }}
+              onClick={() => {
+                dispatch(authInputActions.refreshAuthInput())
+              }}
+            />
+          )}
           <Button
             className='button button__lg active'
             title='儲存'
             style={{ width: '88px' }}
+            onClick={saveSettingHandler}
           />
         </div>
       </div>
