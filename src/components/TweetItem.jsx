@@ -6,11 +6,8 @@ import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { tweetGetOneApi } from '../api/tweetApi'
-
 
 const TweetItem = ({ data, onClick }) => {
-  const [replyModal, setReplyModal] = useState(false)
   const navigate = useNavigate()
   const {
     User,
@@ -21,7 +18,6 @@ const TweetItem = ({ data, onClick }) => {
     replyCounts,
     likesCount,
     repliesCount,
-    id,
   } = data
 
   const createTime = useMoment(createdAt)

@@ -7,13 +7,17 @@ import delBtn from '../components/assets/icons/delBtn_white.svg'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import { useState } from 'react'
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
-  console.log(userInfo)
+
+  const [editCover, setEditCover] = useState(userInfo.cover)
+  const [editAvatar, setEditAvatar] = useState(userInfo.avatar)
+
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -24,6 +28,16 @@ const EditProfileModal = (props) => {
     dispatch(authInputActions.refreshAuthInput())
   }
 
+  const changeCoverHandler = (event) => {
+    setEditCover(URL.createObjectURL(event.target.files[0]))
+    const coverFormData = new FormData()
+  }
+  const changeAvatarHandler = (event) => {
+    setEditAvatar(URL.createObjectURL(event.target.files[0]))
+    const avatarFormData = new FormData()
+  }
+
+  //
   return props.trigger ? (
     <div className={styles.modal}>
       <div
@@ -49,18 +63,40 @@ const EditProfileModal = (props) => {
         </div>
         <div className={styles.cover__container}>
           <div className={styles.icons}>
-            <img src={cameraIcon} alt='camera' />
-            <img src={delBtn} alt='delete' />
+            <div className={styles.upload}>
+              <label htmlFor='uploadCover'></label>
+              <input
+                id='uploadCover'
+                type='file'
+                accept='image/png'
+                onChange={changeCoverHandler}
+              />
+            </div>
+            <img
+              src={delBtn}
+              alt='delete'
+              onClick={() => {
+                setEditCover(cover)
+              }}
+            />
           </div>
           <div className={styles.backdrop}></div>
-          <img src={userInfo.cover ? userInfo.cover : cover} alt='cover' />
+          <img src={editCover ? editCover : cover} alt='cover' />
         </div>
         <div className={styles.avatar__container}>
-          <img className={styles.icon} src={cameraIcon} alt='camera' />
+          <div className={styles.upload}>
+            <label htmlFor='uploadAvatar' />
+            <input
+              id='uploadAvatar'
+              type='file'
+              accept='image/png'
+              onChange={changeAvatarHandler}
+            />
+          </div>
           <div className={styles.backdrop}></div>
           <img
             className={styles.avatar}
-            src={userInfo.avatar ? userInfo.avatar : defaultFig}
+            src={editAvatar ? editAvatar : defaultFig}
             alt='avatar'
           />
         </div>

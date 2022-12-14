@@ -128,5 +128,8 @@ export const userGetTopUsersApi = async () => {
 }
 
 // 編輯自己的資料
+// 上傳照片檔案的話請不要傳json，改用form傳，並設定Content-Type: multipart/form-data
+// 目前有設定mimetype: 'image/png'才可以傳
+
 
 // 編輯自己的帳號設定
