@@ -1,7 +1,7 @@
 //.github/workflows/deploy.yml
 
 name: Deploy to GitHub pages
-# test
+
 on:
   push:
     branches: [main]

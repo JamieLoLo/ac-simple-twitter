@@ -13,12 +13,13 @@ import DetailTweetPage from './pages/DetailTweetPage'
 import UserProfilePage from './pages/UserProfilePage'
 import UserFollowerPage from './pages/UserFollowerPage'
 import UserFollowingPage from './pages/UserFollowingPage'
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+const basename = process.env.PUBLIC_URL
 
 function App() {
   return (
-    <div className='App'>
+    <div className='App' basename={basename}>
       <BrowserRouter>
         <Routes>
           <Route path='users/profile' element={<UserProfilePage />} />
