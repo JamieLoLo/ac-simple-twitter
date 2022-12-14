@@ -1,6 +1,5 @@
 import styles from './AdminTweetItem.module.scss'
 import useMoment from '../hooks/useMoment'
-import defaultCover from './assets/icons/cover.svg'
 import defaultAvatar from './assets/icons/defaultAvatar.svg'
 
 const AdminTweetItem = ({ data }) => {

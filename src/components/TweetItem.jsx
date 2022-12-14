@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const TweetItem = ({ data, onClick }) => {
-  const [replyModal, setReplyModal] = useState(false)
   const navigate = useNavigate()
   const {
     id,
