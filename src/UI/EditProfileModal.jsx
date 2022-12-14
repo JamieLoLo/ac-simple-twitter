@@ -7,13 +7,14 @@ import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
+import { editProfileApi } from '../api/userApi'
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
-
+  const userId = props.userProfileData.id
   const [editCoverUrl, setEditCoverUrl] = useState(userInfo.cover)
   const [editAvatarUrl, setEditAvatarUrl] = useState(userInfo.avatar)
 
@@ -41,10 +42,22 @@ const EditProfileModal = (props) => {
     setEditAvatarFile(event.target.files[0])
   }
 
-  const saveProfileHandler = () => {
-    console.log(editAvatarFile)
-    formData.append('avatar')
-    console.log(formData)
+  formData.append('cover', editCoverFile)
+  formData.append('avatar', editAvatarFile)
+  let cover = formData.get('cover')
+  let avatar = formData.get('avatar')
+  console.log(cover)
+  console.log(avatar)
+
+  const saveProfileHandler = async () => {
+    try {
+      const res = await editProfileApi(userId, formData)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+    console.log(editAvatarUrl)
+    formData.append('avatar', editAvatarFile)
   }
 
   return props.trigger ? (

@@ -128,11 +128,23 @@ export const userGetTopUsersApi = async () => {
 // 編輯自己的資料
 // 上傳照片檔案的話請不要傳json，改用form傳，並設定Content-Type: multipart/form-data
 // 目前有設定mimetype: 'image/png'才可以傳
-
+export const editProfileApi = async (user_id, formData) => {
+  console.log('OK')
+  try {
+    axiosInstance({
+      method: 'put',
+      baseURL: userURL,
+      url: '/' + user_id,
+      data: formData,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
 // 編輯自己的帳號設定
 
 export const userPutSettingApi = async (payload) => {
-  console.log('OK')
   const { account, name, email, password, checkPassword, id } = payload
   try {
     const res = await axiosInstance.put(`${userURL}/${id}/setting`, {
