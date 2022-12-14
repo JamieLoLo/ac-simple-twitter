@@ -1,12 +1,9 @@
-//.github/workflows/deploy.yml
+name: deploy gh-pages
 
-name: Deploy to GitHub pages
-# test
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - master
 
 jobs:
   build:
