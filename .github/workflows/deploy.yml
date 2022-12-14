@@ -1,4 +1,6 @@
-name: deploy gh-pages
+//.github/workflows/deploy.yml
+
+name: Deploy to GitHub pages
 
 on:
   push:
@@ -7,38 +9,32 @@ on:
 
 jobs:
   build:
-    name: Build and deploy gh-pages
-    env:
-      MY_SECRET: ${{secrets.DEPLOY_SECRET}}
-      USER_NAME: githubaction
-      USER_EMAIL: githubaction@fake.com
-      PUBLISH_DIR: ./dist
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install
-      run: |
-        npm install
-    - name: npm run build
-      run: |
-        npm run build
-    - name: Commit files
-      run: |
-        cd $PUBLISH_DIR
-        git init
-        git config --local user.name $USER_NAME
-        git config --local user.email $USER_EMAIL
-        git status
-        git remote add origin https://$MY_SECRET@github.com/$GITHUB_REPOSITORY.git
-        git checkout -b gh-pages
-        git add --all
-        git commit -m "deploy to Github pages"
-        git push origin gh-pages -f
-        echo 🤘 deploy gh-pages complete.
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy
+        run: |
+          git config --global user.name $user_name
+          git config --global user.email $user_email
+          git remote set-url origin https://${github_token}@github.com/${repository}
+          npm run deploy
+        env:
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          github_token: ${{ secrets.DEPLOY_SECRET }}
+          repository: ${{ github.repository }}
