@@ -4,22 +4,7 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import useMoment from '../hooks/useMoment'
 const ReplyItem = ({ data }) => {
   const { User, comment, createdAt, Tweet } = data
-  // const data = {
-  //   Tweet: { User: { id: 14, account: 'user1' }, id: 4, TweetId: 4 },
-  //   User: {
-  //     account: 'user1',
-  //     name: 'User1',
-  //     avatar: 'https://loremflickr.com/320/240/logo/?lock=1',
-  //   },
-  //   UserId: 14,
-  //   comment: '',
-  //   createdAt: '2022-12-10T08:08:53.000Z',
-  //   id: 4,
-  //   updatedAt: '2022-12-10T08:08:53.000Z',
-  // }
-
   const createTime = useMoment(createdAt)
-
   const tweetUserAccount = localStorage.getItem('tweet_user_account')
 
   return (

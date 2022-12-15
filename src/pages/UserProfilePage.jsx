@@ -22,7 +22,6 @@ import ReplyModal from '../UI/ReplyModal'
 const UserProfilePage = () => {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
-  const userInfo = useSelector((state) => state.user.userInfo)
   const [editModal, setEditModal] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
   const [userProfileData, setUserProfileData] = useState({})
@@ -30,22 +29,19 @@ const UserProfilePage = () => {
   const [userReplysData, setUserReplysData] = useState([])
   const [userLikesData, setUserLikesData] = useState([])
   const [profilePage, setProfilePage] = useState('tweet')
-
+  const userId = localStorage.getItem('userId')
   // userGetProfile
   useEffect(() => {
-    const userGetProfile = async (data) => {
+    const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(data)
-        if (res.status !== 200) {
-          navigate('/users/login')
-        }
+        const res = await userGetProfileApi(userId)
         await setUserProfileData(res.data)
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetProfile(userInfo.id)
+    userGetProfile()
   }, [])
 
   //userGetTweets
@@ -59,7 +55,7 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetTweets(userInfo.id)
+    userGetTweets(userId)
   }, [])
 
   //userGetReplys
@@ -73,7 +69,7 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetReplys(userInfo.id)
+    userGetReplys(userId)
   }, [])
 
   //userGetLikes
@@ -83,13 +79,13 @@ const UserProfilePage = () => {
         const res = await userGetLikesApi(data)
         const temp = res.data
         const tweetDatas = temp.map((data) => data.Tweet)
-        setUserLikesData(tweetDatas)
+        await setUserLikesData(tweetDatas)
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetLikes(userInfo.id)
+    userGetLikes(userId)
   }, [])
 
   const userTweetList = userTweetsData.map((data) => (
@@ -109,6 +105,7 @@ const UserProfilePage = () => {
       onClick={(replyModal) => setReplyModal(replyModal)}
     />
   ))
+
   const userReplyList = userReplysData.map((data) => (
     <ReplyItem data={data} key={data.id} />
   ))
@@ -179,7 +176,7 @@ const UserProfilePage = () => {
         </div>
         <ul className={styles.bookmark}>
           <li
-            className={profilePage === 'tweet' && styles.active}
+            className={profilePage === 'tweet' ? styles.active : undefined}
             onClick={() => {
               setProfilePage('tweet')
             }}
@@ -187,7 +184,7 @@ const UserProfilePage = () => {
             推文
           </li>
           <li
-            className={profilePage === 'reply' && styles.active}
+            className={profilePage === 'reply' ? styles.active : undefined}
             onClick={() => {
               setProfilePage('reply')
             }}
@@ -195,7 +192,7 @@ const UserProfilePage = () => {
             回覆
           </li>
           <li
-            className={profilePage === 'like' && styles.active}
+            className={profilePage === 'like' ? styles.active : undefined}
             onClick={() => {
               setProfilePage('like')
             }}
@@ -203,9 +200,9 @@ const UserProfilePage = () => {
             喜歡的內容
           </li>
         </ul>
-        {profilePage === 'tweet' && userTweetList}
-        {profilePage === 'reply' && userReplyList}
-        {profilePage === 'like' && userLikeList}
+        {profilePage === 'tweet' ? userTweetList : undefined}
+        {profilePage === 'reply' ? userReplyList : undefined}
+        {profilePage === 'like' ? userLikeList : undefined}
       </UserGrid>
     </>
   )

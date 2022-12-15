@@ -1,17 +1,16 @@
 import styles from './DetailTweetItem.module.scss'
 import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
-import { useState } from 'react'
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { useSelector, useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
-  const [likeData, setLikeData] = useState()
+
   const dispatch = useDispatch()
   const likeCount = useSelector((state) => state.user.likeCount)
   const createTime = useMoment(tweetData.createdAt)
-  const [countForRender, serCountForRender] = useState(likeCount)
+
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
@@ -22,7 +21,6 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       const like = async () => {
         try {
           const res = await likeApi(tweetId)
-          setLikeData(res.data)
           likeCountHandler(res.data.isLiked)
         } catch (error) {
           console.error(error)
@@ -33,7 +31,6 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       const unLike = async () => {
         try {
           const res = await unLikeApi(tweetId)
-          setLikeData(res.data.isLiked)
           likeCountHandler(res.data.isLiked)
         } catch (error) {
           console.error(error)
@@ -42,7 +39,6 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       unLike()
     }
   }
-  console.log(tweetData)
 
   return (
     <div className={styles.tweet}>

@@ -38,7 +38,6 @@ const ReplyModal = (props) => {
         try {
           const res = await AddReplyApi(tweetId, content)
           setData(res.data)
-          console.log(res.data)
           props.setReplyModal(false)
           // props.setReplyId(res.data.id)
           refreshHandler()
