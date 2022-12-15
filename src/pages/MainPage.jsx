@@ -34,7 +34,6 @@ const MainPage = () => {
         const userId = localStorage.getItem('userId')
         const res = await userGetProfileApi(userId)
         await dispatch(userActions.initialSetUserInfo(res.data))
-        console.log(res.data)
       } catch (error) {
         console.error(error)
         return error
@@ -61,7 +60,7 @@ const MainPage = () => {
 
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem
-      tweetData={data}
+      data={data}
       key={data.id}
       setReplyModal={setReplyModal}
       onClick={(replyModal) => {

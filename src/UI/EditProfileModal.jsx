@@ -9,35 +9,32 @@ import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
 import { editProfileApi, userGetProfileApi } from '../api/userApi'
 
-
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
-  const userId = props.userProfileData.id
   const [editCoverUrl, setEditCoverUrl] = useState(userInfo.cover)
   const [editAvatarUrl, setEditAvatarUrl] = useState(userInfo.avatar)
 
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
-
+  const userId = localStorage.getItem('userId')
   const formData = new FormData()
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async (data) => {
       try {
-        const res = await userGetProfileApi(data)
+        await userGetProfileApi(data)
         // if (res.status !== 200) {
         //   navigate('/users/login')
         // }
-        console.log(res.data)
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetProfile(userInfo.id)
+    userGetProfile(userId)
   }, [])
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))

@@ -3,7 +3,6 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import useMoment from '../hooks/useMoment'
 const DetailReplyItem = ({ replyData, tweetUserData }) => {
   const createTime = useMoment(replyData.createdAt)
-  console.log(replyData)
   return (
     <div className={styles.replyItem}>
       <div className={styles.tweetInfo}>

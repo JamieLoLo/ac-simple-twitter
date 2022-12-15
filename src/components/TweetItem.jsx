@@ -7,16 +7,13 @@ import { useNavigate } from 'react-router-dom'
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
-import { useState } from 'react'
-import ReplyModal from '../UI/ReplyModal'
 
-const TweetItem = ({ tweetData, onClick }) => {
+const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [replyModal, setReplyModal] = useState(false)
-  const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
-    tweetData
 
+  const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
+    data
   const createTime = useMoment(createdAt)
 
   const toDetailPage = () => {
