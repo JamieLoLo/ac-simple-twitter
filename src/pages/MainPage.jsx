@@ -12,13 +12,12 @@ import { useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { userGetProfileApi } from '../api/userApi'
 import { userActions } from '../store/user-slice'
-import { tweetGetOneApi } from '../api/tweetApi'
+import defaultFig from '../components/assets/icons/defaultFig.svg'
 
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
   const userInfo = useSelector((state) => state.user.userInfo)
-  const isUpdate = useSelector((state) => state.user.isUpdate)
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [allTweetsData, setAllTweetsData] = useState([])
@@ -92,7 +91,7 @@ const MainPage = () => {
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
           <div className={styles.container}>
-            <img className={styles.avatar} src={userInfo.avatar} alt='user' />
+            <img className={styles.avatar} src={userInfo.avatar? userInfo.avatar : defaultFig} alt='user' />
             <p>有什麼新鮮事嗎?</p>
           </div>
           <Button

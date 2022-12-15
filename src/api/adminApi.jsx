@@ -1,12 +1,13 @@
 import axios from 'axios'
 
 // const adminURL = 'https://fierce-plains-47262.herokuapp.com/api/admin'
-const adminURL = 'https://dry-anchorage-06913.herokuapp.com/api/admin'
-// const adminURL = 'https://f022-223-136-148-157.jp.ngrok.io/api/admin'
+// const adminURL = 'https://dry-anchorage-06913.herokuapp.com/api/admin'
+const adminURL = 'https://47dc-223-136-148-157.jp.ngrok.io/api/admin'
 
 const axiosInstance = axios.create({ baseURL: adminURL })
 
 axiosInstance.interceptors.request.use((config) => {
+  config.headers['ngrok-skip-browser-warning'] = 'any'
   const token = localStorage.getItem('authToken')
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`

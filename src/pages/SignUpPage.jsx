@@ -68,39 +68,16 @@ const SignUpPage = () => {
         password: password.content,
         checkPassword: checkPassword.content,
       })
-      // res.data.token = ...
-      // res.data.user = {
-      //   account: 'cc1212',
-      //   avatar: null,
-      //   cover: null,
-      //   createdAt: '2022-12-12T08:43:09.000Z',
-      //   email: 'cc1212@gmail.com',
-      //   id: 204,
-      //   introduction: null,
-      //   name: 'cc1212',
-      //   role: 'user',
-      //   updatedAt: '2022-12-12T08:43:09.000Z',
-      // }
+      
       if (res.status !== 200) {
         setLoadingStatus('failed')
         return
       }
       const { data } = res
       const { token, user } = data
-      const { avatar, cover, createdAt, id, role, updatedAt } = user
-
-      await dispatch(
-        userActions.initialSetUserInfo({
-          avatar,
-          cover,
-          createdAt,
-          id,
-          role,
-          updatedAt,
-        })
-      )
 
       localStorage.setItem('authToken', token)
+      localStorage.setItem('userId', user.id)
       setLoadingStatus('success')
     } catch (error) {
       console.error(error)
