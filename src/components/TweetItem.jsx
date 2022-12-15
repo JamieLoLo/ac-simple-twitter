@@ -7,12 +7,15 @@ import { useNavigate } from 'react-router-dom'
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
+import { useState } from 'react'
+import ReplyModal from '../UI/ReplyModal'
 
-const TweetItem = ({ data, onShowReplyModal }) => {
+const TweetItem = ({ tweetData, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [replyModal, setReplyModal] = useState(false)
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
-    data
+    tweetData
 
   const createTime = useMoment(createdAt)
 
@@ -32,49 +35,57 @@ const TweetItem = ({ data, onShowReplyModal }) => {
     await likeApi(id)
     await dispatch(userActions.setIsUpdate())
   }
+  const replyHandler = () => {
+    localStorage.setItem('tweet_user_avatar', User.avatar)
+    localStorage.setItem('tweet_user_name', User.name)
+    localStorage.setItem('tweet_user_account', User.account)
+    localStorage.setItem('tweet_description', description)
+    localStorage.setItem('tweet_createdAt', createdAt)
+    localStorage.setItem('tweet_id', id)
+    onClick?.(true)
+  }
 
   return (
-    <div className={styles.tweet}>
-      <div className={styles.tweetInfo}>
-        <img
-          className={styles.avatar}
-          src={User.avatar === null ? defaultFig : User.avatar}
-          alt='Default Fig'
-        />
-        <div className={styles.tweetCreatorInfo}>
-          <div className={styles.container}>
-            <div className={styles.name}>{User.name}</div>
-            <div className={styles.account}>@{User.account}</div>
+    <>
+      <div className={styles.tweet}>
+        <div className={styles.tweetInfo}>
+          <img
+            className={styles.avatar}
+            src={User.avatar === null ? defaultFig : User.avatar}
+            alt='Default Fig'
+          />
+          <div className={styles.tweetCreatorInfo}>
+            <div className={styles.container}>
+              <div className={styles.name}>{User.name}</div>
+              <div className={styles.account}>@{User.account}</div>
+            </div>
+            <div className={styles.createTime}>・{createTime}</div>
           </div>
-          <div className={styles.createTime}>・{createTime}</div>
         </div>
-      </div>
-      <div className={styles.tweetContent} onClick={toDetailPage}>
-        {description}
-      </div>
+        <div className={styles.tweetContent} onClick={toDetailPage}>
+          {description}
+        </div>
 
-      <div className={styles.tweetFeedback}>
-        <div
-          className={styles.reply}
-          onClick={onShowReplyModal}
-        >
-          <div className={styles.messageIcon}></div>
-          <div className={styles.num}>{replyCounts || 0}</div>
-        </div>
-        <div className={styles.like} onClick={likeHandler}>
-          {isLiked ? (
-            <img
-              className={styles.likeIcon}
-              src={likeActiveIcon}
-              alt='like_active'
-            />
-          ) : (
-            <img className={styles.likeIcon} src={likeIcon} alt='like' />
-          )}
-          <div className={styles.num}>{likeCounts || 0}</div>
+        <div className={styles.tweetFeedback}>
+          <div className={styles.reply} onClick={replyHandler}>
+            <div className={styles.messageIcon}></div>
+            <div className={styles.num}>{replyCounts || 0}</div>
+          </div>
+          <div className={styles.like} onClick={likeHandler}>
+            {isLiked ? (
+              <img
+                className={styles.likeIcon}
+                src={likeActiveIcon}
+                alt='like_active'
+              />
+            ) : (
+              <img className={styles.likeIcon} src={likeIcon} alt='like' />
+            )}
+            <div className={styles.num}>{likeCounts || 0}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

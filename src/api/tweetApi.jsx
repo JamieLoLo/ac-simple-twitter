@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const tweetURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+// const tweetURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+const tweetURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
+// const tweetURL = 'https://f022-223-136-148-157.jp.ngrok.io/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: tweetURL })
 
@@ -13,6 +15,18 @@ axiosInstance.interceptors.request.use((config) => {
 })
 
 // 新增推文
+export const tweetPostApi = async (description) => {
+  try {
+    const res = await axiosInstance.post(tweetURL, {
+      description,
+    })
+    return res
+  } catch (error) {
+    console.error(error)
+    console.error('[Add Tweet Failed]: ', error)
+    return error
+  }
+}
 
 // 取得所有推文
 export const tweetGetAllApi = async () => {

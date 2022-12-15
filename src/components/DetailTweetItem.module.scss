@@ -6,6 +6,11 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
     .tweet__creator__info {
       margin-left: 8px;
       .name {

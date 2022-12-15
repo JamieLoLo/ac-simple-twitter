@@ -1,15 +1,15 @@
-import styles from './ReplyModal.module.scss'
+import styles from './DetailReplyModal.module.scss'
 import Button from './Button'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AddReplyApi } from '../api/replyApi'
 import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
 
-const ReplyModal = (props) => {
+const DetailReplyModal = (props) => {
   const dispatch = useDispatch()
   const reply = useSelector((state) => state.authInput.reply)
   const message = useSelector((state) => state.authInput.reply.message)
@@ -17,10 +17,8 @@ const ReplyModal = (props) => {
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const [replyId, setReplyId] = useState(null)
   const [data, setData] = useState([])
   const navigate = useNavigate()
-  const createTime = useMoment(props.createdAt)
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
   }
@@ -29,6 +27,7 @@ const ReplyModal = (props) => {
   }
 
   const tweetId = localStorage.getItem('tweet_id')
+  const createTime = useMoment(props.tweetData.createdAt)
 
   const submitHandler = () => {
     if (content === '' || !isValid) {
@@ -39,8 +38,10 @@ const ReplyModal = (props) => {
           const res = await AddReplyApi(tweetId, content)
           setData(res.data)
           console.log(res.data)
-          props.setReplyModal(false)
-          // props.setReplyId(res.data.id)
+          props.setDetailReplyModal(false)
+          // 這邊將單則回覆的 id 傳回給上層，是為了放在 useEffect 的 dependencies，還有用來 replyItem 的 key。
+          // 當回覆的 id 有所變動，代表有新的回覆，重新渲染出最新回覆。
+          props.setReplyId(res.data.id)
           refreshHandler()
         } catch (error) {
           console.error(error)
@@ -57,7 +58,7 @@ const ReplyModal = (props) => {
       <div
         className={styles.backdrop}
         onClick={() => {
-          props.setReplyModal(false)
+          props.setDetailReplyModal(false)
           refreshHandler()
           setShowErrorMessage(false)
         }}
@@ -67,7 +68,7 @@ const ReplyModal = (props) => {
           <div
             className={styles.del__btn}
             onClick={() => {
-              props.setReplyModal(false)
+              props.setDetailReplyModal(false)
               refreshHandler()
               setShowErrorMessage(false)
             }}
@@ -78,29 +79,26 @@ const ReplyModal = (props) => {
             <div className={styles.tweet__info}>
               <img
                 className={styles.avatar}
-                src={
-                  props.tweetUserAvatar === null
-                    ? defaultFig
-                    : props.tweetUserAvatar
-                }
+                src={defaultFig}
                 alt='Default Fig'
               />
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
-                  <div className={styles.name}>{props.tweetUserName}</div>
+                  <div className={styles.name}>{props.tweetData.User.name}</div>
                   <div className={styles.account}>
-                    @{props.tweetUserAccount}
+                    @ {props.tweetData.User.account}
                   </div>
                 </div>
                 <div className={styles.create__time}>・{createTime}</div>
               </div>
             </div>
             <div className={styles.tweet__content}>
-              {props.description}
+              {props.tweetData.description}
               <div className={styles.reply__to}>
                 回覆給
                 <span className={styles.highlight}>
-                  @{props.tweetUserAccount}
+                  {' '}
+                  @{props.tweetData.User.account}
                 </span>
               </div>
             </div>
@@ -150,4 +148,4 @@ const ReplyModal = (props) => {
   )
 }
 
-export default ReplyModal
+export default DetailReplyModal

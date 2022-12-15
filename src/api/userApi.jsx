@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
+// const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
+const userURL = 'https://dry-anchorage-06913.herokuapp.com/api/users'
+// const userURL = 'https://f022-223-136-148-157.jp.ngrok.io/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
@@ -34,10 +36,18 @@ export const userSignupApi = async (payload) => {
 export const userLoginApi = async (payload) => {
   const { account, password } = payload
   try {
-    const res = await axios.post(`${userURL}/login`, {
-      account,
-      password,
-    })
+    const res = await axios.post(
+      `${userURL}/login`,
+      {
+        account,
+        password,
+      },
+      {
+        headers: {
+          'ngrok-skip-browser-warning': 'any',
+        },
+      }
+    )
     return res
   } catch (error) {
     console.error('[User Login Failed]: ', error)

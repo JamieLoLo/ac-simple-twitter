@@ -4,20 +4,19 @@ import { UserGrid } from '../Layout/GridSystemWrapper'
 import DetailTweetItem from '../components/DetailTweetItem'
 import { tweetGetOneApi, replyGetOneApi } from '../api/tweetApi'
 import DetailReplyItem from '../components/DetailReplyItem'
-import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import DetailReplyModal from '../UI/DetailReplyModal'
 
 const DetailTweetPage = () => {
   const [tweetData, setTweetData] = useState([])
   const [tweetUserData, setTweetUserData] = useState([])
   const [replyData, setReplyData] = useState([])
-  const [replyModal, setReplyModal] = useState(false)
-  const [replyId, setReplyId] = useState(null)
+  const [detailReplyModal, setDetailReplyModal] = useState(false)
   const likeCount = useSelector((state) => state.user.likeCount)
   const navigate = useNavigate()
-
+  const replyId = localStorage.getItem('reply_id')
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
@@ -25,7 +24,6 @@ const DetailTweetPage = () => {
         const res = await tweetGetOneApi(tweetId)
         setTweetData(res.data)
         setTweetUserData(res.data.User)
-        localStorage.setItem('tweet_user_account', res.data.User.account)
       } catch (error) {
         console.error(error)
         localStorage.removeItem('tweet_id')
@@ -51,19 +49,19 @@ const DetailTweetPage = () => {
     }
     replyGetOne()
   }, [replyId, navigate])
+  console.log(replyId)
 
   const replyItemHelper = replyData.map((data) => (
-    <DetailReplyItem data={data} />
+    <DetailReplyItem replyData={data} tweetUserData={tweetUserData} />
   ))
 
   return (
     <>
-      <ReplyModal
-        trigger={replyModal}
-        setReplyModal={setReplyModal}
+      <DetailReplyModal
+        trigger={detailReplyModal}
+        setDetailReplyModal={setDetailReplyModal}
         tweetData={tweetData}
         tweetUserData={tweetUserData}
-        setReplyId={setReplyId}
       />
       <UserGrid>
         <div className={styles.title}>
@@ -77,8 +75,8 @@ const DetailTweetPage = () => {
         <DetailTweetItem
           tweetData={tweetData}
           tweetUserData={tweetUserData}
-          setReplyModal={setReplyModal}
-          onClick={(replyModal) => setReplyModal(replyModal)}
+          setReplyModal={setDetailReplyModal}
+          onClick={(replyModal) => setDetailReplyModal(replyModal)}
         />
         {replyItemHelper}
       </UserGrid>

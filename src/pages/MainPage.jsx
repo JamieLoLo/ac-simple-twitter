@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { userGetProfileApi } from '../api/userApi'
 import { userActions } from '../store/user-slice'
+import { tweetGetOneApi } from '../api/tweetApi'
 
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
@@ -29,10 +30,12 @@ const MainPage = () => {
   }, [])
 
   useEffect(() => {
-    const userGetProfile = async (data) => {
+    const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(data)
+        const userId = localStorage.getItem('userId')
+        const res = await userGetProfileApi(userId)
         await dispatch(userActions.initialSetUserInfo(res.data))
+        console.log(res.data)
       } catch (error) {
         console.error(error)
         return error
@@ -55,24 +58,36 @@ const MainPage = () => {
       }
     }
     tweetGetAll()
-  }, [isUpdate])
+  }, [allTweetsData, navigate])
 
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem
-      data={data}
+      tweetData={data}
       key={data.id}
-      // setReplyModal={setReplyModal}
-      onShowReplyModal={() => {
-        setReplyModal(true)
-        localStorage.setItem('tweet_id', data.id)
+      setReplyModal={setReplyModal}
+      onClick={(replyModal) => {
+        setReplyModal(replyModal)
       }}
     />
   ))
+  const tweetUserAvatar = localStorage.getItem('tweet_user_avatar')
+  const tweetUserName = localStorage.getItem('tweet_user_name')
+  const tweetUserAccount = localStorage.getItem('tweet_user_account')
+  const description = localStorage.getItem('tweet_description')
+  const createdAt = localStorage.getItem('tweet_createdAt')
 
   return (
     <>
+      <ReplyModal
+        trigger={replyModal}
+        setReplyModal={setReplyModal}
+        tweetUserAvatar={tweetUserAvatar}
+        tweetUserName={tweetUserName}
+        tweetUserAccount={tweetUserAccount}
+        description={description}
+        createdAt={createdAt}
+      />
       <TweetModal trigger={tweetModal} setTweetModal={setTweetModal} />
-      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>

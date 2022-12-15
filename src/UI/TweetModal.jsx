@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useState, useEffect } from 'react'
 import { userGetProfileApi } from '../api/userApi'
+import { tweetPostApi } from '../api/tweetApi'
 import { userActions } from '../store/user-slice'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 
@@ -17,6 +18,7 @@ const TweetModal = (props) => {
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   const userId = localStorage.getItem('userId')
   const userInfo = useSelector((state) => state.user.userInfo)
+  const [tweetData, setTweetData] = useState(null)
 
   useEffect(() => {
     const userGetProfile = async (data) => {
@@ -39,6 +41,19 @@ const TweetModal = (props) => {
   const submitHandler = () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
+    } else {
+      const tweetPost = async () => {
+        try {
+          const res = await tweetPostApi(content)
+          setTweetData(res.data)
+          console.log(res.data)
+          props.setTweetModal(false)
+          refreshHandler()
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      tweetPost()
     }
   }
 
