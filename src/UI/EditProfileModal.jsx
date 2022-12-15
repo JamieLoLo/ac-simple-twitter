@@ -7,7 +7,8 @@ import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
-import { editProfileApi } from '../api/userApi'
+import { editProfileApi, userGetProfileApi } from '../api/userApi'
+
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
@@ -22,7 +23,22 @@ const EditProfileModal = (props) => {
   const [editAvatarFile, setEditAvatarFile] = useState()
 
   const formData = new FormData()
-
+  // userGetProfile
+  useEffect(() => {
+    const userGetProfile = async (data) => {
+      try {
+        const res = await userGetProfileApi(data)
+        // if (res.status !== 200) {
+        //   navigate('/users/login')
+        // }
+        console.log(res.data)
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetProfile(userInfo.id)
+  }, [])
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -41,24 +57,24 @@ const EditProfileModal = (props) => {
     setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
     setEditAvatarFile(event.target.files[0])
   }
+  if (username.content.length === 0) {
+    formData.append('name', userInfo.name)
+  } else {
+    formData.append('name', username.content)
+  }
 
+  if (info.content.length === 0) {
+    formData.append('info', userInfo.introduction)
+  } else {
+    formData.append('info', info.content)
+  }
   formData.append('cover', editCoverFile)
   formData.append('avatar', editAvatarFile)
-  let cover = formData.get('cover')
-  let avatar = formData.get('avatar')
-  console.log(cover)
-  console.log(avatar)
 
   const saveProfileHandler = async () => {
-    console.log(formData)
-    // try {
-    //   const res = await editProfileApi(userId, formData)
-    //   console.log(res)
-    // } catch (error) {
-    //   console.log(error)
-    // }
-    // console.log(editAvatarUrl)
-    // formData.append('avatar', editAvatarFile)
+    const res = editProfileApi(userId, formData)
+    console.log(res)
+    // formData.forEach(data => console.log(data))
   }
 
   return props.trigger ? (
