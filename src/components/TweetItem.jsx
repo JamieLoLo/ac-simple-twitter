@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
+import { userGetProfileApi } from '../api/userApi'
 
 const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
@@ -42,6 +43,22 @@ const TweetItem = ({ data, onClick }) => {
     onClick?.(true)
   }
 
+  const profilePageHandler = () => {
+    const userGetProfile = async () => {
+      try {
+        const res = await userGetProfileApi(User.id)
+        if (res) {
+          localStorage.setItem('profile_id', User.id)
+          navigate('/users/profile')
+        }
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetProfile()
+  }
+
   return (
     <>
       <div className={styles.tweet}>
@@ -50,10 +67,13 @@ const TweetItem = ({ data, onClick }) => {
             className={styles.avatar}
             src={User.avatar === null ? defaultFig : User.avatar}
             alt='Default Fig'
+            onClick={profilePageHandler}
           />
           <div className={styles.tweetCreatorInfo}>
             <div className={styles.container}>
-              <div className={styles.name}>{User.name}</div>
+              <div className={styles.name} onClick={profilePageHandler}>
+                {User.name}
+              </div>
               <div className={styles.account}>@{User.account}</div>
             </div>
             <div className={styles.createTime}>・{createTime}</div>
