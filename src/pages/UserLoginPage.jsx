@@ -84,7 +84,6 @@ const UserLoginPage = () => {
 
       localStorage.setItem('authToken', token)
       localStorage.setItem('userId', user.id)
-      localStorage.setItem('tweet_id', 494)
       setLoadingStatus('success')
     } catch (error) {
       console.error(error)

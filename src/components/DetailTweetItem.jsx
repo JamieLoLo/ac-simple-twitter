@@ -18,25 +18,23 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const tweetId = tweetData.id
 
   const likeHandler = () => {
-    if (tweetData.isLiked === false) {
+    if (tweetData.isLiked === 0) {
       const like = async () => {
         try {
           const res = await likeApi(tweetId)
           setLikeData(res.data)
           likeCountHandler(res.data.isLiked)
-
         } catch (error) {
           console.error(error)
         }
       }
       like()
-    } else if (tweetData.isLiked === true) {
+    } else if (tweetData.isLiked === 1) {
       const unLike = async () => {
         try {
           const res = await unLikeApi(tweetId)
           setLikeData(res.data.isLiked)
           likeCountHandler(res.data.isLiked)
-
         } catch (error) {
           console.error(error)
         }
@@ -44,11 +42,18 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       unLike()
     }
   }
+  console.log(tweetData)
 
   return (
     <div className={styles.tweet}>
       <div className={styles.tweet__info}>
-        <img className={styles.avatar} src={defaultFig} alt='Default Fig' />
+        <img
+          className={styles.avatar}
+          src={
+            tweetUserData.avatar === null ? defaultFig : tweetUserData.avatar
+          }
+          alt='Default Fig'
+        />
         <div className={styles.tweet__creator__info}>
           <div className={styles.name}>{tweetUserData.name}</div>
           <div className={styles.account}> @{tweetUserData.account}</div>
@@ -74,7 +79,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
             onClick?.(true)
           }}
         ></div>
-        {(tweetData.isLiked === true) === true && (
+        {tweetData.isLiked === 1 && (
           <div
             className={styles.like__icon__active}
             onClick={() => {
@@ -82,7 +87,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
             }}
           ></div>
         )}
-        {tweetData.isLiked === false && (
+        {tweetData.isLiked === 0 && (
           <div
             className={styles.like__icon}
             onClick={() => {
