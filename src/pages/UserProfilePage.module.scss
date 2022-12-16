@@ -112,3 +112,45 @@ ul.bookmark {
   text-decoration: none;
   display: flex;
 }
+.notification__icon__container {
+  position: absolute;
+  top: 216px;
+  right: 130px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
+  .notification__icon {
+    width: 24px;
+    height: 22px;
+    content: url(../components/assets/icons/notification.svg);
+  }
+}
+.chat__icon__container {
+  position: absolute;
+  top: 216px;
+  right: 186px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
+  .chat__icon {
+    width: 20px;
+    height: 18px;
+    content: url(../components/assets/icons/chat.svg);
+  }
+}

@@ -39,9 +39,7 @@ const DetailReplyModal = (props) => {
           setData(res.data)
           console.log(res.data)
           props.setDetailReplyModal(false)
-          // 這邊將單則回覆的 id 傳回給上層，是為了放在 useEffect 的 dependencies，還有用來 replyItem 的 key。
-          // 當回覆的 id 有所變動，代表有新的回覆，重新渲染出最新回覆。
-          props.setReplyId(res.data.id)
+          localStorage.setItem('reply_id', res.data.id)
           refreshHandler()
         } catch (error) {
           console.error(error)
@@ -77,11 +75,13 @@ const DetailReplyModal = (props) => {
         <div className={styles.tweet__item}>
           <div className={styles.tweet}>
             <div className={styles.tweet__info}>
-              <img
-                className={styles.avatar}
-                src={defaultFig}
-                alt='Default Fig'
-              />
+              <div className={styles.avatar__container}>
+                <img
+                  className={styles.avatar}
+                  src={defaultFig}
+                  alt='Default Fig'
+                />
+              </div>
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
                   <div className={styles.name}>{props.tweetData.User.name}</div>

@@ -4,11 +4,14 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import { unfollowApi, followApi } from '../api/followshipsApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
+import { userGetProfileApi } from '../api/userApi'
+import { useNavigate } from 'react-router-dom'
 
 const RecommendFollowItem = ({ data }) => {
   const { account, avatar, isFollowed, name, id } = data
   const userId = Number(localStorage.getItem('userId'))
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const unfollowHandler = async () => {
     await unfollowApi(data.id)
     await dispatch(userActions.setIsUpdate())
@@ -17,7 +20,21 @@ const RecommendFollowItem = ({ data }) => {
     await followApi(data.id)
     await dispatch(userActions.setIsUpdate())
   }
-
+  const profilePageHandler = () => {
+    const userGetProfile = async () => {
+      try {
+        const res = await userGetProfileApi(id)
+        if (res) {
+          localStorage.setItem('profile_id', id)
+          navigate('/users/profile')
+        }
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    userGetProfile()
+  }
   return (
     <div className={styles.recommendFollowItem}>
       <div className={styles.tweetInfo}>
@@ -25,8 +42,9 @@ const RecommendFollowItem = ({ data }) => {
           className={styles.avatar}
           src={avatar ? avatar : defaultFig}
           alt='Default Fig'
+          onClick={profilePageHandler}
         />
-        <div className={styles.tweetCreatorInfo}>
+        <div className={styles.tweetCreatorInfo} onClick={profilePageHandler}>
           <div className={styles.name}>{name}</div>
           <div className={styles.account}>@{account}</div>
         </div>

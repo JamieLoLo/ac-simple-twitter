@@ -51,7 +51,11 @@ const DetailTweetPage = () => {
   }, [replyId, navigate])
 
   const replyItemHelper = replyData.map((data) => (
-    <DetailReplyItem replyData={data} tweetUserData={tweetUserData} />
+    <DetailReplyItem
+      replyData={data}
+      tweetUserData={tweetUserData}
+      key={data.id}
+    />
   ))
 
   return (

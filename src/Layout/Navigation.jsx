@@ -12,13 +12,15 @@ const Navigation = ({ condition, pathname }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [tweetModal, setTweetModal] = useState(false)
+  const getProfileId = () => {
+    localStorage.setItem('profile_id', localStorage.getItem('userId'))
+  }
   const logoutHandler = async () => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('tweet_id')
-    localStorage.removeItem('userId')
+    localStorage.clear()
     await dispatch(authInputActions.refreshAuthInput())
     navigate('/users/login')
   }
+
   return (
     <>
       <TweetModal trigger={tweetModal} setTweetModal={setTweetModal} />
@@ -64,6 +66,7 @@ const Navigation = ({ condition, pathname }) => {
                   className={clsx('', {
                     [styles.active]: pathname === '/users/profile',
                   })}
+                  onClick={getProfileId}
                 >
                   個人資料
                 </p>

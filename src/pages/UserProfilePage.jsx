@@ -7,10 +7,10 @@ import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
 import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
-
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+
 import {
   userGetProfileApi,
   userGetTweetsApi,
@@ -30,11 +30,13 @@ const UserProfilePage = () => {
   const [userLikesData, setUserLikesData] = useState([])
   const [profilePage, setProfilePage] = useState('tweet')
   const userId = localStorage.getItem('userId')
+  const profileId = localStorage.getItem('profile_id')
+
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(userId)
+        const res = await userGetProfileApi(profileId)
         await setUserProfileData(res.data)
       } catch (error) {
         console.error(error)
@@ -42,7 +44,7 @@ const UserProfilePage = () => {
       }
     }
     userGetProfile()
-  }, [])
+  }, [profileId])
 
   //userGetTweets
   useEffect(() => {
@@ -55,8 +57,8 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetTweets(userId)
-  }, [])
+    userGetTweets(profileId)
+  }, [profileId])
 
   //userGetReplys
   useEffect(() => {
@@ -69,8 +71,8 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetReplys(userId)
-  }, [])
+    userGetReplys(profileId)
+  }, [profileId])
 
   //userGetLikes
   useEffect(() => {
@@ -85,8 +87,8 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetLikes(userId)
-  }, [])
+    userGetLikes(profileId)
+  }, [profileId])
 
   const userTweetList = userTweetsData.map((data) => (
     <TweetItem
@@ -153,26 +155,49 @@ const UserProfilePage = () => {
             <div className={styles.follow__info}>
               <Link to='/users/following' className={styles.link}>
                 <div className={styles.num} style={{ color: '#171725' }}>
-                  {userProfileData.followingCounts}個
+                  {userProfileData.followingCounts} 個
                 </div>
                 <p>跟隨中</p>
               </Link>
               <div className={styles.container}>
                 <Link to='/users/follower' className={styles.link}>
                   <div className={styles.num} style={{ color: '#171725' }}>
-                    {userProfileData.followerCounts}位
+                    {userProfileData.followerCounts} 位
                   </div>
                   <p>跟隨者</p>
                 </Link>
               </div>
             </div>
           </div>
-          <Button
-            className={`button button__md ${styles.button}`}
-            title='編輯個人資料'
-            style={{ width: '140px' }}
-            onClick={() => setEditModal(true)}
-          />
+          {userId === profileId && (
+            <Button
+              className={`button button__md ${styles.button}`}
+              title='編輯個人資料'
+              style={{ width: '140px' }}
+              onClick={() => setEditModal(true)}
+            />
+          )}
+
+          {userId !== profileId && (
+            <>
+              <div className={styles.chat__icon__container}>
+                <div className={styles.chat__icon}></div>
+              </div>
+              <div class={styles.notification__icon__container}>
+                <div class={styles.notification__icon}></div>
+              </div>
+              <Button
+                className={`button button__md active ${styles.button}`}
+                title='正在追隨'
+                style={{ width: '98px' }}
+              />
+              <Button
+                className={`button button__md active ${styles.button}`}
+                title='正在追隨'
+                style={{ width: '98px' }}
+              />
+            </>
+          )}
         </div>
         <ul className={styles.bookmark}>
           <li

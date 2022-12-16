@@ -75,15 +75,17 @@ const ReplyModal = (props) => {
         <div className={styles.tweet__item}>
           <div className={styles.tweet}>
             <div className={styles.tweet__info}>
-              <img
-                className={styles.avatar}
-                src={
-                  props.tweetUserAvatar === null
-                    ? defaultFig
-                    : props.tweetUserAvatar
-                }
-                alt='Default Fig'
-              />
+              <div className={styles.avatar__container}>
+                <img
+                  className={styles.avatar}
+                  src={
+                    props.tweetUserAvatar === null
+                      ? defaultFig
+                      : props.tweetUserAvatar
+                  }
+                  alt='Default Fig'
+                />
+              </div>
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
                   <div className={styles.name}>{props.tweetUserName}</div>

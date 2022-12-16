@@ -68,6 +68,8 @@ textarea {
   padding: 0 16px 2px 16px;
   font-size: 16px;
   border-bottom: 2px solid var(--dark-50);
+  white-space: pre-wrap;
+  box-sizing: border-box;
   &:hover {
     border-bottom: 2px solid var(--hover-focus-baseline);
   }
