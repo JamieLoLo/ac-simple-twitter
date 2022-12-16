@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 import { userGetProfileApi } from '../api/userApi'
 
-const TweetItem = ({ data, onClick }) => {
+const TweetItem = ({ data, onClick, onForceUpdate }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -25,12 +25,12 @@ const TweetItem = ({ data, onClick }) => {
     }
   }
   const likeHandler = async () => {
-    if (isLiked === true) {
-      await unLikeApi(id)
-      await dispatch(userActions.setIsUpdate())
-      return
-    }
     await likeApi(id)
+    await dispatch(userActions.setIsUpdate())
+  }
+
+  const unlikeHandler = async () => {
+    await unLikeApi(id)
     await dispatch(userActions.setIsUpdate())
   }
   const replyHandler = () => {
@@ -88,15 +88,21 @@ const TweetItem = ({ data, onClick }) => {
             <div className={styles.messageIcon}></div>
             <div className={styles.num}>{replyCounts || 0}</div>
           </div>
-          <div className={styles.like} onClick={likeHandler}>
+          <div className={styles.like}>
             {isLiked ? (
               <img
                 className={styles.likeIcon}
                 src={likeActiveIcon}
                 alt='like_active'
+                onClick={unlikeHandler}
               />
             ) : (
-              <img className={styles.likeIcon} src={likeIcon} alt='like' />
+              <img
+                className={styles.likeIcon}
+                src={likeIcon}
+                alt='like'
+                onClick={likeHandler}
+              />
             )}
             <div className={styles.num}>{likeCounts || 0}</div>
           </div>

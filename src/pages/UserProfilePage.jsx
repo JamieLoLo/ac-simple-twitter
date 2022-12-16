@@ -9,7 +9,7 @@ import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { userGetFollowingsApi } from '../api/userApi'
 
 import {
   userGetProfileApi,
@@ -18,6 +18,7 @@ import {
   userGetLikesApi,
 } from '../api/userApi'
 import ReplyModal from '../UI/ReplyModal'
+import { useSelector } from 'react-redux'
 
 const UserProfilePage = () => {
   const pathname = useLocation().pathname
@@ -31,6 +32,29 @@ const UserProfilePage = () => {
   const [profilePage, setProfilePage] = useState('tweet')
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
+  const tweetUserAvatar = localStorage.getItem('tweet_user_avatar')
+  const isUpdate = useSelector((state) => state.user.isUpdate)
+  const [isUserFollowed, setIsUserFollowed] = useState(false)
+
+  useEffect(() => {
+    const userGetFollowings = async () => {
+      try {
+        const res = await userGetFollowingsApi(userId)
+        const userFollowingsList = res.data
+        const temp = userFollowingsList.find((data)=> data.name === userProfileData.name)
+        if(temp) {
+          setIsUserFollowed(true)
+        } else {
+          setIsUserFollowed(false)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (profileId !== userId) {
+      userGetFollowings()
+    }
+  }, [profileId, userId, userProfileData.name])
 
   // userGetProfile
   useEffect(() => {
@@ -44,7 +68,7 @@ const UserProfilePage = () => {
       }
     }
     userGetProfile()
-  }, [profileId])
+  }, [profileId, tweetUserAvatar])
 
   //userGetTweets
   useEffect(() => {
@@ -58,7 +82,7 @@ const UserProfilePage = () => {
       }
     }
     userGetTweets(profileId)
-  }, [profileId])
+  }, [profileId, isUpdate])
 
   //userGetReplys
   useEffect(() => {
@@ -183,19 +207,22 @@ const UserProfilePage = () => {
               <div className={styles.chat__icon__container}>
                 <div className={styles.chat__icon}></div>
               </div>
-              <div class={styles.notification__icon__container}>
-                <div class={styles.notification__icon}></div>
+              <div className={styles.notification__icon__container}>
+                <div className={styles.notification__icon}></div>
               </div>
-              <Button
-                className={`button button__md active ${styles.button}`}
-                title='正在追隨'
-                style={{ width: '98px' }}
-              />
-              <Button
-                className={`button button__md active ${styles.button}`}
-                title='正在追隨'
-                style={{ width: '98px' }}
-              />
+              {isUserFollowed ? (
+                <Button
+                  className={`button button__md active ${styles.button}`}
+                  title='正在追隨'
+                  style={{ width: '98px' }}
+                />
+              ) : (
+                <Button
+                  className={`button button__md ${styles.button}`}
+                  title='跟隨'
+                  style={{ width: '98px' }}
+                />
+              )}
             </>
           )}
         </div>

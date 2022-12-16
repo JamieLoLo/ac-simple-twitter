@@ -12,6 +12,8 @@ const Navigation = ({ condition, pathname }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [tweetModal, setTweetModal] = useState(false)
+  const userId = localStorage.getItem('userId')
+  const profileId = localStorage.getItem('profile_id')
   const getProfileId = () => {
     localStorage.setItem('profile_id', localStorage.getItem('userId'))
   }
@@ -58,13 +60,13 @@ const Navigation = ({ condition, pathname }) => {
                 <div
                   className={clsx('', {
                     [styles.icon__personal__active]:
-                      pathname === '/users/profile',
-                    [styles.icon__personal]: pathname !== '/users/profile',
+                      pathname === '/users/profile' ,
+                    [styles.icon__personal]: pathname !== '/users/profile' ||  userId !== profileId,
                   })}
                 ></div>
                 <p
                   className={clsx('', {
-                    [styles.active]: pathname === '/users/profile',
+                    [styles.active]: pathname === '/users/profile' && userId === profileId,
                   })}
                   onClick={getProfileId}
                 >

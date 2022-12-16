@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
 // const userURL = 'https://dry-anchorage-06913.herokuapp.com/api/users'
-const userURL = 'https://47dc-223-136-148-157.jp.ngrok.io/api/users'
+const userURL = 'https://e3ae-223-136-148-157.jp.ngrok.io/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
@@ -140,17 +140,18 @@ export const userGetTopUsersApi = async () => {
 // 上傳照片檔案的話請不要傳json，改用form傳，並設定Content-Type: multipart/form-data
 // 目前有設定mimetype: 'image/png'才可以傳
 export const editProfileApi = async (user_id, formData) => {
-  console.log('OK')
   try {
-    axiosInstance({
+    const res = axiosInstance({
       method: 'put',
       baseURL: userURL,
       url: '/' + user_id,
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' },
     })
+    return res
   } catch (error) {
     console.error(error)
+    return error
   }
 }
 // 編輯自己的帳號設定
