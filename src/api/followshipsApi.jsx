@@ -36,7 +36,6 @@ export const followApi = async (id) => {
 export const unfollowApi = async (id) => {
   try {
     const res = await axiosInstance.delete(`${followshipsURL}/${id}}`, { id })
-    console.log(res)
     return res
   } catch (error) {
     console.error(error)

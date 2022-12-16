@@ -8,36 +8,35 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
 import { editProfileApi, userGetProfileApi } from '../api/userApi'
-import { useNavigate } from 'react-router-dom'
+import { userActions } from '../store/user-slice'
 
 const EditProfileModal = (props) => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
-  const [editCoverUrl, setEditCoverUrl] = useState(userInfo.cover)
-  const [editAvatarUrl, setEditAvatarUrl] = useState(userInfo.avatar)
+  const [editCoverUrl, setEditCoverUrl] = useState()
+  const [editAvatarUrl, setEditAvatarUrl] = useState()
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
   const userId = localStorage.getItem('userId')
-  const avatar = localStorage.getItem('avatar')
   const formData = new FormData()
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async (data) => {
       try {
-        await userGetProfileApi(data)
-        // if (res.status !== 200) {
-        //   navigate('/users/login')
-        // }
+        const res = await userGetProfileApi(data)
+        const result = res.data
+        const {avatar, cover} = result
+        setEditAvatarUrl(avatar)
+        setEditCoverUrl(cover)
       } catch (error) {
         console.error(error)
         return error
       }
     }
     userGetProfile(userId)
-  }, [])
+  }, [userId])
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -63,19 +62,17 @@ const EditProfileModal = (props) => {
   }
 
   if (info.content.length === 0) {
-    formData.append('info', userInfo.introduction)
+    formData.append('introduction', userInfo.introduction)
   } else {
-    formData.append('info', info.content)
+    formData.append('introduction', info.content)
   }
   formData.append('cover', editCoverFile)
   formData.append('avatar', editAvatarFile)
 
   const saveProfileHandler = async () => {
-    const res = await editProfileApi(userId, formData)
-    console.log(res)
-    const { user } = res.data
-    localStorage.setItem('tweet_user_avatar', user.avatar)
-    // formData.forEach(data => console.log(data))
+    await editProfileApi(userId, formData)
+    await dispatch(userActions.setIsUpdate())
+    props.setEditModal(false)
   }
 
   return props.trigger ? (
@@ -154,7 +151,6 @@ const EditProfileModal = (props) => {
             message={username.message}
             count={username.count}
             upperLimit='50'
-            placeholder={userInfo.name}
           />
           <AuthInput
             label='自我介紹'
@@ -166,7 +162,6 @@ const EditProfileModal = (props) => {
             message={info.message}
             count={info.count}
             upperLimit='160'
-            placeholder={userInfo.introduction}
           />
         </div>
       </div>

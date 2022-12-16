@@ -17,7 +17,6 @@ const DetailReplyModal = (props) => {
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const [data, setData] = useState([])
   const navigate = useNavigate()
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
@@ -36,8 +35,6 @@ const DetailReplyModal = (props) => {
       const AddReply = async () => {
         try {
           const res = await AddReplyApi(tweetId, content)
-          setData(res.data)
-          console.log(res.data)
           props.setDetailReplyModal(false)
           localStorage.setItem('reply_id', res.data.id)
           refreshHandler()

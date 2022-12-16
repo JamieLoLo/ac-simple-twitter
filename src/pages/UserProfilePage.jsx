@@ -32,7 +32,6 @@ const UserProfilePage = () => {
   const [profilePage, setProfilePage] = useState('tweet')
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
-  const tweetUserAvatar = localStorage.getItem('tweet_user_avatar')
   const isUpdate = useSelector((state) => state.user.isUpdate)
   const [isUserFollowed, setIsUserFollowed] = useState(false)
 
@@ -48,7 +47,7 @@ const UserProfilePage = () => {
           setIsUserFollowed(false)
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     }
     if (profileId !== userId) {
@@ -68,7 +67,7 @@ const UserProfilePage = () => {
       }
     }
     userGetProfile()
-  }, [profileId, tweetUserAvatar])
+  }, [profileId, isUpdate])
 
   //userGetTweets
   useEffect(() => {
@@ -112,7 +111,7 @@ const UserProfilePage = () => {
       }
     }
     userGetLikes(profileId)
-  }, [profileId])
+  }, [profileId, isUpdate])
 
   const userTweetList = userTweetsData.map((data) => (
     <TweetItem
