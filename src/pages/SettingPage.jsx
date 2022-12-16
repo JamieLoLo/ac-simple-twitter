@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AuthInput from '../UI/AuthInput'
 import Button from '../UI/Button'
 import { UserGrid } from '../Layout/GridSystemWrapper'
@@ -19,6 +19,12 @@ const SettingPage = () => {
   const passwordCheck = useSelector((state) => state.authInput.passwordCheck)
   const userInfo = useSelector((state) => state.user.userInfo)
   const navigate = useNavigate()
+  const authToken = localStorage.getItem('authToken')
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))

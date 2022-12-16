@@ -5,7 +5,6 @@ import useMoment from '../hooks/useMoment'
 const ReplyItem = ({ data }) => {
   const { User, comment, createdAt, Tweet } = data
   const createTime = useMoment(createdAt)
-  const tweetUserAccount = localStorage.getItem('tweet_user_account')
 
   return (
     <div className={styles.replyItem}>

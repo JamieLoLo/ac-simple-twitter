@@ -17,10 +17,12 @@ const DetailTweetPage = () => {
   const likeCount = useSelector((state) => state.user.likeCount)
   const navigate = useNavigate()
   const replyId = localStorage.getItem('reply_id')
+  const tweetId = localStorage.getItem('tweet_id')
+
+  
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
-        const tweetId = localStorage.getItem('tweet_id')
         const res = await tweetGetOneApi(tweetId)
         setTweetData(res.data)
         setTweetUserData(res.data.User)
@@ -31,23 +33,25 @@ const DetailTweetPage = () => {
         localStorage.removeItem('authToken')
       }
     }
-    tweetGetOne()
+    if (tweetId !== null) {
+      tweetGetOne()
+    }
   }, [likeCount, navigate])
 
   useEffect(() => {
-    const tweetId = localStorage.getItem('tweet_id')
     const replyGetOne = async () => {
       try {
         const res = await replyGetOneApi(tweetId)
         setReplyData(res.data)
       } catch (error) {
         console.error(error)
-        localStorage.removeItem('tweet_id')
+        localStorage.clear()
         navigate('/users/login')
-        localStorage.removeItem('authToken')
       }
     }
-    replyGetOne()
+    if (tweetId !== null) {
+      replyGetOne()
+    }
   }, [replyId, navigate])
 
   const replyItemHelper = replyData.map((data) => (

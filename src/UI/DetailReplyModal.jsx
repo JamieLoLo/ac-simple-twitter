@@ -40,8 +40,6 @@ const DetailReplyModal = (props) => {
           refreshHandler()
         } catch (error) {
           console.error(error)
-          navigate('/users/login')
-          localStorage.removeItem('authToken')
         }
       }
       AddReply()

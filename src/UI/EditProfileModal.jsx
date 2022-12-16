@@ -32,7 +32,6 @@ const EditProfileModal = (props) => {
         setEditCoverUrl(cover)
       } catch (error) {
         console.error(error)
-        return error
       }
     }
     userGetProfile(userId)

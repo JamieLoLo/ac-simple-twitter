@@ -30,18 +30,27 @@ const UserProfilePage = () => {
   const [userReplysData, setUserReplysData] = useState([])
   const [userLikesData, setUserLikesData] = useState([])
   const [profilePage, setProfilePage] = useState('tweet')
+  const authToken = localStorage.getItem('authToken')
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
   const isUpdate = useSelector((state) => state.user.isUpdate)
   const [isUserFollowed, setIsUserFollowed] = useState(false)
 
   useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [authToken, navigate])
+
+  useEffect(() => {
     const userGetFollowings = async () => {
       try {
         const res = await userGetFollowingsApi(userId)
         const userFollowingsList = res.data
-        const temp = userFollowingsList.find((data)=> data.name === userProfileData.name)
-        if(temp) {
+        const temp = userFollowingsList.find(
+          (data) => data.name === userProfileData.name
+        )
+        if (temp) {
           setIsUserFollowed(true)
         } else {
           setIsUserFollowed(false)
@@ -50,7 +59,8 @@ const UserProfilePage = () => {
         console.error(error)
       }
     }
-    if (profileId !== userId) {
+
+    if (authToken !== null && profileId !== userId) {
       userGetFollowings()
     }
   }, [profileId, userId, userProfileData.name])
@@ -66,7 +76,9 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetProfile()
+    if ((profileId !== null) & (authToken !== null)) {
+      userGetProfile()
+    }
   }, [profileId, isUpdate])
 
   //userGetTweets
@@ -80,7 +92,9 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetTweets(profileId)
+    if (profileId !== null) {
+      userGetTweets(profileId)
+    }
   }, [profileId, isUpdate])
 
   //userGetReplys
@@ -94,7 +108,9 @@ const UserProfilePage = () => {
         return error
       }
     }
-    userGetReplys(profileId)
+    if (profileId !== null) {
+      userGetReplys(profileId)
+    }
   }, [profileId])
 
   //userGetLikes

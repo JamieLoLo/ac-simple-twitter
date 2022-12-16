@@ -12,14 +12,14 @@ import { userGetProfileApi } from '../api/userApi'
 const TweetItem = ({ data, onClick, onForceUpdate }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const authToken = localStorage.getItem('authToken')
 
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
     data
   const createTime = useMoment(createdAt)
 
   const toDetailPage = () => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
+    if (authToken) {
       navigate('/users/tweet')
       localStorage.setItem('tweet_id', id)
     }

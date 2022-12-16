@@ -10,13 +10,12 @@ import {
   userGetTweetsApi,
   userGetProfileApi,
 } from '../api/userApi'
-import { useSelector } from 'react-redux'
 
 const UserFollowerPage = () => {
   const [userFollowersData, setUserFollowersData] = useState([])
   const [userProfileData, setUserProfileData] = useState({})
   const [userTweetsData, setUserTweetsData] = useState([])
-  const userInfo = useSelector((state) => state.user.userInfo)
+  const userId = localStorage.getItem('userId')
   const navigate = useNavigate()
 
   // userGetProfile
@@ -33,7 +32,7 @@ const UserFollowerPage = () => {
         return error
       }
     }
-    userGetProfile(userInfo.id)
+    userGetProfile(userId)
   }, [])
 
   //userGetTweets
@@ -47,7 +46,7 @@ const UserFollowerPage = () => {
         return error
       }
     }
-    userGetTweets(userInfo.id)
+    userGetTweets(userId)
   }, [])
 
   // userGetFollowers
@@ -61,11 +60,11 @@ const UserFollowerPage = () => {
         return error
       }
     }
-    userGetFollowers(userInfo.id)
+    userGetFollowers(userId)
   }, [])
 
   const userFollowerList = userFollowersData.map((data) => (
-    <UserFollowListItem data={data} key={data.followerId} />
+    <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
 
   return (
