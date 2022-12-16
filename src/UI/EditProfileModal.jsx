@@ -8,18 +8,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
 import { editProfileApi, userGetProfileApi } from '../api/userApi'
+import { useNavigate } from 'react-router-dom'
 
 const EditProfileModal = (props) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
   const userInfo = useSelector((state) => state.user.userInfo)
   const [editCoverUrl, setEditCoverUrl] = useState(userInfo.cover)
   const [editAvatarUrl, setEditAvatarUrl] = useState(userInfo.avatar)
-
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
   const userId = localStorage.getItem('userId')
+  const avatar = localStorage.getItem('avatar')
   const formData = new FormData()
   // userGetProfile
   useEffect(() => {
@@ -69,8 +71,10 @@ const EditProfileModal = (props) => {
   formData.append('avatar', editAvatarFile)
 
   const saveProfileHandler = async () => {
-    const res = editProfileApi(userId, formData)
+    const res = await editProfileApi(userId, formData)
     console.log(res)
+    const { user } = res.data
+    localStorage.setItem('tweet_user_avatar', user.avatar)
     // formData.forEach(data => console.log(data))
   }
 
