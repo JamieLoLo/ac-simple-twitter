@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { AddReplyApi } from '../api/replyApi'
 import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
+import { tweetGetOneApi } from '../api/tweetApi'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -17,18 +18,27 @@ const ReplyModal = (props) => {
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const [replyId, setReplyId] = useState(null)
-  const [data, setData] = useState([])
+  const [tweetData, setTweetData] = useState([])
   const navigate = useNavigate()
-  const createTime = useMoment(props.createdAt)
+  const createTime = useMoment(props.createdAt ? props.createdAt : tweetData.createdAt )
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
-
   const tweetId = localStorage.getItem('tweet_id')
+  useEffect(() => {
+    const tweetGetOne = async () => {
+      try {
+        const res = await tweetGetOneApi(tweetId)
+        setTweetData(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    tweetGetOne()
+  }, [tweetId])
 
   const submitHandler = () => {
     if (content === '' || !isValid) {
@@ -36,8 +46,7 @@ const ReplyModal = (props) => {
     } else {
       const AddReply = async () => {
         try {
-          const res = await AddReplyApi(tweetId, content)
-          setData(res.data)
+          await AddReplyApi(tweetId, content)
           props.setReplyModal(false)
           // props.setReplyId(res.data.id)
           refreshHandler()
@@ -50,7 +59,6 @@ const ReplyModal = (props) => {
       AddReply()
     }
   }
-
   return props.trigger ? (
     <div className={styles.modal}>
       <div
@@ -76,21 +84,40 @@ const ReplyModal = (props) => {
           <div className={styles.tweet}>
             <div className={styles.tweet__info}>
               <div className={styles.avatar__container}>
-                <img
-                  className={styles.avatar}
-                  src={
-                    props.tweetUserAvatar === null
-                      ? defaultFig
-                      : props.tweetUserAvatar
-                  }
-                  alt='Default Fig'
-                />
+                {props.tweetUserAvatar ? (
+                  <img
+                    className={styles.avatar}
+                    src={
+                      props.tweetUserAvatar === null
+                        ? defaultFig
+                        : props.tweetUserAvatar
+                    }
+                    alt='Default Fig'
+                  />
+                ) : (
+                  <img
+                    className={styles.avatar}
+                    src={
+                      tweetData.User.avatar === null
+                        ? defaultFig
+                        : tweetData.User.avatar
+                    }
+                    alt='Default Fig'
+                  />
+                )}
               </div>
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
-                  <div className={styles.name}>{props.tweetUserName}</div>
+                  <div className={styles.name}>
+                    {props.tweetUserName
+                      ? props.tweetUserName
+                      : tweetData.User.name}
+                  </div>
                   <div className={styles.account}>
-                    @{props.tweetUserAccount}
+                    @
+                    {props.tweetUserAccount
+                      ? props.tweetUserAccount
+                      : tweetData.User.account}
                   </div>
                 </div>
                 <div className={styles.create__time}>・{createTime}</div>
@@ -101,7 +128,10 @@ const ReplyModal = (props) => {
               <div className={styles.reply__to}>
                 回覆給
                 <span className={styles.highlight}>
-                  @{props.tweetUserAccount}
+                  @
+                  {props.tweetUserAccount
+                    ? props.tweetUserAccount
+                    : tweetData.User.account}
                 </span>
               </div>
             </div>
