@@ -79,6 +79,7 @@ const UserProfilePage = () => {
     if ((profileId !== null) & (authToken !== null)) {
       userGetProfile()
     }
+
   }, [profileId, isUpdate])
 
   //userGetTweets

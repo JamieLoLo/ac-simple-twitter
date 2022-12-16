@@ -40,6 +40,7 @@ const ReplyModal = (props) => {
     if (tweetId === null) {
       return
     }
+
     tweetGetOne()
   }, [tweetId])
 
