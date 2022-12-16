@@ -23,9 +23,13 @@ const MainPage = () => {
   const [allTweetsData, setAllTweetsData] = useState([])
   const dispatch = useDispatch()
   const userId = localStorage.getItem('userId')
+  const authToken = localStorage.getItem('authToken')
 
   useEffect(() => {
     dispatch(authInputActions.refreshAuthInput())
+    if (authToken === null) {
+      navigate('/users/login')
+    }
   }, [])
 
   useEffect(() => {
@@ -39,23 +43,23 @@ const MainPage = () => {
         return error
       }
     }
-    userGetProfile(userId)
-  }, [dispatch, userId])
+    if (authToken !== null && userId !== null) {
+      userGetProfile(userId)
+    }
+  }, [authToken, dispatch, userId])
 
   useEffect(() => {
     const tweetGetAll = async () => {
       try {
         const res = await tweetGetAllApi()
-        if (res.status !== 200) {
-          localStorage.removeItem('authToken')
-          navigate('/users/login')
-        }
         await setAllTweetsData(res.data)
       } catch (error) {
         console.error(error)
       }
     }
-    tweetGetAll()
+    if (authToken !== null) {
+      tweetGetAll()
+    }
   }, [allTweetsData, navigate])
 
   const tweetsListHelper = allTweetsData.map((data) => (
@@ -90,7 +94,11 @@ const MainPage = () => {
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
           <div className={styles.container}>
-            <img className={styles.avatar} src={userInfo.avatar? userInfo.avatar : defaultFig} alt='user' />
+            <img
+              className={styles.avatar}
+              src={userInfo.avatar ? userInfo.avatar : defaultFig}
+              alt='user'
+            />
             <p>有什麼新鮮事嗎?</p>
           </div>
           <Button

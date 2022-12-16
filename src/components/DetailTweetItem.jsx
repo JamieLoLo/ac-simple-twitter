@@ -2,19 +2,17 @@ import styles from './DetailTweetItem.module.scss'
 import useMoment from '../hooks/useMoment'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import { likeApi, unLikeApi } from '../api/likeApi'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
-
   const dispatch = useDispatch()
-  const likeCount = useSelector((state) => state.user.likeCount)
   const createTime = useMoment(tweetData.createdAt)
+  const tweetId = localStorage.getItem('tweet_id')
 
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
-  const tweetId = tweetData.id
 
   const likeHandler = () => {
     if (tweetData.isLiked === 0) {

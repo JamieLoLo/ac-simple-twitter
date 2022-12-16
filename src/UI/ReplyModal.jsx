@@ -37,6 +37,10 @@ const ReplyModal = (props) => {
         console.error(error)
       }
     }
+    if (tweetId === null) {
+      return
+    }
+
     tweetGetOne()
   }, [tweetId])
 
@@ -52,8 +56,6 @@ const ReplyModal = (props) => {
           refreshHandler()
         } catch (error) {
           console.error(error)
-          navigate('/users/login')
-          localStorage.removeItem('authToken')
         }
       }
       AddReply()

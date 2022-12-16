@@ -9,7 +9,6 @@ import { userLoginApi } from '../api/userApi'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Notification from '../UI/Notification'
-import { userActions } from '../store/user-slice'
 
 import styles from './UserLoginPage.module.scss'
 
@@ -19,10 +18,9 @@ const UserLoginPage = () => {
   const navigate = useNavigate()
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
-
+  const authToken = localStorage.getItem('authToken')
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
+    if (authToken) {
       navigate('/users/main')
     }
   }, [navigate])
@@ -41,24 +39,10 @@ const UserLoginPage = () => {
   }, [loadingStatus, navigate])
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
+    if (authToken) {
       navigate('/users/main')
     }
   }, [navigate])
-
-  useEffect(() => {
-    if (loadingStatus === 'failed' || loadingStatus === 'success') {
-      setTimeout(() => {
-        if (loadingStatus === 'success') {
-          setLoadingStatus('finish')
-          navigate('/users/main')
-        } else {
-          setLoadingStatus('finish')
-        }
-      }, 1000)
-    }
-  }, [loadingStatus, navigate])
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -69,6 +53,7 @@ const UserLoginPage = () => {
 
   const userLoginHandler = async () => {
     try {
+      localStorage.clear()
       setLoadingStatus('start')
       const res = await userLoginApi({
         account: account.content,
@@ -81,9 +66,9 @@ const UserLoginPage = () => {
       }
       const { data } = await res
       const { token, user } = await data
-
       localStorage.setItem('authToken', token)
       localStorage.setItem('userId', user.id)
+      localStorage.setItem('profile_id', user.id)
       setLoadingStatus('success')
     } catch (error) {
       console.error(error)

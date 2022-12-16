@@ -61,7 +61,7 @@ const UserFollowingPage = () => {
   }, [])
 
   const userFollowingList = userFollowingsData.map((data) => (
-    <UserFollowListItem data={data} key={data.followerId} />
+    <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
   return (
     <>

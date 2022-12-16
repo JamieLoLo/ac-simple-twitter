@@ -17,6 +17,7 @@ const AdminLoginPage = () => {
   const navigate = useNavigate()
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
+  const authToken = localStorage.getItem('authToken')
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
@@ -26,11 +27,10 @@ const AdminLoginPage = () => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
+    if (authToken) {
       navigate('/admin/alltweets')
     }
-  },[navigate])
+  }, [navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {

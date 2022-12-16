@@ -18,7 +18,7 @@ const TweetModal = (props) => {
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   const userId = localStorage.getItem('userId')
   const userInfo = useSelector((state) => state.user.userInfo)
-  const [tweetData, setTweetData] = useState(null)
+  const authToken = localStorage.getItem('autToken')
 
   useEffect(() => {
     const userGetProfile = async (data) => {
@@ -30,7 +30,9 @@ const TweetModal = (props) => {
         return error
       }
     }
-    userGetProfile(userId)
+    if (authToken !== null && userId !== null) {
+      userGetProfile(userId)
+    }
   }, [dispatch, userId])
   const tweetHandler = (useInput) => {
     dispatch(authInputActions.tweetAuth(useInput))
@@ -44,8 +46,7 @@ const TweetModal = (props) => {
     } else {
       const tweetPost = async () => {
         try {
-          const res = await tweetPostApi(content)
-          setTweetData(res.data)
+          await tweetPostApi(content)
           props.setTweetModal(false)
           refreshHandler()
         } catch (error) {

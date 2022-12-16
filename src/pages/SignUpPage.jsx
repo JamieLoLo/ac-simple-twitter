@@ -10,7 +10,6 @@ import styles from './SignUpPage.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Notification from '../UI/Notification'
-import { userActions } from '../store/user-slice'
 
 const SignUpPage = () => {
   const dispatch = useDispatch()
@@ -21,10 +20,10 @@ const SignUpPage = () => {
   let email = useSelector((state) => state.authInput.email)
   let password = useSelector((state) => state.authInput.password)
   let checkPassword = useSelector((state) => state.authInput.passwordCheck)
+  const authToken = localStorage.getItem('authToken')
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
+    if (authToken) {
       navigate('/users/main')
     }
   }, [navigate])
@@ -68,7 +67,7 @@ const SignUpPage = () => {
         password: password.content,
         checkPassword: checkPassword.content,
       })
-      
+
       if (res.status !== 200) {
         setLoadingStatus('failed')
         return

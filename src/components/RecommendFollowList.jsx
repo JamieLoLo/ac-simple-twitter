@@ -7,16 +7,20 @@ import { useSelector } from 'react-redux'
 const RecommendFollowList = () => {
   const [userRecommendFollowData, setUserRecommendFollowData] = useState([])
   const isUpdate = useSelector((state) => state.user.isUpdate)
+  const authToken = localStorage.getItem('authToken')
   // userGetFollowers
   useEffect(() => {
-    const userGetTopUsers = async (data) => {
+    const userGetTopUsers = async () => {
       try {
-        const res = await userGetTopUsersApi(data)
+        const res = await userGetTopUsersApi()
         await setUserRecommendFollowData(res.data)
       } catch (error) {
         console.error(error)
         return error
       }
+    }
+    if (!authToken) {
+      return
     }
     userGetTopUsers()
   }, [isUpdate])

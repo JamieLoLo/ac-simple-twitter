@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 const AdminTweetItem = ({ data }) => {
   const { description, createdAt, User, id } = data
   const { account, name, avatar } = User
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const time = useMoment(createdAt)
   const deleteHandler = async () => {
     await AdminDeleteTweetApi(id)
