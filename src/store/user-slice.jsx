@@ -53,7 +53,6 @@ const userSlice = createSlice({
     },
     changeLikeCount(state, action) {
       state.likeCount = action.payload
-      console.log(action.payload)
     },
   },
 })

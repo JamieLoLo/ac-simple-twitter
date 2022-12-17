@@ -9,6 +9,9 @@ import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
+
 import {
   userGetProfileApi,
   userGetTweetsApi,
@@ -34,6 +37,10 @@ const UserProfilePage = () => {
   const [replyModal, setReplyModal] = useState(false)
   const [profilePage, setProfilePage] = useState('tweet')
   const [isUserFollowed, setIsUserFollowed] = useState(false)
+  const [tweetPage, setTweetPage] = useState(1)
+  const [replyPage, setReplyPage] = useState(1)
+  const [likePage, setLikePage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   // --- useSelector
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
@@ -77,52 +84,118 @@ const UserProfilePage = () => {
   }, [profileId, isUserInfoUpdate, isFollowUpdate])
 
   //userGetTweets
+
+  const userGetTweets = async (profileId, tweetPage) => {
+    try {
+      const res = await userGetTweetsApi(profileId, tweetPage)
+      await dispatch(userActions.setUserTweetsData(res.data))
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
   useEffect(() => {
-    const userGetTweets = async (data) => {
+    userGetTweets(profileId, 1)
+    setTweetPage(2)
+  }, [profileId])
+
+  // lazy loading for tweet list
+  const changeTweetPage = () => {
+    const tweetGetAll = async () => {
       try {
-        const res = await userGetTweetsApi(data)
-        await dispatch(userActions.setUserTweetsData(res.data))
+        const res = await userGetTweetsApi(profileId, tweetPage)
+        if (res.status !== 200) {
+          localStorage.removeItem('authToken')
+          navigate('/users/login')
+        }
+        setHasMore(res.data.length)
+        await dispatch(
+          userActions.setUserTweetsData(userTweetsData.concat(res.data))
+        )
+        setTweetPage((page) => page + 1)
       } catch (error) {
         console.error(error)
-        return error
       }
     }
-    if (profileId !== null) {
-      userGetTweets(profileId)
-    }
-  }, [isTweetUpdate, profileId, isUserInfoUpdate])
+    tweetGetAll()
+  }
 
   //userGetReplys
+
+  const userGetReplys = async (profileId, replyPage) => {
+    try {
+      const res = await userGetReplysApi(profileId, replyPage)
+      await dispatch(userActions.setUserReplysData(res.data))
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
   useEffect(() => {
-    const userGetReplys = async (data) => {
+    userGetReplys(profileId, 1)
+    setReplyPage(2)
+  }, [profileId])
+
+  // lazy loading for reply list
+  const changeReplyPage = () => {
+    const replyGetAll = async () => {
       try {
-        const res = await userGetReplysApi(data)
-        await dispatch(userActions.setUserReplysData(res.data))
+        const res = await userGetReplysApi(profileId, replyPage)
+        if (res.status !== 200) {
+          localStorage.removeItem('authToken')
+          navigate('/users/login')
+        }
+        setHasMore(res.data.length)
+        await dispatch(
+          userActions.setUserReplysData(userReplysData.concat(res.data))
+        )
+        setReplyPage((replyPage) => replyPage + 1)
       } catch (error) {
         console.error(error)
-        return error
       }
     }
-    if (profileId !== null) {
-      userGetReplys(profileId)
-    }
-  }, [isTweetUpdate, profileId, isUserInfoUpdate])
+    replyGetAll()
+  }
 
   //userGetLikes
+
+  const userGetLikes = async (profileId, likePage) => {
+    try {
+      const res = await userGetLikesApi(profileId, likePage)
+      const temp = res.data
+      const tweetDatas = temp.map((data) => data.Tweet)
+      await dispatch(userActions.setUserLikesData(tweetDatas))
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
   useEffect(() => {
-    const userGetLikes = async (data) => {
+    userGetLikes(profileId, 1)
+    setLikePage(2)
+  }, [profileId])
+
+  // lazy loading for like list
+  const changeLikePage = () => {
+    const likeGetAll = async () => {
       try {
-        const res = await userGetLikesApi(data)
+        const res = await userGetLikesApi(profileId, likePage)
         const temp = res.data
         const tweetDatas = temp.map((data) => data.Tweet)
-        await dispatch(userActions.setUserLikesData(tweetDatas))
+        await dispatch(
+          userActions.setUserLikesData(userLikesData.concat(tweetDatas))
+        )
+        setHasMore(tweetDatas.length)
+        setLikePage((likePage) => likePage + 1)
       } catch (error) {
         console.error(error)
-        return error
       }
     }
-    userGetLikes(profileId)
-  }, [isTweetUpdate, profileId, isUserInfoUpdate])
+    likeGetAll()
+  }
 
   const userTweetList = userTweetsData.map((data) => (
     <TweetItem
@@ -150,7 +223,7 @@ const UserProfilePage = () => {
     <>
       <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
       <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
-      <UserGrid pathname={pathname}>
+      <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>
           <img
             src={prevLogo}
@@ -263,9 +336,47 @@ const UserProfilePage = () => {
             喜歡的內容
           </li>
         </ul>
-        {profilePage === 'tweet' ? userTweetList : undefined}
-        {profilePage === 'reply' ? userReplyList : undefined}
-        {profilePage === 'like' ? userLikeList : undefined}
+        {profilePage === 'tweet' ? (
+          <InfiniteScroll
+            dataLength={userTweetsData.length}
+            next={changeTweetPage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={300}
+          >
+            {userTweetList}
+          </InfiniteScroll>
+        ) : undefined}
+
+        {profilePage === 'reply' ? (
+          <InfiniteScroll
+            dataLength={userReplysData.length}
+            next={changeReplyPage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={300}
+          >
+            {userReplyList}
+          </InfiniteScroll>
+        ) : undefined}
+
+        {profilePage === 'like' ? (
+          <InfiniteScroll
+            dataLength={userLikesData.length}
+            next={changeLikePage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={300}
+          >
+            {userLikeList}
+          </InfiniteScroll>
+        ) : undefined}
       </UserGrid>
     </>
   )

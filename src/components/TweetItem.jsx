@@ -17,7 +17,6 @@ const TweetItem = ({ data, onClick }) => {
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
     data
   const createTime = useMoment(createdAt)
-  
 
   const toDetailPage = () => {
     if (authToken) {

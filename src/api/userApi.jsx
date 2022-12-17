@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
+const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
 // const userURL = 'https://dry-anchorage-06913.herokuapp.com/api/users'
-const userURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/users'
+// const userURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
@@ -68,9 +68,9 @@ export const userGetProfileApi = async (id) => {
 }
 
 // 取得個別使用者的推文 OK
-export const userGetTweetsApi = async (id) => {
+export const userGetTweetsApi = async (id, page) => {
   try {
-    const res = await axiosInstance.get(`${userURL}/${id}/tweets`)
+    const res = await axiosInstance.get(`${userURL}/${id}/tweets?page=${page}`)
     return res
   } catch (error) {
     console.error('[User Get Tweets Failed]: ', error)
@@ -79,9 +79,11 @@ export const userGetTweetsApi = async (id) => {
 }
 
 // 取得個別使用者的回覆 OK
-export const userGetReplysApi = async (id) => {
+export const userGetReplysApi = async (id, page) => {
   try {
-    const res = await axiosInstance.get(`${userURL}/${id}/replied_tweets`)
+    const res = await axiosInstance.get(
+      `${userURL}/${id}/replied_tweets?page=${page}`
+    )
     return res
   } catch (error) {
     console.error('[User Get Replys Failed]: ', error)
@@ -90,9 +92,9 @@ export const userGetReplysApi = async (id) => {
 }
 
 // 取得個別使用者點過 like 的推文
-export const userGetLikesApi = async (id) => {
+export const userGetLikesApi = async (id, page) => {
   try {
-    const res = await axiosInstance.get(`${userURL}/${id}/likes`)
+    const res = await axiosInstance.get(`${userURL}/${id}/likes?page=${page}`)
     return res
   } catch (error) {
     console.error('[User Get Likes Failed]: ', error)

@@ -33,6 +33,7 @@ const TweetModal = (props) => {
       try {
         await tweetPostApi(content)
         props.setTweetModal(false)
+        props.setSubmitReRender(true)
         refreshHandler()
         dispatch(userActions.setIsTweetUpdate())
       } catch (error) {
