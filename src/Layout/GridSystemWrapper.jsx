@@ -13,6 +13,17 @@ export const AdminGrid = ({ children, pathname }) => {
   )
 }
 
+export const AdminUserPageGrid = ({ children, pathname }) => {
+  return (
+    <div className={styles.user__list__container}>
+      <div className={`col-3 ${styles.col_2} ${styles.navigation}`}>
+        <Navigation condition='admin' pathname={pathname} />
+      </div>
+      <div className={`col-7 ${styles.user__list}`}>{children}</div>
+    </div>
+  )
+}
+
 export const UserGrid = ({ children, page, pathname }) => {
   return (
     <div className='main__container'>

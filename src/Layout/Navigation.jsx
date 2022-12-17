@@ -3,12 +3,12 @@ import styles from './Navigation.module.scss'
 import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
 // --- component
-import { Button, TweetModal } from '../UI/index'
+import { Button } from '../UI/index'
 // --- api
 // --- store
 import { authInputActions } from '../store/authInput-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { logoIcon } from '../components/assets/icons/index'
 
@@ -19,9 +19,7 @@ const Navigation = (props) => {
   // --- localStorage
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
-  // --- useState
-  const [tweetModal, setTweetModal] = useState(false)
-  // --- event handler
+  // const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
   const getProfileIdHandler = () => {
     localStorage.setItem('profile_id', localStorage.getItem('userId'))
   }
@@ -33,13 +31,6 @@ const Navigation = (props) => {
 
   return (
     <>
-      <div className={styles.modalContainer}>
-        <TweetModal
-          trigger={tweetModal}
-          setTweetModal={setTweetModal}
-        />
-      </div>
-
       <nav className={styles.nav}>
         <ul>
           <li style={{ cursor: 'default' }}>
@@ -113,7 +104,7 @@ const Navigation = (props) => {
                 className='button button__xl active'
                 title='推文'
                 style={{ width: '100%' }}
-                onClick={() => setTweetModal(true)}
+                onClick={() => dispatch(modalActions.setIsTweetModalOpen(true))}
               />
             </>
           )}

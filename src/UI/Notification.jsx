@@ -1,7 +1,8 @@
 import styles from './Notification.module.scss'
 import {SuccessIcon,ErrorIcon,WarnIcon,NewIcon } from '../components/assets/icons/index'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
-const Notification = ({ notification, title }) => {
+const Notification = ({ notification, title, title2 }) => {
   return (
     <div>
       {notification === 'success' && (
@@ -42,6 +43,20 @@ const Notification = ({ notification, title }) => {
           <div className={styles.icon__new__container}>
             <img className={styles.icon__new} src={NewIcon} alt='warn-icon' />
           </div>
+        </div>
+      )}
+      {notification === 'loading' && (
+        <div className={styles.notification__container}>
+          <div className={styles.text__container}>
+            <p className={styles.notification__text}>{title}</p>
+            <br />
+            <p
+              className={`${styles.notification__text} ${styles.loading__text}`}
+            >
+              {title2}
+            </p>
+          </div>
+          <LoadingIcon className={styles.loading__icon} />
         </div>
       )}
     </div>

@@ -17,6 +17,7 @@ import { userActions } from '../store/user-slice'
 // --- icons
 import { defaultFig } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
+import { modalActions } from '../store/modal-slice'
 
 const MainPage = () => {
   const pathname = useLocation().pathname
@@ -36,6 +37,8 @@ const MainPage = () => {
   const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
   const userInfo = useSelector((state) => state.user.userInfo)
   const allTweetsData = useSelector((state) => state.user.allTweetsData)
+  const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
+  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // --- lazyloading related
   const tweetGetAll = async () => {
     try {
@@ -57,6 +60,7 @@ const MainPage = () => {
       console.error(error)
     }
   }
+
   // --- useEffect
   // 清除登入資料，沒 authToken (沒經過正確登入過程) 就回去登入頁面
   useEffect(() => {
@@ -104,10 +108,9 @@ const MainPage = () => {
   const vh = Math.round(window.innerHeight)
   return (
     <div>
-      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
+      <ReplyModal trigger={isReplyModalOpen} />
       <TweetModal
-        trigger={tweetModal}
-        setTweetModal={setTweetModal}
+        trigger={isTweetModalOpen}
         setSubmitReRender={setSubmitReRender}
       />
       <UserGrid pathname={pathname} id={'tweet__list'}>
@@ -125,20 +128,22 @@ const MainPage = () => {
             className={`button button__md active`}
             title='推文'
             style={{ width: '66px' }}
-            onClick={() => setTweetModal(true)}
+            onClick={() => dispatch(modalActions.setIsTweetModalOpen(true))}
           />
         </div>
-        <InfiniteScroll
-          dataLength={allTweetsData.length}
-          next={changePage}
-          hasMore={hasMore !== 0}
-          loader={<LoadingIcon className={styles.loading__icon} />}
-          endMessage={null}
-          scrollableTarget='tweet__list'
-          height={vh - 210}
-        >
-          {tweetsListHelper}
-        </InfiniteScroll>
+        {allTweetsData.length !== 0 && (
+          <InfiniteScroll
+            dataLength={allTweetsData.length}
+            next={changePage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={700}
+          >
+            {tweetsListHelper}
+          </InfiniteScroll>
+        )}
       </UserGrid>
     </div>
   )

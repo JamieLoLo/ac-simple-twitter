@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { likeApi, unLikeApi } from '../api/likeApi'
 // --- store
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { defaultFig } from '../components/assets/icons/index'
 
@@ -91,7 +92,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
         <div
           className={styles.message__icon}
           onClick={() => {
-            onClick?.(true)
+            dispatch(modalActions.setIsDetailReplyModalOpen(true))
           }}
         ></div>
         {activeColor ? (

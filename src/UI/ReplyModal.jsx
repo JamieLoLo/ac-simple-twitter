@@ -12,8 +12,11 @@ import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
+
 // --- icons
 import {defaultFig} from '../components/assets/icons/index'
+
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -32,6 +35,7 @@ const ReplyModal = (props) => {
   const userInfo = useSelector((state) => state.user.userInfo)
   const oneTweetData = useSelector((state) => state.user.oneTweetData)
   const { User } = oneTweetData
+  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // useEffect
   useEffect(() => {
     const userGetProfile = async () => {
@@ -77,7 +81,7 @@ const ReplyModal = (props) => {
     } else {
       try {
         await AddReplyApi(tweetId, content)
-        props.setReplyModal(false)
+        dispatch(modalActions.setIsReplyModalOpen(false))
         refreshHandler()
         dispatch(userActions.setIsTweetUpdate())
       } catch (error) {
@@ -85,13 +89,12 @@ const ReplyModal = (props) => {
       }
     }
   }
-  
-  return props.trigger ? (
+  return isReplyModalOpen ? (
     <div className={styles.modal}>
       <div
         className={styles.backdrop}
         onClick={() => {
-          props.setReplyModal(false)
+          dispatch(modalActions.setIsReplyModalOpen(false))
           refreshHandler()
           setShowErrorMessage(false)
         }}
@@ -101,7 +104,7 @@ const ReplyModal = (props) => {
           <div
             className={styles.del__btn}
             onClick={() => {
-              props.setReplyModal(false)
+              dispatch(modalActions.setIsReplyModalOpen(false))
               refreshHandler()
               setShowErrorMessage(false)
             }}

@@ -77,7 +77,7 @@ const DetailTweetPage = () => {
     if (tweetId !== null) {
       tweetGetOne()
     }
-  }, [likeCount, tweetId])
+  }, [likeCount, tweetId, replyId])
 
   useEffect(() => {
     replyGetOne(tweetId, 1)

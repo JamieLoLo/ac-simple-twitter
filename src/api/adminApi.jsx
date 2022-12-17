@@ -25,9 +25,9 @@ export const AdminDeleteTweetApi = async (id) => {
 }
 
 // OK
-export const adminGetAllUsersApi = async () => {
+export const adminGetAllUsersApi = async (page) => {
   try {
-    const res = await axiosInstance.get(`${adminURL}/users`)
+    const res = await axiosInstance.get(`${adminURL}/users?page=${page}`)
     return res
   } catch (error) {
     console.error('[Admin Get All Users Failed]: ', error)
@@ -35,9 +35,9 @@ export const adminGetAllUsersApi = async () => {
 }
 
 // OK
-export const adminGetAllTweetsApi = async () => {
+export const adminGetAllTweetsApi = async (page) => {
   try {
-    const res = await axiosInstance.get(`${adminURL}/tweets`)
+    const res = await axiosInstance.get(`${adminURL}/tweets?page=${page}`)
     return res
   } catch (error) {
     console.error('[Admin Get All Tweets Failed]: ', error)

@@ -9,8 +9,9 @@ import { Button, AuthInput } from './index'
 import { AddReplyApi } from '../api/replyApi'
 // --- store
 import { authInputActions } from '../store/authInput-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
-import {defaultFig} from '../components/assets/icons/index'
+import { defaultFig } from '../components/assets/icons/index'
 
 const DetailReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -24,6 +25,10 @@ const DetailReplyModal = (props) => {
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
+  const isDetailReplyModalOpen = useSelector(
+    (state) => state.modal.isDetailReplyModalOpen
+  )
+
   // --- event handler
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
@@ -38,7 +43,7 @@ const DetailReplyModal = (props) => {
       const AddReply = async () => {
         try {
           const res = await AddReplyApi(tweetId, content)
-          props.setDetailReplyModal(false)
+          dispatch(modalActions.setIsDetailReplyModalOpen(false))
           props.setSubmitReRender(true)
           localStorage.setItem('reply_id', res.data.id)
           refreshHandler()
@@ -52,12 +57,12 @@ const DetailReplyModal = (props) => {
   // --- helper constant
   const createTime = useMoment(props.tweetData.createdAt)
 
-  return props.trigger ? (
+  return isDetailReplyModalOpen ? (
     <div className={styles.modal}>
       <div
         className={styles.backdrop}
         onClick={() => {
-          props.setDetailReplyModal(false)
+          dispatch(modalActions.setIsDetailReplyModalOpen(false))
           refreshHandler()
           setShowErrorMessage(false)
         }}
@@ -67,7 +72,7 @@ const DetailReplyModal = (props) => {
           <div
             className={styles.del__btn}
             onClick={() => {
-              props.setDetailReplyModal(false)
+              dispatch(modalActions.setIsDetailReplyModalOpen(false))
               refreshHandler()
               setShowErrorMessage(false)
             }}

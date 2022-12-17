@@ -332,7 +332,7 @@ const UserProfilePage = () => {
             喜歡的內容
           </li>
         </ul>
-        {profilePage === 'tweet' ? (
+        {profilePage === 'tweet' && userTweetsData.length !== 0 ? (
           <InfiniteScroll
             dataLength={userTweetsData.length}
             next={changeTweetPage}
@@ -346,7 +346,7 @@ const UserProfilePage = () => {
           </InfiniteScroll>
         ) : undefined}
 
-        {profilePage === 'reply' ? (
+        {profilePage === 'reply' && userReplysData.length !== 0 ? (
           <InfiniteScroll
             dataLength={userReplysData.length}
             next={changeReplyPage}
@@ -360,7 +360,7 @@ const UserProfilePage = () => {
           </InfiniteScroll>
         ) : undefined}
 
-        {profilePage === 'like' ? (
+        {profilePage === 'like' && userLikesData.length !== 0 ? (
           <InfiniteScroll
             dataLength={userLikesData.length}
             next={changeLikePage}

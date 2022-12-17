@@ -9,6 +9,7 @@ import DetailTweetPage from './DetailTweetPage'
 import UserProfilePage from './UserProfilePage'
 import UserFollowerPage from './UserFollowerPage'
 import UserFollowingPage from './UserFollowingPage'
+import HomePage from './HomePage'
 
 export {
   UserLoginPage,
@@ -22,4 +23,5 @@ export {
   UserFollowerPage,
   UserFollowingPage,
   UserProfilePage,
+  HomePage,
 }

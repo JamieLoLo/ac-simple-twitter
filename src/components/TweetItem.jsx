@@ -2,13 +2,15 @@ import styles from './TweetItem.module.scss'
 // --- hook
 import useMoment from '../hooks/useMoment'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+
+import { useDispatch, useSelector } from 'react-redux'
 // --- component
 // --- api
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import {
   likeIcon,
@@ -23,6 +25,8 @@ const TweetItem = ({ data, onClick }) => {
     data
   // --- localStorage
   const authToken = localStorage.getItem('authToken')
+  // --- useSelector
+  // const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // --- event handler
   const toDetailPage = () => {
     if (authToken) {
@@ -40,8 +44,9 @@ const TweetItem = ({ data, onClick }) => {
   }
   const replyHandler = () => {
     localStorage.setItem('tweet_id', id)
-    onClick?.(true)
+    dispatch(modalActions.setIsReplyModalOpen(true))
   }
+
   const profilePageHandler = async () => {
     try {
       const res = await userGetProfileApi(User.id)
