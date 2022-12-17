@@ -14,6 +14,7 @@ import {
   UserProfilePage,
   UserFollowerPage,
   UserFollowingPage,
+  HomePage,
 } from './pages/index'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='users/setting' element={<SettingPage />} />
           <Route path='users/follower' element={<UserFollowerPage />} />
           <Route path='users/following' element={<UserFollowingPage />} />
+          <Route path='*' element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>

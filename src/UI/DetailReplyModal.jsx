@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { AddReplyApi } from '../api/replyApi'
 import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
+import { modalActions } from '../store/modal-slice'
 
 const DetailReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -16,6 +17,9 @@ const DetailReplyModal = (props) => {
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
+  const isDetailReplyModalOpen = useSelector(
+    (state) => state.modal.isDetailReplyModalOpen
+  )
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
@@ -34,7 +38,7 @@ const DetailReplyModal = (props) => {
       const AddReply = async () => {
         try {
           const res = await AddReplyApi(tweetId, content)
-          props.setDetailReplyModal(false)
+          dispatch(modalActions.setIsDetailReplyModalOpen(false))
           props.setSubmitReRender(true)
           localStorage.setItem('reply_id', res.data.id)
           refreshHandler()
@@ -46,12 +50,12 @@ const DetailReplyModal = (props) => {
     }
   }
 
-  return props.trigger ? (
+  return isDetailReplyModalOpen ? (
     <div className={styles.modal}>
       <div
         className={styles.backdrop}
         onClick={() => {
-          props.setDetailReplyModal(false)
+          dispatch(modalActions.setIsDetailReplyModalOpen(false))
           refreshHandler()
           setShowErrorMessage(false)
         }}
@@ -61,7 +65,7 @@ const DetailReplyModal = (props) => {
           <div
             className={styles.del__btn}
             onClick={() => {
-              props.setDetailReplyModal(false)
+              dispatch(modalActions.setIsDetailReplyModalOpen(false))
               refreshHandler()
               setShowErrorMessage(false)
             }}

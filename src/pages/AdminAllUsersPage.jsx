@@ -60,18 +60,20 @@ const AdminAllUsersPage = () => {
     <AdminUserPageGrid pathname={pathname} id={'user__list'}>
       <div className={styles.title}>使用者列表</div>
       <div className={styles.user__card__list}>
-        <InfiniteScroll
-          className={styles.infinite__scroll}
-          dataLength={data.length}
-          next={changePage}
-          hasMore={hasMore !== 0}
-          endMessage={null}
-          scrollableTarget='user__list'
-          loader={<LoadingIcon className={styles.loading__icon} />}
-          height={850}
-        >
-          {adminUserItemHelper}
-        </InfiniteScroll>
+        {data.length !== 0 && (
+          <InfiniteScroll
+            className={styles.infinite__scroll}
+            dataLength={data.length}
+            next={changePage}
+            hasMore={hasMore !== 0}
+            endMessage={null}
+            scrollableTarget='user__list'
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            height={850}
+          >
+            {adminUserItemHelper}
+          </InfiniteScroll>
+        )}
       </div>
     </AdminUserPageGrid>
   )

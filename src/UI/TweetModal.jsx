@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { tweetPostApi } from '../api/tweetApi'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 
 const TweetModal = (props) => {
   const dispatch = useDispatch()
@@ -18,6 +19,7 @@ const TweetModal = (props) => {
   const isValid = useSelector((state) => state.authInput.tweet.isValid)
   const content = useSelector((state) => state.authInput.tweet.content)
   const userInfo = useSelector((state) => state.user.userInfo)
+  const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
   // --- useEffect
 
   const tweetHandler = (useInput) => {
@@ -32,7 +34,7 @@ const TweetModal = (props) => {
     } else {
       try {
         await tweetPostApi(content)
-        props.setTweetModal(false)
+        dispatch(modalActions.setIsTweetModalOpen(false))
         props.setSubmitReRender(true)
         refreshHandler()
         dispatch(userActions.setIsTweetUpdate())
@@ -42,12 +44,12 @@ const TweetModal = (props) => {
     }
   }
 
-  return props.trigger ? (
+  return isTweetModalOpen ? (
     <div className={styles.modal}>
       <div
         className={styles.backdrop}
         onClick={() => {
-          props.setTweetModal(false)
+          dispatch(modalActions.setIsTweetModalOpen(false))
           refreshHandler()
           setShowErrorMessage(false)
         }}
@@ -57,7 +59,7 @@ const TweetModal = (props) => {
           <div
             className={styles.del__btn}
             onClick={() => {
-              props.setTweetModal(false)
+              dispatch(modalActions.setIsTweetModalOpen(false))
               refreshHandler()
               setShowErrorMessage(false)
             }}

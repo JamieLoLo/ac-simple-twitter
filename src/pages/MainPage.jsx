@@ -7,14 +7,14 @@ import TweetModal from '../UI/TweetModal'
 import ReplyModal from '../UI/ReplyModal'
 import { useEffect, useState } from 'react'
 import { tweetGetAllApi } from '../api/tweetApi'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { userGetProfileApi } from '../api/userApi'
 import { userActions } from '../store/user-slice'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
+import { modalActions } from '../store/modal-slice'
 
 const MainPage = () => {
   const pathname = useLocation().pathname
@@ -34,6 +34,9 @@ const MainPage = () => {
   const userInfo = useSelector((state) => state.user.userInfo)
   const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
   const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
+  const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
+  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
+  console.log(isTweetModalOpen)
   // --- useEffect
 
   // 清除登入資料，沒 authToken (沒經過正確登入過程) 就回去登入頁面
@@ -113,10 +116,9 @@ const MainPage = () => {
 
   return (
     <div>
-      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
+      <ReplyModal trigger={isReplyModalOpen} />
       <TweetModal
-        trigger={tweetModal}
-        setTweetModal={setTweetModal}
+        trigger={isTweetModalOpen}
         setSubmitReRender={setSubmitReRender}
       />
       <UserGrid pathname={pathname} id={'tweet__list'}>
@@ -134,20 +136,22 @@ const MainPage = () => {
             className={`button button__md active`}
             title='推文'
             style={{ width: '66px' }}
-            onClick={() => setTweetModal(true)}
+            onClick={() => dispatch(modalActions.setIsTweetModalOpen(true))}
           />
         </div>
-        <InfiniteScroll
-          dataLength={allTweetsData.length}
-          next={changePage}
-          hasMore={hasMore !== 0}
-          loader={<LoadingIcon className={styles.loading__icon} />}
-          endMessage={null}
-          scrollableTarget='tweet__list'
-          height={700}
-        >
-          {tweetsListHelper}
-        </InfiniteScroll>
+        {allTweetsData.length !== 0 && (
+          <InfiniteScroll
+            dataLength={allTweetsData.length}
+            next={changePage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={700}
+          >
+            {tweetsListHelper}
+          </InfiniteScroll>
+        )}
       </UserGrid>
     </div>
   )
