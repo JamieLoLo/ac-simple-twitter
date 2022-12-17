@@ -18,8 +18,12 @@ const DetailTweetPage = () => {
   const navigate = useNavigate()
   const replyId = localStorage.getItem('reply_id')
   const tweetId = localStorage.getItem('tweet_id')
+  const authToken = localStorage.getItem('authToken')
 
-  
+  if (authToken === null) {
+    navigate('/users/login')
+  }
+
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
@@ -36,7 +40,7 @@ const DetailTweetPage = () => {
     if (tweetId !== null) {
       tweetGetOne()
     }
-  }, [likeCount, navigate])
+  }, [likeCount, navigate, tweetId])
 
   useEffect(() => {
     const replyGetOne = async () => {
@@ -52,7 +56,7 @@ const DetailTweetPage = () => {
     if (tweetId !== null) {
       replyGetOne()
     }
-  }, [replyId, navigate])
+  }, [replyId, navigate, tweetId])
 
   const replyItemHelper = replyData.map((data) => (
     <DetailReplyItem

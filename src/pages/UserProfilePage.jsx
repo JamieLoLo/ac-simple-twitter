@@ -36,11 +36,9 @@ const UserProfilePage = () => {
   const isUpdate = useSelector((state) => state.user.isUpdate)
   const [isUserFollowed, setIsUserFollowed] = useState(false)
 
-  useEffect(() => {
-    if (authToken === null) {
-      navigate('/users/login')
-    }
-  }, [authToken, navigate])
+  if (authToken === null) {
+    navigate('/users/login')
+  }
 
   useEffect(() => {
     const userGetFollowings = async () => {
@@ -79,7 +77,6 @@ const UserProfilePage = () => {
     if ((profileId !== null) & (authToken !== null)) {
       userGetProfile()
     }
-
   }, [profileId, isUpdate])
 
   //userGetTweets

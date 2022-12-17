@@ -9,6 +9,7 @@ import { AddReplyApi } from '../api/replyApi'
 import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
 import { tweetGetOneApi } from '../api/tweetApi'
+import { userGetProfileApi } from '../api/userApi'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -16,11 +17,16 @@ const ReplyModal = (props) => {
   const message = useSelector((state) => state.authInput.reply.message)
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
-  const userAvatar = useSelector((state) => state.user.userInfo.avatar)
+  const [userProfileData, setUserProfileData] = useState({})
   const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const isUpdate = useSelector((state) => state.user.isUpdate)
   const [tweetData, setTweetData] = useState([])
+  const userId = localStorage.getItem('userId')
+  const authToken = localStorage.getItem('authToken')
   const navigate = useNavigate()
-  const createTime = useMoment(props.createdAt ? props.createdAt : tweetData.createdAt )
+  const createTime = useMoment(
+    props.createdAt ? props.createdAt : tweetData.createdAt
+  )
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
   }
@@ -28,6 +34,22 @@ const ReplyModal = (props) => {
     dispatch(authInputActions.refreshAuthInput())
   }
   const tweetId = localStorage.getItem('tweet_id')
+
+  useEffect(() => {
+    const userGetProfile = async () => {
+      try {
+        const res = await userGetProfileApi(userId)
+        await setUserProfileData(res.data)
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+    if ((userId !== null) & (authToken !== null)) {
+      userGetProfile()
+    }
+  }, [userId, isUpdate])
+
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
@@ -143,7 +165,11 @@ const ReplyModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src={userAvatar === null ? defaultFig : userAvatar}
+              src={
+                userProfileData.avatar === null
+                  ? defaultFig
+                  : userProfileData.avatar
+              }
               alt='Default Fig'
             />
             <div className={styles.auth__input__container}>

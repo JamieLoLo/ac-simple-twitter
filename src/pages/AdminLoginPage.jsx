@@ -12,9 +12,9 @@ import styles from './AdminLoginPage.module.scss'
 import { useState, useEffect } from 'react'
 
 const AdminLoginPage = () => {
-  const [loadingStatus, setLoadingStatus] = useState('finish')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [loadingStatus, setLoadingStatus] = useState('finish')
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
   const authToken = localStorage.getItem('authToken')
@@ -30,7 +30,7 @@ const AdminLoginPage = () => {
     if (authToken) {
       navigate('/admin/alltweets')
     }
-  }, [navigate])
+  }, [authToken, navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {
@@ -61,10 +61,6 @@ const AdminLoginPage = () => {
     } catch (error) {
       console.error(error)
     }
-
-    // success => res.data.token, res.status = 200
-    // failed => res.response.status = 401，"帳號不存在"
-    // failed => res.response.status = 500，"登入失敗"
   }
 
   const refreshHandler = () => {

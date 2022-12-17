@@ -33,7 +33,7 @@ const TweetModal = (props) => {
     if (authToken !== null && userId !== null) {
       userGetProfile(userId)
     }
-  }, [dispatch, userId])
+  }, [authToken, dispatch, userId])
   const tweetHandler = (useInput) => {
     dispatch(authInputActions.tweetAuth(useInput))
   }

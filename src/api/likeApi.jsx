@@ -8,9 +8,9 @@ const axiosInstance = axios.create({ baseURL: likeURL })
 
 axiosInstance.interceptors.request.use((config) => {
   config.headers['ngrok-skip-browser-warning'] = 'any'
-  const token = localStorage.getItem('authToken')
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`
+  const authToken = localStorage.getItem('authToken')
+  if (authToken) {
+    config.headers['Authorization'] = `Bearer ${authToken}`
   }
   return config
 })

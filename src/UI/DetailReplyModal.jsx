@@ -17,7 +17,6 @@ const DetailReplyModal = (props) => {
   const content = useSelector((state) => state.authInput.reply.content)
   const userAvatar = useSelector((state) => state.user.userInfo.avatar)
   const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const navigate = useNavigate()
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
   }

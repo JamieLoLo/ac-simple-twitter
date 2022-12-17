@@ -6,20 +6,29 @@ import { Link, useNavigate } from 'react-router-dom'
 import styles from './UserFollowingPage.module.scss'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { userGetFollowingsApi, userGetProfileApi, userGetTweetsApi } from '../api/userApi'
+import {
+  userGetFollowingsApi,
+  userGetProfileApi,
+  userGetTweetsApi,
+} from '../api/userApi'
 
 const UserFollowingPage = () => {
   const [userTweetsData, setUserTweetsData] = useState([])
   const [userFollowingsData, setUserFollowingsData] = useState([])
-  const userInfo = useSelector((state) => state.user.userInfo)
   const [userProfileData, setUserProfileData] = useState({})
   const navigate = useNavigate()
+  const profileId = localStorage.getItem('profile_id')
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
+const authToken = localStorage.getItem('authToken')
 
+if (authToken === null) {
+  navigate('/users/login')
+}
   // userGetProfile
   useEffect(() => {
-    const userGetProfile = async (data) => {
+    const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(data)
+        const res = await userGetProfileApi(profileId)
         if (res.status !== 200) {
           navigate('/users/login')
         }
@@ -29,36 +38,36 @@ const UserFollowingPage = () => {
         return error
       }
     }
-    userGetProfile(userInfo.id)
+    userGetProfile()
   }, [])
 
   //userGetTweets
   useEffect(() => {
-    const userGetTweets = async (data) => {
+    const userGetTweets = async () => {
       try {
-        const res = await userGetTweetsApi(data)
+        const res = await userGetTweetsApi(profileId)
         await setUserTweetsData(res.data)
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetTweets(userInfo.id)
+    userGetTweets()
   }, [])
 
   // userGetFollowings
   useEffect(() => {
-    const userGetFollowings = async (data) => {
+    const userGetFollowings = async () => {
       try {
-        const res = await userGetFollowingsApi(data)
+        const res = await userGetFollowingsApi(profileId)
         await setUserFollowingsData(res.data)
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetFollowings(userInfo.id)
-  }, [])
+    userGetFollowings()
+  }, [isFollowUpdate, profileId])
 
   const userFollowingList = userFollowingsData.map((data) => (
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
