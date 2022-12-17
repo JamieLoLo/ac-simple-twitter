@@ -4,10 +4,13 @@ import defaultFig from '../components/assets/icons/defaultFig.svg'
 import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
+import { useEffect, useState } from 'react'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const dispatch = useDispatch()
   const createTime = useMoment(tweetData.createdAt)
+  const [activeColor, setActiveColor] = useState(tweetData.isLiked)
+  const [likeCounts, setLikeCounts] = useState(tweetData.likeCounts)
   const tweetId = localStorage.getItem('tweet_id')
 
   const likeCountHandler = (count) => {
@@ -15,7 +18,13 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   }
 
   const likeHandler = () => {
-    if (tweetData.isLiked === 0) {
+    setActiveColor(!activeColor)
+    if (!activeColor) {
+      setLikeCounts((count) => count + 1)
+    } else {
+      setLikeCounts((count) => count - 1)
+    }
+    if (!tweetData.isLiked) {
       const like = async () => {
         try {
           const res = await likeApi(tweetId)
@@ -25,7 +34,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
         }
       }
       like()
-    } else if (tweetData.isLiked === 1) {
+    } else if (tweetData.isLiked) {
       const unLike = async () => {
         try {
           const res = await unLikeApi(tweetId)
@@ -37,7 +46,10 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       unLike()
     }
   }
-
+  useEffect(() => {
+    setActiveColor(tweetData.isLiked)
+    setLikeCounts(tweetData.likeCounts)
+  }, [tweetData.isLiked, tweetData.likeCounts])
   return (
     <div className={styles.tweet}>
       <div className={styles.tweet__info}>
@@ -61,7 +73,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
           <p>回覆</p>
         </div>
         <div className={styles.num}>
-          {tweetData.likeCounts}
+          {likeCounts}
           <p>喜歡次數</p>
         </div>
       </div>
@@ -73,15 +85,14 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
             onClick?.(true)
           }}
         ></div>
-        {tweetData.isLiked === 1 && (
+        {activeColor ? (
           <div
             className={styles.like__icon__active}
             onClick={() => {
               likeHandler()
             }}
           ></div>
-        )}
-        {tweetData.isLiked === 0 && (
+        ) : (
           <div
             className={styles.like__icon}
             onClick={() => {

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// const tweetURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+const tweetURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
 // const tweetURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
-const tweetURL = 'https://e3ae-223-136-148-157.jp.ngrok.io/api/tweets'
+// const tweetURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: tweetURL })
 
@@ -30,9 +30,9 @@ export const tweetPostApi = async (description) => {
 }
 
 // 取得所有推文
-export const tweetGetAllApi = async () => {
+export const tweetGetAllApi = async (page) => {
   try {
-    const res = await axiosInstance.get(`${tweetURL}`)
+    const res = await axiosInstance.get(`${tweetURL}?page=${page}`)
     return res
   } catch (error) {
     console.error(['[Tweet Get All Failed]: ', error])
@@ -52,9 +52,11 @@ export const tweetGetOneApi = async (tweet_id) => {
 }
 
 // 取得單一推文回覆
-export const replyGetOneApi = async (tweet_id) => {
+export const replyGetOneApi = async (tweet_id, page) => {
   try {
-    const res = await axiosInstance.get(`${tweetURL}/${tweet_id}/replies`)
+    const res = await axiosInstance.get(
+      `${tweetURL}/${tweet_id}/replies?page=${page}`
+    )
     return res
   } catch (error) {
     console.error(['[Reply Get One Failed]: ', error])

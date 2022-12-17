@@ -35,6 +35,7 @@ const DetailReplyModal = (props) => {
         try {
           const res = await AddReplyApi(tweetId, content)
           props.setDetailReplyModal(false)
+          props.setSubmitReRender(true)
           localStorage.setItem('reply_id', res.data.id)
           refreshHandler()
         } catch (error) {

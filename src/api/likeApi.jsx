@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// const likeURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+const likeURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
 // const likeURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
-const likeURL = 'https://e3ae-223-136-148-157.jp.ngrok.io/api/tweets'
+// const likeURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: likeURL })
 
@@ -18,7 +18,6 @@ axiosInstance.interceptors.request.use((config) => {
 export const likeApi = async (tweet_id) => {
   try {
     const res = await axiosInstance.post(`${likeURL}/${tweet_id}/like`)
-    console.log(res)
     return res
   } catch (error) {
     console.error(error)

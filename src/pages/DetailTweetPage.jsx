@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import DetailReplyModal from '../UI/DetailReplyModal'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const DetailTweetPage = () => {
   const [tweetData, setTweetData] = useState([])
@@ -19,7 +21,9 @@ const DetailTweetPage = () => {
   const replyId = localStorage.getItem('reply_id')
   const tweetId = localStorage.getItem('tweet_id')
   const authToken = localStorage.getItem('authToken')
-
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [submitReRender, setSubmitReRender] = useState(false)
   if (authToken === null) {
     navigate('/users/login')
   }
@@ -42,21 +46,42 @@ const DetailTweetPage = () => {
     }
   }, [likeCount, navigate, tweetId])
 
+  // 取得單一推文的回覆列表
+
+  const replyGetOne = async (tweetId, page) => {
+    try {
+      const res = await replyGetOneApi(tweetId, page)
+      await setReplyData(res.data)
+    } catch (error) {
+      console.error(error)
+      localStorage.clear()
+      navigate('/users/login')
+    }
+  }
+
   useEffect(() => {
+    replyGetOne(tweetId, 1)
+    setPage(2)
+    setSubmitReRender(false)
+  }, [replyId, navigate, tweetId, submitReRender])
+
+  // lazy loading for reply list
+
+  const changeReplyPage = () => {
     const replyGetOne = async () => {
       try {
-        const res = await replyGetOneApi(tweetId)
-        setReplyData(res.data)
+        const res = await replyGetOneApi(tweetId, page)
+        setHasMore(res.data.length)
+        await setReplyData(replyData.concat(res.data))
+        setPage((page) => page + 1)
       } catch (error) {
         console.error(error)
         localStorage.clear()
         navigate('/users/login')
       }
     }
-    if (tweetId !== null) {
-      replyGetOne()
-    }
-  }, [replyId, navigate, tweetId])
+    replyGetOne()
+  }
 
   const replyItemHelper = replyData.map((data) => (
     <DetailReplyItem
@@ -73,8 +98,9 @@ const DetailTweetPage = () => {
         setDetailReplyModal={setDetailReplyModal}
         tweetData={tweetData}
         tweetUserData={tweetUserData}
+        setSubmitReRender={setSubmitReRender}
       />
-      <UserGrid>
+      <UserGrid id={'reply__list'}>
         <div className={styles.title}>
           <img
             src={prevIcon}
@@ -89,7 +115,19 @@ const DetailTweetPage = () => {
           setReplyModal={setDetailReplyModal}
           onClick={(replyModal) => setDetailReplyModal(replyModal)}
         />
-        {replyItemHelper}
+        {replyData.length !== 0 && (
+          <InfiniteScroll
+            dataLength={replyData.length}
+            next={changeReplyPage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={600}
+          >
+            {replyItemHelper}
+          </InfiniteScroll>
+        )}
       </UserGrid>
     </>
   )

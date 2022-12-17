@@ -13,6 +13,8 @@ import { authInputActions } from '../store/authInput-slice'
 import { userGetProfileApi } from '../api/userApi'
 import { userActions } from '../store/user-slice'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const MainPage = () => {
   const [tweetModal, setTweetModal] = useState(false)
@@ -24,6 +26,9 @@ const MainPage = () => {
   const dispatch = useDispatch()
   const userId = localStorage.getItem('userId')
   const authToken = localStorage.getItem('authToken')
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [submitReRender, setSubmitReRender] = useState(false)
 
   useEffect(() => {
     dispatch(authInputActions.refreshAuthInput())
@@ -48,19 +53,42 @@ const MainPage = () => {
     }
   }, [authToken, dispatch, userId])
 
+  const tweetGetAll = async () => {
+    try {
+      const res = await tweetGetAllApi(1)
+      if (res.status !== 200) {
+        localStorage.removeItem('authToken')
+        navigate('/users/login')
+      }
+      await setAllTweetsData(res.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
+    tweetGetAll(1)
+    setPage(2)
+    setSubmitReRender(false)
+  }, [submitReRender])
+
+  const changePage = () => {
     const tweetGetAll = async () => {
       try {
-        const res = await tweetGetAllApi()
-        await setAllTweetsData(res.data)
+        const res = await tweetGetAllApi(page)
+        if (res.status !== 200) {
+          localStorage.removeItem('authToken')
+          navigate('/users/login')
+        }
+        setHasMore(res.data.length)
+        await setAllTweetsData(allTweetsData.concat(res.data))
+        setPage((page) => page + 1)
       } catch (error) {
         console.error(error)
       }
     }
-    if (authToken !== null) {
-      tweetGetAll()
-    }
-  }, [authToken, navigate])
+    tweetGetAll()
+  }
 
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem
@@ -79,7 +107,7 @@ const MainPage = () => {
   const createdAt = localStorage.getItem('tweet_createdAt')
 
   return (
-    <>
+    <div>
       <ReplyModal
         trigger={replyModal}
         setReplyModal={setReplyModal}
@@ -89,8 +117,12 @@ const MainPage = () => {
         description={description}
         createdAt={createdAt}
       />
-      <TweetModal trigger={tweetModal} setTweetModal={setTweetModal} />
-      <UserGrid pathname={pathname}>
+      <TweetModal
+        trigger={tweetModal}
+        setTweetModal={setTweetModal}
+        setSubmitReRender={setSubmitReRender}
+      />
+      <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
           <div className={styles.container}>
@@ -108,9 +140,19 @@ const MainPage = () => {
             onClick={() => setTweetModal(true)}
           />
         </div>
-        <div>{tweetsListHelper}</div>
+        <InfiniteScroll
+          dataLength={allTweetsData.length}
+          next={changePage}
+          hasMore={hasMore !== 0}
+          loader={<LoadingIcon className={styles.loading__icon} />}
+          endMessage={null}
+          scrollableTarget='tweet__list'
+          height={700}
+        >
+          {tweetsListHelper}
+        </InfiniteScroll>
       </UserGrid>
-    </>
+    </div>
   )
 }
 

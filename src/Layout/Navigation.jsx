@@ -60,13 +60,15 @@ const Navigation = ({ condition, pathname }) => {
                 <div
                   className={clsx('', {
                     [styles.icon__personal__active]:
-                      pathname === '/users/profile' ,
-                    [styles.icon__personal]: pathname !== '/users/profile' ||  userId !== profileId,
+                      pathname === '/users/profile',
+                    [styles.icon__personal]:
+                      pathname !== '/users/profile' || userId !== profileId,
                   })}
                 ></div>
                 <p
                   className={clsx('', {
-                    [styles.active]: pathname === '/users/profile' && userId === profileId,
+                    [styles.active]:
+                      pathname === '/users/profile' && userId === profileId,
                   })}
                   onClick={getProfileId}
                 >
