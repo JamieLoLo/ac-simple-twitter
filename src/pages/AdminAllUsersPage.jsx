@@ -1,10 +1,15 @@
 import styles from './AdminAllUsersPage.module.scss'
-import { AdminUserPageGrid } from '../Layout/GridSystemWrapper'
+// --- hook
 import { useLocation, useNavigate } from 'react-router-dom'
-import AdminUserItem from '../components/AdminUserItem'
 import { useState, useEffect } from 'react'
-import { adminGetAllUsersApi } from '../api/adminApi'
 import InfiniteScroll from 'react-infinite-scroll-component'
+// --- component
+import { AdminUserPageGrid } from '../Layout/GridSystemWrapper'
+import AdminUserItem from '../components/AdminUserItem'
+// --- api
+import { adminGetAllUsersApi } from '../api/adminApi'
+// --- store
+// --- icons
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const AdminAllUsersPage = () => {
