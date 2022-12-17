@@ -3,9 +3,6 @@
   justify-content: flex-start;
 }
 
-.col_3 {
-}
-
 .col_7,
 .col_10 {
   border-left: solid 1px var(--border-color);
@@ -17,4 +14,15 @@
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
+}
+
+.user__list__container {
+  display: flex;
+  justify-items: flex-end;
+}
+.navigation {
+  transform: translateX(145px);
+}
+.user__list {
+  border-left: 1px solid var(--border-color);
 }

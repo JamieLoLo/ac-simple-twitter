@@ -6,12 +6,16 @@ import { useEffect, useState } from 'react'
 import { adminGetAllTweetsApi } from '../api/adminApi'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const AdminAllTweetsPage = () => {
   const dispatch = useDispatch()
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [data, setData] = useState([])
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
   const isAllTweetsUpdate = useSelector(
     (state) => state.admin.isAllTweetsUpdate
   )
@@ -28,11 +32,30 @@ const AdminAllTweetsPage = () => {
     <AdminTweetItem data={data} key={data.id} />
   ))
 
+  const adminGetAllTweets = async () => {
+    try {
+      const res = await adminGetAllTweetsApi(1)
+      setData(res.data)
+    } catch (error) {
+      console.error(error)
+      navigate('/admin/login')
+      localStorage.removeItem('authToken')
+    }
+  }
+
   useEffect(() => {
+    adminGetAllTweets(1)
+    setPage(2)
+  }, [isAllTweetsUpdate, navigate])
+
+  // lazy loading for tweet list
+  const changePage = () => {
     const adminGetAllTweets = async () => {
       try {
-        const res = await adminGetAllTweetsApi()
-        setData(res.data)
+        const res = await adminGetAllTweetsApi(page)
+        setHasMore(res.data.length)
+        await setData(data.concat(res.data))
+        setPage((page) => page + 1)
       } catch (error) {
         console.error(error)
         navigate('/admin/login')
@@ -40,13 +63,23 @@ const AdminAllTweetsPage = () => {
       }
     }
     adminGetAllTweets()
-  }, [isAllTweetsUpdate, navigate])
+  }
 
   return (
     <AdminGrid pathname={pathname}>
-      <div className={styles.adminAllTweets}>
+      <div className={styles.adminAllTweets} id={'tweet__list'}>
         <div className={styles.title}>推文清單</div>
-        {adminTweetItemHelper}
+        <InfiniteScroll
+          dataLength={data.length}
+          next={changePage}
+          hasMore={hasMore !== 0}
+          loader={<LoadingIcon className={styles.loading__icon} />}
+          endMessage={null}
+          scrollableTarget='tweet__list'
+          height={850}
+        >
+          {adminTweetItemHelper}
+        </InfiniteScroll>
       </div>
     </AdminGrid>
   )

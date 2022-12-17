@@ -10,8 +10,8 @@ const AdminUserItem = ({ data }) => {
     cover,
     tweetsCount,
     likesCount,
-    followingsCount,
-    followersCount,
+    followingCounts,
+    followerCounts,
   } = data
   return (
     <div className={styles.userCard}>
@@ -20,7 +20,11 @@ const AdminUserItem = ({ data }) => {
         src={cover ? cover : defaultCover}
         alt='cover'
       />
-      <img className={styles.avatar} src={avatar ? avatar : defaultAvatar} alt='avatar' />
+      <img
+        className={styles.avatar}
+        src={avatar ? avatar : defaultAvatar}
+        alt='avatar'
+      />
       <div className={styles.info}>
         <div className={styles.name}>{name}</div>
         <div className={styles.account}>@{account}</div>
@@ -36,11 +40,11 @@ const AdminUserItem = ({ data }) => {
         </div>
         <div className={styles.followInfo}>
           <p>
-            {followingsCount}個<span className={styles.sub}>跟隨中</span>
+            {followingCounts} 個<span className={styles.sub}>跟隨中</span>
           </p>
 
           <p>
-            {followersCount}位<span className={styles.sub}>跟隨者</span>
+            {followerCounts} 位<span className={styles.sub}>跟隨者</span>
           </p>
         </div>
       </div>
