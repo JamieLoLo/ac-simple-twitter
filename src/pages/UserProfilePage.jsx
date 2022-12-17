@@ -9,7 +9,6 @@ import Button from '../UI/Button'
 import EditProfileModal from '../UI/EditProfileModal'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { userGetFollowingsApi } from '../api/userApi'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
@@ -89,7 +88,7 @@ const UserProfilePage = () => {
   const userGetTweets = async (profileId, tweetPage) => {
     try {
       const res = await userGetTweetsApi(profileId, tweetPage)
-      await setUserTweetsData(res.data)
+      await dispatch(userActions.setUserTweetsData(res.data))
     } catch (error) {
       console.error(error)
       return error
@@ -99,7 +98,7 @@ const UserProfilePage = () => {
   useEffect(() => {
     userGetTweets(profileId, 1)
     setTweetPage(2)
-  }, [profileId, isUpdate])
+  }, [profileId])
 
   // lazy loading for tweet list
   const changeTweetPage = () => {
@@ -111,7 +110,9 @@ const UserProfilePage = () => {
           navigate('/users/login')
         }
         setHasMore(res.data.length)
-        await setUserTweetsData(userTweetsData.concat(res.data))
+        await dispatch(
+          userActions.setUserTweetsData(userTweetsData.concat(res.data))
+        )
         setTweetPage((page) => page + 1)
       } catch (error) {
         console.error(error)
@@ -125,7 +126,7 @@ const UserProfilePage = () => {
   const userGetReplys = async (profileId, replyPage) => {
     try {
       const res = await userGetReplysApi(profileId, replyPage)
-      await setUserReplysData(res.data)
+      await dispatch(userActions.setUserReplysData(res.data))
     } catch (error) {
       console.error(error)
       return error
@@ -147,7 +148,9 @@ const UserProfilePage = () => {
           navigate('/users/login')
         }
         setHasMore(res.data.length)
-        await setUserReplysData(userReplysData.concat(res.data))
+        await dispatch(
+          userActions.setUserReplysData(userReplysData.concat(res.data))
+        )
         setReplyPage((replyPage) => replyPage + 1)
       } catch (error) {
         console.error(error)
@@ -163,7 +166,7 @@ const UserProfilePage = () => {
       const res = await userGetLikesApi(profileId, likePage)
       const temp = res.data
       const tweetDatas = temp.map((data) => data.Tweet)
-      await setUserLikesData(tweetDatas)
+      await dispatch(userActions.setUserLikesData(tweetDatas))
     } catch (error) {
       console.error(error)
       return error
@@ -173,7 +176,7 @@ const UserProfilePage = () => {
   useEffect(() => {
     userGetLikes(profileId, 1)
     setLikePage(2)
-  }, [profileId, isUpdate])
+  }, [profileId])
 
   // lazy loading for like list
   const changeLikePage = () => {
@@ -182,7 +185,9 @@ const UserProfilePage = () => {
         const res = await userGetLikesApi(profileId, likePage)
         const temp = res.data
         const tweetDatas = temp.map((data) => data.Tweet)
-        await setUserLikesData(userLikesData.concat(tweetDatas))
+        await dispatch(
+          userActions.setUserLikesData(userLikesData.concat(tweetDatas))
+        )
         setHasMore(tweetDatas.length)
         setLikePage((likePage) => likePage + 1)
       } catch (error) {

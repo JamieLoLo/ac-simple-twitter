@@ -113,15 +113,7 @@ const MainPage = () => {
 
   return (
     <div>
-      <ReplyModal
-        trigger={replyModal}
-        setReplyModal={setReplyModal}
-        tweetUserAvatar={tweetUserAvatar}
-        tweetUserName={tweetUserName}
-        tweetUserAccount={tweetUserAccount}
-        description={description}
-        createdAt={createdAt}
-      />
+      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <TweetModal
         trigger={tweetModal}
         setTweetModal={setTweetModal}
