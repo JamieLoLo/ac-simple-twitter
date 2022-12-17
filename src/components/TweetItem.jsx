@@ -9,7 +9,8 @@ import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 import { userGetProfileApi } from '../api/userApi'
 
-const TweetItem = ({ data, onClick, onForceUpdate }) => {
+
+const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const authToken = localStorage.getItem('authToken')
@@ -17,6 +18,7 @@ const TweetItem = ({ data, onClick, onForceUpdate }) => {
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
     data
   const createTime = useMoment(createdAt)
+  
 
   const toDetailPage = () => {
     if (authToken) {

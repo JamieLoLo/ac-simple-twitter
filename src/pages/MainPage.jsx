@@ -60,7 +60,7 @@ const MainPage = () => {
     if (authToken !== null) {
       tweetGetAll()
     }
-  }, [allTweetsData, navigate])
+  }, [authToken, navigate])
 
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem

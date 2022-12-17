@@ -6,9 +6,20 @@ import { useState, useEffect } from 'react'
 import { adminGetAllUsersApi } from '../api/adminApi'
 
 const AdminAllUsersPage = () => {
-  const [data, setData] = useState([])
   const navigate = useNavigate()
   const pathname = useLocation().pathname
+  const [data, setData] = useState([])
+  const authToken = localStorage.getItem('authToken')
+
+  if (authToken === null) {
+    navigate('/users/login')
+  }
+
+  const adminUserItemHelper = data.map((data) => (
+    <AdminUserItem data={data} key={data.id} />
+  ))
+
+  // admin 獲得所有 user
   useEffect(() => {
     const adminGetAllTweets = async () => {
       try {
@@ -21,10 +32,8 @@ const AdminAllUsersPage = () => {
       }
     }
     adminGetAllTweets()
-  }, [])
-  const adminUserItemHelper = data.map((data) => (
-    <AdminUserItem data={data} key={data.id} />
-  ))
+  }, [navigate])
+
   return (
     <AdminGrid pathname={pathname}>
       <div className={styles.title}>使用者列表</div>

@@ -14,11 +14,11 @@ const RecommendFollowItem = ({ data }) => {
   const navigate = useNavigate()
   const unfollowHandler = async () => {
     await unfollowApi(data.id)
-    await dispatch(userActions.setIsUpdate())
+    await dispatch(userActions.setIsFollowUpdate())
   }
   const followHandler = async () => {
     await followApi(data.id)
-    await dispatch(userActions.setIsUpdate())
+    await dispatch(userActions.setIsFollowUpdate())
   }
   const profilePageHandler = () => {
     const userGetProfile = async () => {
@@ -51,7 +51,7 @@ const RecommendFollowItem = ({ data }) => {
       </div>
       {userId !== id && (
         <div className={styles.buttonContainer}>
-          {isFollowed ? (
+          {isFollowed === 1 ? (
             <Button
               className='button active button__md'
               style={{ width: '90px', fontSize: '14px' }}

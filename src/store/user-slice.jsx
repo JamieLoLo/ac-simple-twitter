@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  isFollowUpdate: false,
+  isTweetUpdate: false,
+  isUserInfoUpdate: false,
   isUpdate: true,
   userInfo: {
     account: null,
@@ -25,6 +28,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
+    setIsFollowUpdate(state) {
+      state.isFollowUpdate = !state.isFollowUpdate
+    },
     initialSetUserInfo(state, action) {
       const { avatar, cover, id, email, introduction, name, account } =
         action.payload

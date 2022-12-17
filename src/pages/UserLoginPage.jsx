@@ -23,7 +23,7 @@ const UserLoginPage = () => {
     if (authToken) {
       navigate('/users/main')
     }
-  }, [navigate])
+  }, [authToken, navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {

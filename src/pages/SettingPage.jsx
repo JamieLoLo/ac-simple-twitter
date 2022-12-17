@@ -20,11 +20,11 @@ const SettingPage = () => {
   const userInfo = useSelector((state) => state.user.userInfo)
   const navigate = useNavigate()
   const authToken = localStorage.getItem('authToken')
-  useEffect(() => {
-    if (authToken === null) {
-      navigate('/users/login')
-    }
-  }, [])
+
+
+  if (authToken === null) {
+    navigate('/users/login')
+  }
 
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
