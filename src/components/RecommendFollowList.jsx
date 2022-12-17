@@ -1,20 +1,30 @@
 import styles from './RecommendFollowList.module.scss'
-import { useEffect, useState } from 'react'
-import { userGetTopUsersApi } from '../api/userApi'
+// --- hook
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+// --- component
 import RecommendFollowItem from './RecommendFollowItem'
-import { useSelector } from 'react-redux'
+// --- api
+import { userGetTopUsersApi } from '../api/userApi'
+// --- store
+import { userActions } from '../store/user-slice'
+// --- icons
 
 const RecommendFollowList = () => {
-  const [userRecommendFollowData, setUserRecommendFollowData] = useState([])
+  const dispatch = useDispatch()
+  // --- useSelector
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
-
+  const recommendFollowData = useSelector(
+    (state) => state.user.recommendFollowData
+  )
+  // --- useEffect
   // userGetFollowers
   useEffect(() => {
     const userGetTopUsers = async () => {
       try {
         const res = await userGetTopUsersApi()
-        await setUserRecommendFollowData(res.data)
+        await dispatch(userActions.setRecommendFollowData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -22,8 +32,8 @@ const RecommendFollowList = () => {
     }
     userGetTopUsers()
   }, [isFollowUpdate, isUserInfoUpdate])
-
-  const userRecommendFollowList = userRecommendFollowData.map((data) => (
+  // --- helper constant
+  const userRecommendFollowList = recommendFollowData.map((data) => (
     <RecommendFollowItem data={data} key={data.id} />
   ))
   return (

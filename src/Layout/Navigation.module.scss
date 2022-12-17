@@ -63,3 +63,9 @@ content: url(../components/assets/icons/main_active.svg);
 .icon__setting__active {
   content: url(../components/assets/icons/setting_active.svg);
 }
+
+.modalContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}

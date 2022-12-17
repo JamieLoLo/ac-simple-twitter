@@ -1,15 +1,19 @@
 import styles from './ReplyModal.module.scss'
-import Button from './Button'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import AuthInput from './AuthInput'
+// --- hook
 import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
-import { AddReplyApi } from '../api/replyApi'
 import useMoment from '../hooks/useMoment'
+// --- component
+import { Button, AuthInput } from './index'
+// --- api
+import { AddReplyApi } from '../api/replyApi'
 import { tweetGetOneApi } from '../api/tweetApi'
 import { userGetProfileApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+// --- icons
+import {defaultFig} from '../components/assets/icons/index'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
@@ -67,7 +71,6 @@ const ReplyModal = (props) => {
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
-
   const submitHandler = async () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
@@ -82,6 +85,7 @@ const ReplyModal = (props) => {
       }
     }
   }
+  
   return props.trigger ? (
     <div className={styles.modal}>
       <div
@@ -109,11 +113,7 @@ const ReplyModal = (props) => {
               <div className={styles.avatar__container}>
                 <img
                   className={styles.avatar}
-                  src={
-                    User.avatar === null
-                      ? defaultFig
-                      : User.avatar
-                  }
+                  src={User.avatar === null ? defaultFig : User.avatar}
                   alt='Default Fig'
                 />
               </div>

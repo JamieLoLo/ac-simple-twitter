@@ -1,26 +1,35 @@
-import React from 'react'
-import { UserGrid } from '../Layout/GridSystemWrapper'
-import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
-import UserFollowListItem from '../components/UserFollowListItem'
-import { Link, useNavigate } from 'react-router-dom'
 import styles from './UserFollowerPage.module.scss'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+// --- hook
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+// --- component
+import { UserGrid } from '../Layout/GridSystemWrapper'
+import UserFollowListItem from '../components/UserFollowListItem'
+// --- api
 import {
   userGetFollowersApi,
   userGetTweetsApi,
   userGetProfileApi,
 } from '../api/userApi'
+// --- store
+import { userActions } from '../store/user-slice'
+// --- icons
+import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
 
 const UserFollowerPage = () => {
-  const [userFollowersData, setUserFollowersData] = useState([])
-  const [userProfileData, setUserProfileData] = useState({})
-  const [userTweetsData, setUserTweetsData] = useState([])
-  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
-  const profileId = localStorage.getItem('profile_id')
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  // --- localStorage
+  const profileId = localStorage.getItem('profile_id')
   const authToken = localStorage.getItem('authToken')
-
+  // --- useState
+  // --- useSelector
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const userTweetsData = useSelector((state) => state.user.userTweetsData)
+  const userFollowersData = useSelector((state) => state.user.userFollowersData)
+  // --- useEffect
   useEffect(() => {
     if (authToken === null) {
       navigate('/users/login')
@@ -31,10 +40,7 @@ const UserFollowerPage = () => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(profileId)
-        if (res.status !== 200) {
-          navigate('/users/login')
-        }
-        await setUserProfileData(res.data)
+        await dispatch(userActions.setUserInfo(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -48,7 +54,7 @@ const UserFollowerPage = () => {
     const userGetTweets = async () => {
       try {
         const res = await userGetTweetsApi(profileId)
-        await setUserTweetsData(res.data)
+        await dispatch(userActions.setUserTweetsData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -62,7 +68,7 @@ const UserFollowerPage = () => {
     const userGetFollowers = async () => {
       try {
         const res = await userGetFollowersApi(profileId)
-        await setUserFollowersData(res.data)
+        await dispatch(userActions.setUserFollowersData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -70,11 +76,11 @@ const UserFollowerPage = () => {
     }
     userGetFollowers()
   }, [isFollowUpdate, profileId])
-
-  
+  // --- helper constant
   const userFollowerList = userFollowersData.map((data) => (
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
+
 
   return (
     <>
@@ -90,7 +96,7 @@ const UserFollowerPage = () => {
               <PrevIcon />
             </div>
             <div className={styles.user__text}>
-              <p className={styles.user__name}>{userProfileData.name}</p>
+              <p className={styles.user__name}>{userInfo.name}</p>
               <p className={styles.tweet__count}>
                 {userTweetsData.length} 推文
               </p>

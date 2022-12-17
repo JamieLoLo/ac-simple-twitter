@@ -1,35 +1,37 @@
-import React from 'react'
 import styles from './UserFollowListItem.module.scss'
-import defaultFig from './assets/icons/defaultFig.svg'
-import Button from '../UI/Button'
-import { followApi, unfollowApi } from '../api/followshipsApi'
+// --- hook
 import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../store/user-slice'
+import { useEffect } from 'react'
+// --- component
+import { Button } from '../UI/index'
+// --- api
+import { followApi, unfollowApi } from '../api/followshipsApi'
 import { userGetFollowingsApi } from '../api/userApi'
-import { useEffect, useState } from 'react'
+// --- store
+import { userActions } from '../store/user-slice'
+// --- icons
+import { defaultFig } from './assets/icons/index'
 
 const UserFollowListItem = (data) => {
   const dispatch = useDispatch()
-  const userId = localStorage.getItem('userId')
   const { avatar, introduction, name, followerId, followingId, isFollowed } =
     data.data
-  const defaultIntro = `Hello! I'm ${name} without introduction.`
+  // --- localStorage
+  const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
-  const [userFollowingsData, setUserFollowingsData] = useState([])
-  const matchFollowing = userFollowingsData.find(
-    (data) => data.followingId === followerId
+  // --- useSelector
+  const userFollowingsData = useSelector(
+    (state) => state.user.userFollowingsData
   )
-  const temp = matchFollowing
-    ? matchFollowing.followingId === followerId
-    : false
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
 
+  // --- useEffect
   // userGetFollowings
   useEffect(() => {
     const userGetFollowings = async () => {
       try {
         const res = await userGetFollowingsApi(profileId)
-        await setUserFollowingsData(res.data)
+        await dispatch(userActions.setUserFollowingsData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -37,21 +39,27 @@ const UserFollowListItem = (data) => {
     }
     userGetFollowings()
   }, [isFollowUpdate, profileId])
-
+  // --- evnet handler
   const followHandler = async () => {
     if (profileId === userId) {
       await followApi(followerId)
       await dispatch(userActions.setIsFollowUpdate())
     }
   }
-
   const unfollowHandler = async () => {
     if (profileId === userId) {
       await unfollowApi(isFollowed === 1 ? followingId : followerId)
       await dispatch(userActions.setIsFollowUpdate())
     }
   }
-
+  // helper constant
+  const defaultIntro = `Hello! I'm ${name} without introduction.`
+  const matchFollowing = userFollowingsData.find(
+    (data) => data.followingId === followerId
+  )
+  const temp = matchFollowing
+    ? matchFollowing.followingId === followerId
+    : false
   return (
     <div className={styles.item__container}>
       <div className={styles.avatar__container}>

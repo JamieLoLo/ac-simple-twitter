@@ -1,19 +1,21 @@
-import { UserGrid } from '../Layout/GridSystemWrapper'
 import styles from './MainPage.module.scss'
-import TweetItem from '../components/TweetItem'
-import Button from '../UI/Button'
-import { useLocation, useNavigate } from 'react-router-dom'
-import TweetModal from '../UI/TweetModal'
-import ReplyModal from '../UI/ReplyModal'
+// --- hook
 import { useEffect, useState } from 'react'
-import { tweetGetAllApi } from '../api/tweetApi'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
-import { userGetProfileApi } from '../api/userApi'
-import { userActions } from '../store/user-slice'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component'
+// --- component
+import { UserGrid } from '../Layout/GridSystemWrapper'
+import { Button, TweetModal, ReplyModal } from '../UI/index'
+import TweetItem from '../components/TweetItem'
+// --- api
+import { tweetGetAllApi } from '../api/tweetApi'
+import { userGetProfileApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+import { userActions } from '../store/user-slice'
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const MainPage = () => {
@@ -23,19 +25,39 @@ const MainPage = () => {
   // --- localStorage
   const userId = localStorage.getItem('userId')
   const authToken = localStorage.getItem('authToken')
-  const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
-  const [submitReRender, setSubmitReRender] = useState(false)
   // --- useState
-  const [tweetModal, setTweetModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
-  const [allTweetsData, setAllTweetsData] = useState([])
+  const [tweetModal, setTweetModal] = useState(false) // TweetModal 的開關控制
+  const [replyModal, setReplyModal] = useState(false) // ReplyModal 的開關控制
+  const [page, setPage] = useState(1) // lazy loading 相關
+  const [hasMore, setHasMore] = useState(true) // lazy loading 相關
+  const [submitReRender, setSubmitReRender] = useState(false) // lazy loading 相關
   // --- useSelector
-  const userInfo = useSelector((state) => state.user.userInfo)
   const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
   const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const allTweetsData = useSelector((state) => state.user.allTweetsData)
+  // --- lazyloading related
+  const tweetGetAll = async () => {
+    try {
+      const res = await tweetGetAllApi(1)
+      await dispatch(userActions.setAllTweetsData(res.data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const changePage = async () => {
+    try {
+      const res = await tweetGetAllApi(page)
+      setHasMore(res.data.length)
+      await dispatch(
+        userActions.setAllTweetsData(allTweetsData.concat(res.data))
+      )
+      setPage((page) => page + 1)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   // --- useEffect
-
   // 清除登入資料，沒 authToken (沒經過正確登入過程) 就回去登入頁面
   useEffect(() => {
     dispatch(authInputActions.refreshAuthInput())
@@ -60,43 +82,12 @@ const MainPage = () => {
     }
   }, [isUserInfoUpdate])
 
-  const tweetGetAll = async () => {
-    try {
-      const res = await tweetGetAllApi(1)
-      if (res.status !== 200) {
-        localStorage.removeItem('authToken')
-        navigate('/users/login')
-      }
-      await setAllTweetsData(res.data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   // 一進入頁面就 Get 所有推文
   useEffect(() => {
     tweetGetAll(1)
     setPage(2)
     setSubmitReRender(false)
-  }, [submitReRender])
-
-  const changePage = () => {
-    const tweetGetAll = async () => {
-      try {
-        const res = await tweetGetAllApi(page)
-        if (res.status !== 200) {
-          localStorage.removeItem('authToken')
-          navigate('/users/login')
-        }
-        setHasMore(res.data.length)
-        await setAllTweetsData(allTweetsData.concat(res.data))
-        setPage((page) => page + 1)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    tweetGetAll()
-  }
+  }, [submitReRender, isTweetUpdate])
 
   // --- helper constant
   const tweetsListHelper = allTweetsData.map((data) => (
@@ -104,13 +95,13 @@ const MainPage = () => {
       data={data}
       key={data.id}
       setReplyModal={setReplyModal}
-      onClick={(replyModal) => {
+      onClick={async (replyModal) => {
+        await localStorage.setItem('tweet_id', data.id)
         setReplyModal(replyModal)
-        localStorage.setItem('tweet_id', data.id)
       }}
     />
   ))
-
+  const vh = Math.round(window.innerHeight)
   return (
     <div>
       <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
@@ -122,11 +113,11 @@ const MainPage = () => {
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
-          <div className={styles.container}>
+          <div className={styles.container} onClick={() => setTweetModal(true)}>
             <img
               className={styles.avatar}
               src={userInfo.avatar ? userInfo.avatar : defaultFig}
-              alt='user'
+              alt='Avatar'
             />
             <p>有什麼新鮮事嗎?</p>
           </div>
@@ -144,7 +135,7 @@ const MainPage = () => {
           loader={<LoadingIcon className={styles.loading__icon} />}
           endMessage={null}
           scrollableTarget='tweet__list'
-          height={700}
+          height={vh - 210}
         >
           {tweetsListHelper}
         </InfiniteScroll>

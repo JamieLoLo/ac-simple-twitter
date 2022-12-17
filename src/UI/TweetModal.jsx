@@ -1,12 +1,16 @@
 import styles from './TweetModal.module.scss'
-import Button from './Button'
-import AuthInput from './AuthInput'
+// --- hook
 import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
 import { useState } from 'react'
+// --- component
+import { Button, AuthInput } from './index'
+// --- api
 import { tweetPostApi } from '../api/tweetApi'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
 
 const TweetModal = (props) => {
   const dispatch = useDispatch()
@@ -18,8 +22,7 @@ const TweetModal = (props) => {
   const isValid = useSelector((state) => state.authInput.tweet.isValid)
   const content = useSelector((state) => state.authInput.tweet.content)
   const userInfo = useSelector((state) => state.user.userInfo)
-  // --- useEffect
-
+  // --- event Handler
   const tweetHandler = (useInput) => {
     dispatch(authInputActions.tweetAuth(useInput))
   }
@@ -27,6 +30,7 @@ const TweetModal = (props) => {
     dispatch(authInputActions.refreshAuthInput())
   }
   const submitHandler = async () => {
+    console.log('OK')
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
     } else {

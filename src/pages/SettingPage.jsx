@@ -1,14 +1,15 @@
-import AuthInput from '../UI/AuthInput'
-import Button from '../UI/Button'
-import { UserGrid } from '../Layout/GridSystemWrapper'
-import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
-import { useLocation } from 'react-router-dom'
 import styles from './SettingPage.module.scss'
-import { userPutSettingApi } from '../api/userApi'
-import { useNavigate } from 'react-router-dom'
+// --- hook
+import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import Notification from '../UI/Notification'
+import { useLocation, useNavigate } from 'react-router-dom'
+// --- component
+import { AuthInput, Button, Notification } from '../UI/index'
+import { UserGrid } from '../Layout/GridSystemWrapper'
+// --- api
+import { userPutSettingApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
 
 const SettingPage = () => {
   const pathname = useLocation().pathname
@@ -49,6 +50,8 @@ const SettingPage = () => {
   const passwordCheckHandler = (useInput) => {
     dispatch(authInputActions.passwordCheckAuth(useInput))
   }
+
+  // --- helper constant
   const saveSettingHandler = async () => {
     if (
       account.isValid &&

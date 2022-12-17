@@ -1,9 +1,12 @@
 import styles from './ReplyItem.module.scss'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-
+// --- hook
 import useMoment from '../hooks/useMoment'
-const ReplyItem = ({ data }) => {
-  const { User, comment, createdAt, Tweet } = data
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
+
+const ReplyItem = (props) => {
+  const { User, comment, createdAt, Tweet } = props.data
+  // helper constant
   const createTime = useMoment(createdAt)
 
   return (

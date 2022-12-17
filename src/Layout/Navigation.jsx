@@ -1,20 +1,28 @@
 import styles from './Navigation.module.scss'
-import logoIcon from '../components/assets/icons/logo.svg'
-import Button from '../UI/Button'
+// --- hook
 import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
-import { authInputActions } from '../store/authInput-slice'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import TweetModal from '../UI/TweetModal'
+// --- component
+import { Button, TweetModal } from '../UI/index'
+// --- api
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+// --- icons
+import { logoIcon } from '../components/assets/icons/index'
 
-const Navigation = ({ condition, pathname }) => {
+const Navigation = (props) => {
+  const { condition, pathname } = props
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [tweetModal, setTweetModal] = useState(false)
+  // --- localStorage
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
-  const getProfileId = () => {
+  // --- useState
+  const [tweetModal, setTweetModal] = useState(false)
+  // --- event handler
+  const getProfileIdHandler = () => {
     localStorage.setItem('profile_id', localStorage.getItem('userId'))
   }
   const logoutHandler = async () => {
@@ -25,7 +33,13 @@ const Navigation = ({ condition, pathname }) => {
 
   return (
     <>
-      <TweetModal trigger={tweetModal} setTweetModal={setTweetModal} />
+      <div className={styles.modalContainer}>
+        <TweetModal
+          trigger={tweetModal}
+          setTweetModal={setTweetModal}
+        />
+      </div>
+
       <nav className={styles.nav}>
         <ul>
           <li style={{ cursor: 'default' }}>
@@ -70,7 +84,7 @@ const Navigation = ({ condition, pathname }) => {
                     [styles.active]:
                       pathname === '/users/profile' && userId === profileId,
                   })}
-                  onClick={getProfileId}
+                  onClick={getProfileIdHandler}
                 >
                   個人資料
                 </p>

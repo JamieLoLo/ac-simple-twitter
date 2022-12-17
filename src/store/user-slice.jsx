@@ -5,11 +5,16 @@ const initialState = {
   isTweetUpdate: false,
   isUserInfoUpdate: false,
   userInfo: [],
+  allTweetsData: [],
   oneTweetData: [],
+  replysForOneTweet: [],
   userTweetsData: [],
   userReplysData: [],
   userLikesData: [],
+  userFollowersData: [],
+  userFollowingsData: [],
   likeCount: null,
+  recommendFollowData: [],
 }
 
 const userSlice = createSlice({
@@ -44,9 +49,29 @@ const userSlice = createSlice({
     setUserReplysData(state, action) {
       state.userReplysData = action.payload
     },
+    // 全部的推文
+    setAllTweetsData(state, action) {
+      state.allTweetsData = action.payload
+    },
+    // 特定推文的回覆們
+    setReplysForOneTweet(state, action) {
+      state.replysForOneTweet = action.payload
+    },
     // 特定 User 的全部 like 的推文
     setUserLikesData(state, action) {
       state.userLikesData = action.payload
+    },
+    // 特定 User 的 Follower
+    setUserFollowersData(state, action) {
+      state.userFollowersData = action.payload
+    },
+    // 特定 User 的 Following
+    setUserFollowingsData(state, action) {
+      state.userFollowingsData = action.payload
+    },
+    // 推薦 Follow 
+    setRecommendFollowData(state, action) {
+      state.recommendFollowData = action.payload
     },
     changePayload(state, action) {
       state.payload = action.payload.payload
