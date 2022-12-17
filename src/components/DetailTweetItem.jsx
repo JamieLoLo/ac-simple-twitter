@@ -5,6 +5,7 @@ import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../store/user-slice'
 import { useEffect, useState } from 'react'
+import { modalActions } from '../store/modal-slice'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const dispatch = useDispatch()
@@ -82,7 +83,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
         <div
           className={styles.message__icon}
           onClick={() => {
-            onClick?.(true)
+            dispatch(modalActions.setIsDetailReplyModalOpen(true))
           }}
         ></div>
         {activeColor ? (

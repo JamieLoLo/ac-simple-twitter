@@ -48,7 +48,7 @@ const DetailTweetPage = () => {
     if (tweetId !== null) {
       tweetGetOne()
     }
-  }, [likeCount, navigate, tweetId])
+  }, [likeCount, navigate, tweetId, replyId])
 
   // 取得單一推文的回覆列表
 

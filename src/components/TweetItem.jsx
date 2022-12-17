@@ -5,15 +5,16 @@ import likeIcon from '../components/assets/icons/like.svg'
 import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useNavigate } from 'react-router-dom'
 import { likeApi, unLikeApi } from '../api/likeApi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../store/user-slice'
 import { userGetProfileApi } from '../api/userApi'
+import { modalActions } from '../store/modal-slice'
 
 const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const authToken = localStorage.getItem('authToken')
-
+  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
     data
   const createTime = useMoment(createdAt)
@@ -35,10 +36,10 @@ const TweetItem = ({ data, onClick }) => {
   }
   const replyHandler = () => {
     localStorage.setItem('tweet_id', id)
-    onClick?.(true)
+    dispatch(modalActions.setIsReplyModalOpen(true))
   }
 
-  const profilePageHandler = async() => {
+  const profilePageHandler = async () => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(User.id)
@@ -53,7 +54,6 @@ const TweetItem = ({ data, onClick }) => {
     }
     userGetProfile()
   }
-
 
   return (
     <>
