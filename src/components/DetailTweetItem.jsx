@@ -1,24 +1,33 @@
 import styles from './DetailTweetItem.module.scss'
+// --- hook
 import useMoment from '../hooks/useMoment'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import { likeApi, unLikeApi } from '../api/likeApi'
 import { useDispatch } from 'react-redux'
-import { userActions } from '../store/user-slice'
 import { useEffect, useState } from 'react'
+// --- api
+import { likeApi, unLikeApi } from '../api/likeApi'
+// --- store
+import { userActions } from '../store/user-slice'
 import { modalActions } from '../store/modal-slice'
-
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
 
 const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
   const dispatch = useDispatch()
-  const createTime = useMoment(tweetData.createdAt)
+  // --- localStorage
+  const tweetId = localStorage.getItem('tweet_id')
+  // --- useState
   const [activeColor, setActiveColor] = useState(tweetData.isLiked)
   const [likeCounts, setLikeCounts] = useState(tweetData.likeCounts)
-  const tweetId = localStorage.getItem('tweet_id')
-
+  // --- useSelector
+  // --- useEffect
+  useEffect(() => {
+    setActiveColor(tweetData.isLiked)
+    setLikeCounts(tweetData.likeCounts)
+  }, [tweetData.isLiked, tweetData.likeCounts])
+  // event handler
   const likeCountHandler = (count) => {
     dispatch(userActions.changeLikeCount(count))
   }
-
   const likeHandler = () => {
     setActiveColor(!activeColor)
     if (!activeColor) {
@@ -48,10 +57,9 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       unLike()
     }
   }
-  useEffect(() => {
-    setActiveColor(tweetData.isLiked)
-    setLikeCounts(tweetData.likeCounts)
-  }, [tweetData.isLiked, tweetData.likeCounts])
+
+  // --- helper constant
+  const createTime = useMoment(tweetData.createdAt)
   return (
     <div className={styles.tweet}>
       <div className={styles.tweet__info}>
@@ -60,7 +68,7 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
           src={
             tweetUserData.avatar === null ? defaultFig : tweetUserData.avatar
           }
-          alt='Default Fig'
+          alt='Avatar'
         />
         <div className={styles.tweet__creator__info}>
           <div className={styles.name}>{tweetUserData.name}</div>

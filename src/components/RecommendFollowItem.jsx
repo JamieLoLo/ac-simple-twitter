@@ -1,17 +1,24 @@
 import styles from './RecommendFollowItem.module.scss'
-import Button from '../UI/Button'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import { unfollowApi, followApi } from '../api/followshipsApi'
+// --- hook
 import { useDispatch } from 'react-redux'
-import { userActions } from '../store/user-slice'
-import { userGetProfileApi } from '../api/userApi'
 import { useNavigate } from 'react-router-dom'
+// --- component
+import { Button } from '../UI/index'
+// --- api
+import { unfollowApi, followApi } from '../api/followshipsApi'
+import { userGetProfileApi } from '../api/userApi'
+// --- store
+import { userActions } from '../store/user-slice'
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
 
 const RecommendFollowItem = ({ data }) => {
   const { account, avatar, isFollowed, name, id } = data
-  const userId = Number(localStorage.getItem('userId'))
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  // --- localStorage
+  const userId = Number(localStorage.getItem('userId'))
+  // --- event handler
   const unfollowHandler = async () => {
     await unfollowApi(data.id)
     await dispatch(userActions.setIsFollowUpdate())

@@ -1,30 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import AuthInput from '../UI/AuthInput'
-import Button from '../UI/Button'
-import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
-import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
-import { userLoginApi } from '../api/userApi'
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Notification from '../UI/Notification'
-
 import styles from './UserLoginPage.module.scss'
+// --- hook
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
+// --- component
+import { Button, AuthInput, Notification } from '../UI/index'
+// --- api
+import { userLoginApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+// --- icons
+import { logoIcon } from '../components/assets/icons/index'
 
 const UserLoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // --- localStorage
   const authToken = localStorage.getItem('authToken')
-
   // --- useState
   const [loadingStatus, setLoadingStatus] = useState('finish')
-
   // --- useSelector
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
-
   // --- useEffect
   useEffect(() => {
     if (authToken !== null) {
@@ -92,7 +89,7 @@ const UserLoginPage = () => {
       </div>
       <div className={styles.form__container}>
         <div className={styles.logo}>
-          <Logo />
+          <img src={logoIcon} alt='logo' />
         </div>
         <h3>登入 Alphitter</h3>
         <AuthInput

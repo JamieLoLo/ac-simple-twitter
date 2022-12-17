@@ -1,7 +1,13 @@
 import styles from './DetailReplyItem.module.scss'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
+// --- hook
 import useMoment from '../hooks/useMoment'
+// --- api
+// --- store
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
+
 const DetailReplyItem = ({ replyData, tweetUserData }) => {
+  // helper constant
   const createTime = useMoment(replyData.createdAt)
   return (
     <div className={styles.replyItem}>

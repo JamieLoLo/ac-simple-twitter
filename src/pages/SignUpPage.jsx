@@ -1,27 +1,32 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
-import Button from '../UI/Button'
-import AuthInput from '../UI/AuthInput'
-import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
-import { userSignupApi } from '../api/userApi'
 import styles from './SignUpPage.module.scss'
-import { useNavigate } from 'react-router-dom'
+// --- hook
 import { useState, useEffect } from 'react'
-import Notification from '../UI/Notification'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+// --- component
+import { Button, AuthInput, Notification } from '../UI/index'
+// --- api
+import { userSignupApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+// --- icons
+import { logoIcon } from '../components/assets/icons/index'
 
 const SignUpPage = () => {
   const dispatch = useDispatch()
-  const [loadingStatus, setLoadingStatus] = useState('finish')
   const navigate = useNavigate()
+  // --- localStorage
+  const authToken = localStorage.getItem('authToken')
+  // --- useState
+  const [loadingStatus, setLoadingStatus] = useState('finish')
+  // --- useSelector
   let account = useSelector((state) => state.authInput.account)
   let name = useSelector((state) => state.authInput.username)
   let email = useSelector((state) => state.authInput.email)
   let password = useSelector((state) => state.authInput.password)
   let checkPassword = useSelector((state) => state.authInput.passwordCheck)
-  const authToken = localStorage.getItem('authToken')
 
+  // useEffect
   useEffect(() => {
     if (authToken !== null) {
       navigate('/users/main')
@@ -41,6 +46,7 @@ const SignUpPage = () => {
     }
   }, [loadingStatus, navigate])
 
+  // event Handler
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
   }
@@ -56,7 +62,6 @@ const SignUpPage = () => {
   const passwordCheckHandler = (useInput) => {
     dispatch(authInputActions.passwordCheckAuth(useInput))
   }
-
   const userSignupHandler = async () => {
     try {
       setLoadingStatus('start')
@@ -82,7 +87,6 @@ const SignUpPage = () => {
       console.error(error)
     }
   }
-
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
@@ -99,7 +103,7 @@ const SignUpPage = () => {
       </div>
       <div className={styles.form__container}>
         <div className={styles.logo}>
-          <Logo />
+          <img src={logoIcon} alt='logo' />
         </div>
         <h3>建立你的帳號</h3>
         <AuthInput

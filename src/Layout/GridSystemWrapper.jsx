@@ -1,6 +1,6 @@
+import styles from './GridSystemWrapper.module.scss'
 import Navigation from './Navigation'
 import RecommendFollowList from '../components/RecommendFollowList'
-import styles from './GridSystemWrapper.module.scss'
 
 export const AdminGrid = ({ children, pathname }) => {
   return (

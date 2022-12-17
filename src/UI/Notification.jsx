@@ -1,11 +1,6 @@
-import React from 'react'
-import SuccessIcon from '../components/assets/icons/success.png'
-import ErrorIcon from '../components/assets/icons/error.png'
-import WarnIcon from '../components/assets/icons/warn.png'
-import NewIcon from '../components/assets/icons/new.png'
-import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
-
 import styles from './Notification.module.scss'
+import {SuccessIcon,ErrorIcon,WarnIcon,NewIcon } from '../components/assets/icons/index'
+import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const Notification = ({ notification, title, title2 }) => {
   return (

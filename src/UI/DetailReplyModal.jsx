@@ -1,17 +1,25 @@
 import styles from './DetailReplyModal.module.scss'
-import Button from './Button'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import AuthInput from './AuthInput'
+// --- hook
 import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
 import { useState } from 'react'
-import { AddReplyApi } from '../api/replyApi'
-import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
+// --- component
+import { Button, AuthInput } from './index'
+// --- api
+import { AddReplyApi } from '../api/replyApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
 import { modalActions } from '../store/modal-slice'
+// --- icons
+import { defaultFig } from '../components/assets/icons/index'
 
 const DetailReplyModal = (props) => {
   const dispatch = useDispatch()
+  // --- localStorage
+  const tweetId = localStorage.getItem('tweet_id')
+  // --- useState
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  // --- useSelector
   const reply = useSelector((state) => state.authInput.reply)
   const message = useSelector((state) => state.authInput.reply.message)
   const isValid = useSelector((state) => state.authInput.reply.isValid)
@@ -20,17 +28,14 @@ const DetailReplyModal = (props) => {
   const isDetailReplyModalOpen = useSelector(
     (state) => state.modal.isDetailReplyModalOpen
   )
-  const [showErrorMessage, setShowErrorMessage] = useState(false)
+
+  // --- event handler
   const replyHandler = (useInput) => {
     dispatch(authInputActions.replyAuth(useInput))
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
-
-  const tweetId = localStorage.getItem('tweet_id')
-  const createTime = useMoment(props.tweetData.createdAt)
-
   const submitHandler = () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
@@ -49,6 +54,8 @@ const DetailReplyModal = (props) => {
       AddReply()
     }
   }
+  // --- helper constant
+  const createTime = useMoment(props.tweetData.createdAt)
 
   return isDetailReplyModalOpen ? (
     <div className={styles.modal}>

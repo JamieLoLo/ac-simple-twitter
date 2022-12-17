@@ -1,14 +1,16 @@
 import styles from './EditProfileModal.module.scss'
-import Button from './Button'
-import cover from '../components/assets/icons/cover.svg'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import delBtn from '../components/assets/icons/delBtn_white.svg'
-import AuthInput from './AuthInput'
+// --- hook
 import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
-import { editProfileApi, userGetProfileApi } from '../api/userApi'
+// --- component
+import { Button, AuthInput } from './index'
+// --- api
+import { editProfileApi } from '../api/userApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+// --- icons
+import { cover, defaultFig, delBtn } from '../components/assets/icons/index'
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
@@ -31,6 +33,7 @@ const EditProfileModal = (props) => {
     setEditCoverUrl(userInfo.cover)
   }, [])
 
+  // --- event handler
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -40,7 +43,6 @@ const EditProfileModal = (props) => {
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
-
   const changeCoverHandler = (event) => {
     setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
     setEditCoverFile(event.target.files[0])
@@ -49,7 +51,6 @@ const EditProfileModal = (props) => {
     setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
     setEditAvatarFile(event.target.files[0])
   }
-
   const saveProfileHandler = async () => {
     if (username.content.length === 0) {
       formData.append('name', userInfo.name)

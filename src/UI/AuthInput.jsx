@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 import styles from './AuthInput.module.scss'
 
 const AuthInput = ({

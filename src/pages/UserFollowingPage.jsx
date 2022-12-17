@@ -1,26 +1,37 @@
-import React from 'react'
+import styles from './UserFollowingPage.module.scss'
+// --- hook
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+// --- component
 import UserFollowListItem from '../components/UserFollowListItem'
 import { UserGrid } from '../Layout/GridSystemWrapper'
-import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
-import { Link, useNavigate } from 'react-router-dom'
-import styles from './UserFollowingPage.module.scss'
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+// --- api
 import {
   userGetFollowingsApi,
   userGetProfileApi,
   userGetTweetsApi,
 } from '../api/userApi'
+// --- store
+import { userActions } from '../store/user-slice'
+// --- icons
+import { prevIcon } from '../components/assets/icons/index'
 
 const UserFollowingPage = () => {
-  const [userTweetsData, setUserTweetsData] = useState([])
-  const [userFollowingsData, setUserFollowingsData] = useState([])
-  const [userProfileData, setUserProfileData] = useState({})
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  // --- localStorage
   const profileId = localStorage.getItem('profile_id')
-  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const authToken = localStorage.getItem('authToken')
-
+  // --- useState
+  // --- useSelector
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
+  const userTweetsData = useSelector((state) => state.user.userTweetsData)
+  const userFollowingsData = useSelector(
+    (state) => state.user.userFollowingsData
+  )
+  const userInfo = useSelector((state) => state.user.userInfo)
+  // --- useEffect
   useEffect(() => {
     if (authToken === null) {
       navigate('/users/login')
@@ -31,10 +42,7 @@ const UserFollowingPage = () => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(profileId)
-        if (res.status !== 200) {
-          navigate('/users/login')
-        }
-        await setUserProfileData(res.data)
+        await dispatch(userActions.setUserInfo(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -48,7 +56,7 @@ const UserFollowingPage = () => {
     const userGetTweets = async () => {
       try {
         const res = await userGetTweetsApi(profileId)
-        await setUserTweetsData(res.data)
+        await dispatch(userActions.setUserTweetsData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -62,7 +70,7 @@ const UserFollowingPage = () => {
     const userGetFollowings = async () => {
       try {
         const res = await userGetFollowingsApi(profileId)
-        await setUserFollowingsData(res.data)
+        await dispatch(userActions.setUserFollowingsData(res.data))
       } catch (error) {
         console.error(error)
         return error
@@ -85,10 +93,10 @@ const UserFollowingPage = () => {
                 navigate('/users/profile')
               }}
             >
-              <PrevIcon />
+              <img src={prevIcon} alt='prev' />
             </div>
             <div className={styles.user__text}>
-              <p className={styles.user__name}>{userProfileData.name}</p>
+              <p className={styles.user__name}>{userInfo.name}</p>
               <p className={styles.tweet__count}>
                 {userTweetsData.length} 推文
               </p>

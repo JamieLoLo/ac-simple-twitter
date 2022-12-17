@@ -1,24 +1,33 @@
 import styles from './TweetItem.module.scss'
+// --- hook
 import useMoment from '../hooks/useMoment'
-import defaultFig from '../components/assets/icons/defaultFig.svg'
-import likeIcon from '../components/assets/icons/like.svg'
-import likeActiveIcon from '../components/assets/icons/like_active.svg'
 import { useNavigate } from 'react-router-dom'
-import { likeApi, unLikeApi } from '../api/likeApi'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../store/user-slice'
+// --- component
+// --- api
+import { likeApi, unLikeApi } from '../api/likeApi'
 import { userGetProfileApi } from '../api/userApi'
+// --- store
+import { userActions } from '../store/user-slice'
 import { modalActions } from '../store/modal-slice'
+// --- icons
+import {
+  likeIcon,
+  likeActiveIcon,
+  defaultFig,
+} from '../components/assets/icons/index'
 
 const TweetItem = ({ data, onClick }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const authToken = localStorage.getItem('authToken')
-  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =
     data
-  const createTime = useMoment(createdAt)
-
+  // --- localStorage
+  const authToken = localStorage.getItem('authToken')
+  // --- useSelector
+  // const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
+  // --- event handler
   const toDetailPage = () => {
     if (authToken) {
       navigate('/users/tweet')
@@ -29,7 +38,6 @@ const TweetItem = ({ data, onClick }) => {
     await likeApi(id)
     await dispatch(userActions.setIsTweetUpdate())
   }
-
   const unlikeHandler = async () => {
     await unLikeApi(id)
     await dispatch(userActions.setIsTweetUpdate())
@@ -40,20 +48,19 @@ const TweetItem = ({ data, onClick }) => {
   }
 
   const profilePageHandler = async () => {
-    const userGetProfile = async () => {
-      try {
-        const res = await userGetProfileApi(User.id)
-        if (res) {
-          localStorage.setItem('profile_id', User.id)
-          navigate('/users/profile')
-        }
-      } catch (error) {
-        console.error(error)
-        return error
+    try {
+      const res = await userGetProfileApi(User.id)
+      if (res) {
+        localStorage.setItem('profile_id', User.id)
+        navigate('/users/profile')
       }
+    } catch (error) {
+      console.error(error)
     }
-    userGetProfile()
   }
+
+  // --- helper constant
+  const createTime = useMoment(createdAt)
 
   return (
     <>
