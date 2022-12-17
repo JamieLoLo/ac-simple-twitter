@@ -42,6 +42,10 @@ const useMoment = (createdAt) => {
     result = fromNow + '小時'
   }
 
+  if (!fromNow) {
+    result = '1小時內'
+  }
+
   return result
 }
 

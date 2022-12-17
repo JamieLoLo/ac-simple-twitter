@@ -10,19 +10,24 @@ import { useSelector } from 'react-redux'
 import DetailReplyModal from '../UI/DetailReplyModal'
 
 const DetailTweetPage = () => {
+  const navigate = useNavigate()
+  // --- localStorage
+  const authToken = localStorage.getItem('authToken')
+  const replyId = localStorage.getItem('reply_id')
+  const tweetId = localStorage.getItem('tweet_id')
+  // --- useState
   const [tweetData, setTweetData] = useState([])
   const [tweetUserData, setTweetUserData] = useState([])
   const [replyData, setReplyData] = useState([])
   const [detailReplyModal, setDetailReplyModal] = useState(false)
+  // --- useSelector
   const likeCount = useSelector((state) => state.user.likeCount)
-  const navigate = useNavigate()
-  const replyId = localStorage.getItem('reply_id')
-  const tweetId = localStorage.getItem('tweet_id')
-  const authToken = localStorage.getItem('authToken')
-
-  if (authToken === null) {
-    navigate('/users/login')
-  }
+  // --- useEffect
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
 
   useEffect(() => {
     const tweetGetOne = async () => {
@@ -32,15 +37,12 @@ const DetailTweetPage = () => {
         setTweetUserData(res.data.User)
       } catch (error) {
         console.error(error)
-        localStorage.removeItem('tweet_id')
-        navigate('/users/login')
-        localStorage.removeItem('authToken')
       }
     }
     if (tweetId !== null) {
       tweetGetOne()
     }
-  }, [likeCount, navigate, tweetId])
+  }, [likeCount, tweetId])
 
   useEffect(() => {
     const replyGetOne = async () => {
@@ -49,14 +51,12 @@ const DetailTweetPage = () => {
         setReplyData(res.data)
       } catch (error) {
         console.error(error)
-        localStorage.clear()
-        navigate('/users/login')
       }
     }
     if (tweetId !== null) {
       replyGetOne()
     }
-  }, [replyId, navigate, tweetId])
+  }, [replyId, tweetId])
 
   const replyItemHelper = replyData.map((data) => (
     <DetailReplyItem

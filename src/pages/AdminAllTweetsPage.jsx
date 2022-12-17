@@ -4,18 +4,17 @@ import { AdminGrid } from '../Layout/GridSystemWrapper'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { adminGetAllTweetsApi } from '../api/adminApi'
-import { useSelector,useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 
 const AdminAllTweetsPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const pathname = useLocation().pathname
   const navigate = useNavigate()
   const [data, setData] = useState([])
   const isAllTweetsUpdate = useSelector(
     (state) => state.admin.isAllTweetsUpdate
   )
-
   const authToken = localStorage.getItem('authToken')
 
   useEffect(() => {
@@ -24,11 +23,11 @@ const AdminAllTweetsPage = () => {
       navigate('/users/login')
     }
   }, [])
-  
+
   const adminTweetItemHelper = data.map((data) => (
     <AdminTweetItem data={data} key={data.id} />
   ))
-  
+
   useEffect(() => {
     const adminGetAllTweets = async () => {
       try {
