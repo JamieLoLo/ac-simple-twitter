@@ -19,11 +19,13 @@ const UserFollowingPage = () => {
   const navigate = useNavigate()
   const profileId = localStorage.getItem('profile_id')
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
-const authToken = localStorage.getItem('authToken')
+  const authToken = localStorage.getItem('authToken')
 
-if (authToken === null) {
-  navigate('/users/login')
-}
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {

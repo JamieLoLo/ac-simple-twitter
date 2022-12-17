@@ -27,7 +27,7 @@ const AdminLoginPage = () => {
   }
 
   useEffect(() => {
-    if (authToken) {
+    if (authToken !== null) {
       navigate('/admin/alltweets')
     }
   }, [authToken, navigate])

@@ -12,30 +12,25 @@ import { userActions } from '../store/user-slice'
 
 const EditProfileModal = (props) => {
   const dispatch = useDispatch()
-  const username = useSelector((state) => state.authInput.username)
-  const info = useSelector((state) => state.authInput.info)
-  const userInfo = useSelector((state) => state.user.userInfo)
+  const formData = new FormData()
+  // --- localStorage
+  const userId = localStorage.getItem('userId')
+  // --- useState
   const [editCoverUrl, setEditCoverUrl] = useState()
   const [editAvatarUrl, setEditAvatarUrl] = useState()
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
-  const userId = localStorage.getItem('userId')
-  const formData = new FormData()
-  // userGetProfile
+  // --- useSelector
+  const username = useSelector((state) => state.authInput.username)
+  const info = useSelector((state) => state.authInput.info)
+  const userInfo = useSelector((state) => state.user.userInfo)
+
+  // --- useEffect
   useEffect(() => {
-    const userGetProfile = async (data) => {
-      try {
-        const res = await userGetProfileApi(data)
-        const result = res.data
-        const {avatar, cover} = result
-        setEditAvatarUrl(avatar)
-        setEditCoverUrl(cover)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    userGetProfile(userId)
-  }, [userId])
+    setEditAvatarUrl(userInfo.avatar)
+    setEditCoverUrl(userInfo.cover)
+  }, [])
+
   const usernameHandler = (useInput) => {
     dispatch(authInputActions.usernameAuth(useInput))
   }
@@ -54,23 +49,23 @@ const EditProfileModal = (props) => {
     setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
     setEditAvatarFile(event.target.files[0])
   }
-  if (username.content.length === 0) {
-    formData.append('name', userInfo.name)
-  } else {
-    formData.append('name', username.content)
-  }
-
-  if (info.content.length === 0) {
-    formData.append('introduction', userInfo.introduction)
-  } else {
-    formData.append('introduction', info.content)
-  }
-  formData.append('cover', editCoverFile)
-  formData.append('avatar', editAvatarFile)
 
   const saveProfileHandler = async () => {
+    if (username.content.length === 0) {
+      formData.append('name', userInfo.name)
+    } else {
+      formData.append('name', username.content)
+    }
+
+    if (info.content.length === 0) {
+      formData.append('introduction', userInfo.introduction)
+    } else {
+      formData.append('introduction', info.content)
+    }
+    formData.append('cover', editCoverFile)
+    formData.append('avatar', editAvatarFile)
     await editProfileApi(userId, formData)
-    await dispatch(userActions.setIsUpdate())
+    dispatch(userActions.setIsUserInfoUpdate())
     props.setEditModal(false)
   }
 

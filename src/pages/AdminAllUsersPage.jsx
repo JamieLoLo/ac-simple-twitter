@@ -11,9 +11,11 @@ const AdminAllUsersPage = () => {
   const [data, setData] = useState([])
   const authToken = localStorage.getItem('authToken')
 
-  if (authToken === null) {
-    navigate('/users/login')
-  }
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
 
   const adminUserItemHelper = data.map((data) => (
     <AdminUserItem data={data} key={data.id} />
@@ -27,8 +29,6 @@ const AdminAllUsersPage = () => {
         setData(res.data)
       } catch (error) {
         console.error(error)
-        navigate('/admin/login')
-        localStorage.removeItem('authToken')
       }
     }
     adminGetAllTweets()

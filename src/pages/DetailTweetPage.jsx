@@ -12,21 +12,28 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const DetailTweetPage = () => {
+  const navigate = useNavigate()
+  // --- localStorage
+  const authToken = localStorage.getItem('authToken')
+  const replyId = localStorage.getItem('reply_id')
+  const tweetId = localStorage.getItem('tweet_id')
+  // --- useState
   const [tweetData, setTweetData] = useState([])
   const [tweetUserData, setTweetUserData] = useState([])
   const [replyData, setReplyData] = useState([])
   const [detailReplyModal, setDetailReplyModal] = useState(false)
+  // --- useSelector
   const likeCount = useSelector((state) => state.user.likeCount)
-  const navigate = useNavigate()
-  const replyId = localStorage.getItem('reply_id')
-  const tweetId = localStorage.getItem('tweet_id')
-  const authToken = localStorage.getItem('authToken')
+
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [submitReRender, setSubmitReRender] = useState(false)
-  if (authToken === null) {
-    navigate('/users/login')
-  }
+  // --- useEffect
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
 
   useEffect(() => {
     const tweetGetOne = async () => {
@@ -36,9 +43,6 @@ const DetailTweetPage = () => {
         setTweetUserData(res.data.User)
       } catch (error) {
         console.error(error)
-        localStorage.removeItem('tweet_id')
-        navigate('/users/login')
-        localStorage.removeItem('authToken')
       }
     }
     if (tweetId !== null) {
@@ -76,8 +80,6 @@ const DetailTweetPage = () => {
         setPage((page) => page + 1)
       } catch (error) {
         console.error(error)
-        localStorage.clear()
-        navigate('/users/login')
       }
     }
     replyGetOne()

@@ -23,10 +23,10 @@ const SignUpPage = () => {
   const authToken = localStorage.getItem('authToken')
 
   useEffect(() => {
-    if (authToken) {
+    if (authToken !== null) {
       navigate('/users/main')
     }
-  }, [navigate])
+  }, [])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {

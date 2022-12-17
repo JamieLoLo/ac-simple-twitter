@@ -3,58 +3,42 @@ import Button from './Button'
 import AuthInput from './AuthInput'
 import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
-import { useState, useEffect } from 'react'
-import { userGetProfileApi } from '../api/userApi'
+import { useState } from 'react'
 import { tweetPostApi } from '../api/tweetApi'
-import { userActions } from '../store/user-slice'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
+import { userActions } from '../store/user-slice'
 
 const TweetModal = (props) => {
   const dispatch = useDispatch()
+  // --- useState
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  // --- useSelector
   const tweet = useSelector((state) => state.authInput.tweet)
   const message = useSelector((state) => state.authInput.tweet.message)
   const isValid = useSelector((state) => state.authInput.tweet.isValid)
   const content = useSelector((state) => state.authInput.tweet.content)
-  const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const userId = localStorage.getItem('userId')
   const userInfo = useSelector((state) => state.user.userInfo)
-  const authToken = localStorage.getItem('autToken')
+  // --- useEffect
 
-  useEffect(() => {
-    const userGetProfile = async (data) => {
-      try {
-        const res = await userGetProfileApi(data)
-        await dispatch(userActions.initialSetUserInfo(res.data))
-      } catch (error) {
-        console.error(error)
-        return error
-      }
-    }
-    if (authToken !== null && userId !== null) {
-      userGetProfile(userId)
-    }
-  }, [authToken, dispatch, userId])
   const tweetHandler = (useInput) => {
     dispatch(authInputActions.tweetAuth(useInput))
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
     } else {
-      const tweetPost = async () => {
-        try {
-          await tweetPostApi(content)
-          props.setTweetModal(false)
-          props.setSubmitReRender(true)
-          refreshHandler()
-        } catch (error) {
-          console.error(error)
-        }
+      try {
+        await tweetPostApi(content)
+        props.setTweetModal(false)
+        props.setSubmitReRender(true)
+        refreshHandler()
+        dispatch(userActions.setIsTweetUpdate())
+      } catch (error) {
+        console.error(error)
       }
-      tweetPost()
     }
   }
 
@@ -83,8 +67,8 @@ const TweetModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src={userInfo.avatar ? userInfo.avatar : defaultFig}
-              alt='user'
+              src={userInfo.avatar === null ? defaultFig : userInfo.avatar}
+              alt='avatar'
             />
             <div className={styles.auth__input__container}>
               <AuthInput

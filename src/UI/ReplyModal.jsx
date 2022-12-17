@@ -6,55 +6,49 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authInputActions } from '../store/authInput-slice'
 import { useEffect, useState } from 'react'
 import { AddReplyApi } from '../api/replyApi'
-import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
 import { tweetGetOneApi } from '../api/tweetApi'
 import { userGetProfileApi } from '../api/userApi'
+import { userActions } from '../store/user-slice'
 
 const ReplyModal = (props) => {
   const dispatch = useDispatch()
+  // --- localStorage
+  const userId = localStorage.getItem('userId')
+  const authToken = localStorage.getItem('authToken')
+  const tweetId = localStorage.getItem('tweet_id')
+  // --- useState
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  // --- useSelector
   const reply = useSelector((state) => state.authInput.reply)
   const message = useSelector((state) => state.authInput.reply.message)
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
-  const [userProfileData, setUserProfileData] = useState({})
-  const [showErrorMessage, setShowErrorMessage] = useState(false)
-  const isUpdate = useSelector((state) => state.user.isUpdate)
-  const [tweetData, setTweetData] = useState([])
-  const userId = localStorage.getItem('userId')
-  const authToken = localStorage.getItem('authToken')
-  const navigate = useNavigate()
-  const createTime = useMoment(
-    props.createdAt ? props.createdAt : tweetData.createdAt
-  )
-  const replyHandler = (useInput) => {
-    dispatch(authInputActions.replyAuth(useInput))
-  }
-  const refreshHandler = () => {
-    dispatch(authInputActions.refreshAuthInput())
-  }
-  const tweetId = localStorage.getItem('tweet_id')
-
+  const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const oneTweetData = useSelector((state) => state.user.oneTweetData)
+  const { User } = oneTweetData
+  // useEffect
   useEffect(() => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(userId)
-        await setUserProfileData(res.data)
+        await dispatch(userActions.setUserInfo(res.data))
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    if ((userId !== null) & (authToken !== null)) {
+    if (authToken !== null) {
       userGetProfile()
     }
-  }, [userId, isUpdate])
+  }, [isUserInfoUpdate])
 
   useEffect(() => {
     const tweetGetOne = async () => {
       try {
         const res = await tweetGetOneApi(tweetId)
-        setTweetData(res.data)
+        dispatch(userActions.setOneTweetData(res.data))
       } catch (error) {
         console.error(error)
       }
@@ -62,25 +56,30 @@ const ReplyModal = (props) => {
     if (tweetId === null) {
       return
     }
-
     tweetGetOne()
   }, [tweetId])
 
-  const submitHandler = () => {
+  // event Handler
+  const createTime = useMoment(oneTweetData.createdAt)
+  const replyHandler = (useInput) => {
+    dispatch(authInputActions.replyAuth(useInput))
+  }
+  const refreshHandler = () => {
+    dispatch(authInputActions.refreshAuthInput())
+  }
+
+  const submitHandler = async () => {
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
     } else {
-      const AddReply = async () => {
-        try {
-          await AddReplyApi(tweetId, content)
-          props.setReplyModal(false)
-          // props.setReplyId(res.data.id)
-          refreshHandler()
-        } catch (error) {
-          console.error(error)
-        }
+      try {
+        await AddReplyApi(tweetId, content)
+        props.setReplyModal(false)
+        refreshHandler()
+        dispatch(userActions.setIsTweetUpdate())
+      } catch (error) {
+        console.error(error)
       }
-      AddReply()
     }
   }
   return props.trigger ? (
@@ -108,54 +107,32 @@ const ReplyModal = (props) => {
           <div className={styles.tweet}>
             <div className={styles.tweet__info}>
               <div className={styles.avatar__container}>
-                {props.tweetUserAvatar ? (
-                  <img
-                    className={styles.avatar}
-                    src={
-                      props.tweetUserAvatar === null
-                        ? defaultFig
-                        : props.tweetUserAvatar
-                    }
-                    alt='Default Fig'
-                  />
-                ) : (
-                  <img
-                    className={styles.avatar}
-                    src={
-                      tweetData.User.avatar === null
-                        ? defaultFig
-                        : tweetData.User.avatar
-                    }
-                    alt='Default Fig'
-                  />
-                )}
+                <img
+                  className={styles.avatar}
+                  src={
+                    User.avatar === null
+                      ? defaultFig
+                      : User.avatar
+                  }
+                  alt='Default Fig'
+                />
               </div>
               <div className={styles.tweet__creator__info}>
                 <div className={styles.container}>
-                  <div className={styles.name}>
-                    {props.tweetUserName
-                      ? props.tweetUserName
-                      : tweetData.User.name}
-                  </div>
+                  <div className={styles.name}>{oneTweetData.User.name}</div>
                   <div className={styles.account}>
-                    @
-                    {props.tweetUserAccount
-                      ? props.tweetUserAccount
-                      : tweetData.User.account}
+                    @{oneTweetData.User.account}
                   </div>
                 </div>
                 <div className={styles.create__time}>・{createTime}</div>
               </div>
             </div>
             <div className={styles.tweet__content}>
-              {props.description}
+              {oneTweetData.description}
               <div className={styles.reply__to}>
                 回覆給
                 <span className={styles.highlight}>
-                  @
-                  {props.tweetUserAccount
-                    ? props.tweetUserAccount
-                    : tweetData.User.account}
+                  @{oneTweetData.User.account}
                 </span>
               </div>
             </div>
@@ -165,12 +142,8 @@ const ReplyModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src={
-                userProfileData.avatar === null
-                  ? defaultFig
-                  : userProfileData.avatar
-              }
-              alt='Default Fig'
+              src={userInfo.avatar === null ? defaultFig : userInfo.avatar}
+              alt='avatar'
             />
             <div className={styles.auth__input__container}>
               <AuthInput

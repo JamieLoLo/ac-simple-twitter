@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
 export const userSignupApi = async (payload) => {
   const { name, account, email, password, checkPassword } = payload
   try {
-    const res = await axios.post(`${userURL}`, {
+    const res = await axiosInstance.post(`${userURL}`, {
       name,
       account,
       email,
@@ -37,7 +37,7 @@ export const userSignupApi = async (payload) => {
 export const userLoginApi = async (payload) => {
   const { account, password } = payload
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       `${userURL}/login`,
       {
         account,

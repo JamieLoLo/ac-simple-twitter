@@ -16,16 +16,16 @@ const UserFollowerPage = () => {
   const [userFollowersData, setUserFollowersData] = useState([])
   const [userProfileData, setUserProfileData] = useState({})
   const [userTweetsData, setUserTweetsData] = useState([])
-  const isFollowUpdate = useSelector(
-    (state) => state.user.isFollowUpdate
-  )
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const profileId = localStorage.getItem('profile_id')
   const navigate = useNavigate()
-const authToken = localStorage.getItem('authToken')
+  const authToken = localStorage.getItem('authToken')
 
-if (authToken === null) {
-  navigate('/users/login')
-}
+  useEffect(() => {
+    if (authToken === null) {
+      navigate('/users/login')
+    }
+  }, [])
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {

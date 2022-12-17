@@ -1,5 +1,12 @@
 @import './UserLoginPage.module.scss';
 
+.notification__container {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 999;
+}
+
 .button__container {
   display: flex;
   justify-content: flex-end;

@@ -26,24 +26,19 @@ const TweetItem = ({ data, onClick }) => {
   }
   const likeHandler = async () => {
     await likeApi(id)
-    await dispatch(userActions.setIsUpdate())
+    await dispatch(userActions.setIsTweetUpdate())
   }
 
   const unlikeHandler = async () => {
     await unLikeApi(id)
-    await dispatch(userActions.setIsUpdate())
+    await dispatch(userActions.setIsTweetUpdate())
   }
   const replyHandler = () => {
-    localStorage.setItem('tweet_user_avatar', User.avatar)
-    localStorage.setItem('tweet_user_name', User.name)
-    localStorage.setItem('tweet_user_account', User.account)
-    localStorage.setItem('tweet_description', description)
-    localStorage.setItem('tweet_createdAt', createdAt)
     localStorage.setItem('tweet_id', id)
     onClick?.(true)
   }
 
-  const profilePageHandler = () => {
+  const profilePageHandler = async() => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(User.id)
@@ -58,6 +53,7 @@ const TweetItem = ({ data, onClick }) => {
     }
     userGetProfile()
   }
+
 
   return (
     <>

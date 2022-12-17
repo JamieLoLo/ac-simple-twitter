@@ -18,63 +18,62 @@ import {
   userGetTweetsApi,
   userGetReplysApi,
   userGetLikesApi,
+  userGetFollowingsApi,
 } from '../api/userApi'
 import ReplyModal from '../UI/ReplyModal'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { userActions } from '../store/user-slice'
+import { unfollowApi, followApi } from '../api/followshipsApi'
 
 const UserProfilePage = () => {
   const pathname = useLocation().pathname
   const navigate = useNavigate()
-  const [editModal, setEditModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
-  const [userProfileData, setUserProfileData] = useState({})
-  const [userTweetsData, setUserTweetsData] = useState([])
-  const [userReplysData, setUserReplysData] = useState([])
-  const [userLikesData, setUserLikesData] = useState([])
-  const [profilePage, setProfilePage] = useState('tweet')
+  const dispatch = useDispatch()
+  // --- localStorage
   const authToken = localStorage.getItem('authToken')
   const userId = localStorage.getItem('userId')
   const profileId = localStorage.getItem('profile_id')
-  const isUpdate = useSelector((state) => state.user.isUpdate)
+  // --- useState
+  const [editModal, setEditModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
+  const [profilePage, setProfilePage] = useState('tweet')
   const [isUserFollowed, setIsUserFollowed] = useState(false)
   const [tweetPage, setTweetPage] = useState(1)
   const [replyPage, setReplyPage] = useState(1)
   const [likePage, setLikePage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-
-  if (authToken === null) {
-    navigate('/users/login')
-  }
+  // --- useSelector
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
+  const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
+  const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const userTweetsData = useSelector((state) => state.user.userTweetsData)
+  const userReplysData = useSelector((state) => state.user.userReplysData)
+  const userLikesData = useSelector((state) => state.user.userLikesData)
+  // --- useEffect
 
   useEffect(() => {
-    const userGetFollowings = async () => {
-      try {
-        const res = await userGetFollowingsApi(userId)
-        const userFollowingsList = res.data
-        const temp = userFollowingsList.find(
-          (data) => data.name === userProfileData.name
-        )
-        if (temp) {
-          setIsUserFollowed(true)
-        } else {
-          setIsUserFollowed(false)
-        }
-      } catch (error) {
-        console.error(error)
-      }
+    if (authToken === null) {
+      navigate('/users/login')
     }
-
-    if (authToken !== null && profileId !== userId) {
-      userGetFollowings()
-    }
-  }, [profileId, userId, userProfileData.name])
+  }, [])
 
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {
       try {
         const res = await userGetProfileApi(profileId)
-        await setUserProfileData(res.data)
+        await dispatch(userActions.setUserInfo(res.data))
+        const { name } = res.data
+        const res_2 = await userGetFollowingsApi(userId)
+        const userFollowingsList = res_2.data
+        // 到其他使用者頁面時，判斷用戶是否 follow 該使用者
+        const temp = userFollowingsList.find((data) => data.name === name)
+        if (temp) {
+          setIsUserFollowed(true)
+        } else {
+          setIsUserFollowed(false)
+        }
       } catch (error) {
         console.error(error)
         return error
@@ -83,7 +82,7 @@ const UserProfilePage = () => {
     if ((profileId !== null) & (authToken !== null)) {
       userGetProfile()
     }
-  }, [profileId, isUpdate])
+  }, [profileId, isUserInfoUpdate, isFollowUpdate])
 
   //userGetTweets
 
@@ -217,11 +216,7 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <EditProfileModal
-        trigger={editModal}
-        setEditModal={setEditModal}
-        userProfileData={userProfileData}
-      />
+      <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
       <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>
@@ -233,7 +228,7 @@ const UserProfilePage = () => {
             }}
           />
           <div className={styles.container}>
-            <div className={styles.name}>{userProfileData.name}</div>
+            <div className={styles.name}>{userInfo.name}</div>
             <div className={styles.tweet__num}>
               {userTweetsData.length} 推文
             </div>
@@ -241,31 +236,28 @@ const UserProfilePage = () => {
         </div>
         <div className={styles.user__profile__collection}>
           <div className={styles.cover}>
-            <img
-              src={userProfileData.cover ? userProfileData.cover : cover}
-              alt='cover'
-            />
+            <img src={userInfo.cover ? userInfo.cover : cover} alt='cover' />
           </div>
           <img
             className={styles.avatar}
-            src={userProfileData.avatar ? userProfileData.avatar : defaultFig}
+            src={userInfo.avatar ? userInfo.avatar : defaultFig}
             alt='avatar'
           />
           <div className={styles.user__info}>
-            <div className={styles.name}>{userProfileData.name}</div>
-            <div className={styles.account}>@{userProfileData.account}</div>
-            <div className={styles.intro}>{userProfileData.introduction}</div>
+            <div className={styles.name}>{userInfo.name}</div>
+            <div className={styles.account}>@{userInfo.account}</div>
+            <div className={styles.intro}>{userInfo.introduction}</div>
             <div className={styles.follow__info}>
               <Link to='/users/following' className={styles.link}>
                 <div className={styles.num} style={{ color: '#171725' }}>
-                  {userProfileData.followingCounts} 個
+                  {userInfo.followingCounts} 個
                 </div>
                 <p>跟隨中</p>
               </Link>
               <div className={styles.container}>
                 <Link to='/users/follower' className={styles.link}>
                   <div className={styles.num} style={{ color: '#171725' }}>
-                    {userProfileData.followerCounts} 位
+                    {userInfo.followerCounts} 位
                   </div>
                   <p>跟隨者</p>
                 </Link>
@@ -294,12 +286,20 @@ const UserProfilePage = () => {
                   className={`button button__md active ${styles.button}`}
                   title='正在追隨'
                   style={{ width: '98px' }}
+                  onClick={async () => {
+                    await unfollowApi(profileId)
+                    await dispatch(userActions.setIsFollowUpdate())
+                  }}
                 />
               ) : (
                 <Button
                   className={`button button__md ${styles.button}`}
                   title='跟隨'
                   style={{ width: '98px' }}
+                  onClick={async () => {
+                    await followApi(profileId)
+                    await dispatch(userActions.setIsFollowUpdate())
+                  }}
                 />
               )}
             </>
