@@ -69,17 +69,19 @@ const AdminAllTweetsPage = () => {
     <AdminGrid pathname={pathname}>
       <div className={styles.adminAllTweets} id={'tweet__list'}>
         <div className={styles.title}>推文清單</div>
-        <InfiniteScroll
-          dataLength={data.length}
-          next={changePage}
-          hasMore={hasMore !== 0}
-          loader={<LoadingIcon className={styles.loading__icon} />}
-          endMessage={null}
-          scrollableTarget='tweet__list'
-          height={850}
-        >
-          {adminTweetItemHelper}
-        </InfiniteScroll>
+        {data.length !== 0 && (
+          <InfiniteScroll
+            dataLength={data.length}
+            next={changePage}
+            hasMore={hasMore !== 0}
+            loader={<LoadingIcon className={styles.loading__icon} />}
+            endMessage={null}
+            scrollableTarget='tweet__list'
+            height={850}
+          >
+            {adminTweetItemHelper}
+          </InfiniteScroll>
+        )}
       </div>
     </AdminGrid>
   )
