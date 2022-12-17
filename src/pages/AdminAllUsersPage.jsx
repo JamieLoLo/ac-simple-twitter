@@ -56,6 +56,8 @@ const AdminAllUsersPage = () => {
     adminGetAllUsers()
   }
 
+    const vh = Math.round(window.innerHeight)
+
   return (
     <AdminUserPageGrid pathname={pathname} id={'user__list'}>
       <div className={styles.title}>使用者列表</div>
@@ -69,7 +71,7 @@ const AdminAllUsersPage = () => {
             endMessage={null}
             scrollableTarget='user__list'
             loader={<LoadingIcon className={styles.loading__icon} />}
-            height={850}
+            height={vh - 110}
           >
             {adminUserItemHelper}
           </InfiniteScroll>

@@ -139,7 +139,7 @@ const MainPage = () => {
             loader={<LoadingIcon className={styles.loading__icon} />}
             endMessage={null}
             scrollableTarget='tweet__list'
-            height={700}
+            height={vh -220}
           >
             {tweetsListHelper}
           </InfiniteScroll>

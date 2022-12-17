@@ -5,6 +5,12 @@
   font-family: 'Noto Sans TC', sans-serif;
 }
 
+html, body {
+  ::-webkit-scrollbar{
+  display:none;
+}
+}
+
 :global(:root) {
   --white: #ffffff;
   --black: #000000;

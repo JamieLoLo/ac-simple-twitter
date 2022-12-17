@@ -111,9 +111,7 @@ const UserFollowingPage = () => {
             </p>
           </div>
           <div className={styles.follow__list__container}>
-            {userFollowingsData.length === 0
-              ? '沒有正在追隨'
-              : userFollowingList}
+            {userFollowingsData.length === 0 ? undefined : userFollowingList}
           </div>
         </div>
       </UserGrid>

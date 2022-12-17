@@ -1,7 +1,6 @@
 .user__card__list {
-  height: 100vh;
   position: absolute;
-  padding: 16px;
+  padding: 16px 0 0 16px;
   width: 75%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

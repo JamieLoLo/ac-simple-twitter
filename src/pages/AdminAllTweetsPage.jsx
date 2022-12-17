@@ -64,7 +64,6 @@ const AdminAllTweetsPage = () => {
     }
     adminGetAllTweets()
   }
-
   return (
     <AdminGrid pathname={pathname}>
       <div className={styles.adminAllTweets} id={'tweet__list'}>

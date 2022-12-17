@@ -152,7 +152,7 @@ const UserProfilePage = () => {
       try {
         const res = await userGetProfileApi(profileId)
         await dispatch(userActions.setUserInfo(res.data))
-        const { name } = res.data
+        const { name } = await res.data
         const res_2 = await userGetFollowingsApi(userId)
         const userFollowingsList = res_2.data
         // 到其他使用者頁面時，判斷用戶是否 follow 該使用者
@@ -211,7 +211,6 @@ const UserProfilePage = () => {
   ))
 
   const vh = Math.round(window.innerHeight)
-  console.log(vh)
 
   return (
     <>
