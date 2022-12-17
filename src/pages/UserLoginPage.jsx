@@ -13,17 +13,24 @@ import Notification from '../UI/Notification'
 import styles from './UserLoginPage.module.scss'
 
 const UserLoginPage = () => {
-  const [loadingStatus, setLoadingStatus] = useState('finish')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  // --- localStorage
+  const authToken = localStorage.getItem('authToken')
+
+  // --- useState
+  const [loadingStatus, setLoadingStatus] = useState('finish')
+
+  // --- useSelector
   const account = useSelector((state) => state.authInput.account)
   const password = useSelector((state) => state.authInput.password)
-  const authToken = localStorage.getItem('authToken')
+
+  // --- useEffect
   useEffect(() => {
-    if (authToken) {
+    if (authToken !== null) {
       navigate('/users/main')
     }
-  }, [authToken, navigate])
+  }, [])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {
@@ -36,14 +43,9 @@ const UserLoginPage = () => {
         }
       }, 1000)
     }
-  }, [loadingStatus, navigate])
+  }, [loadingStatus])
 
-  useEffect(() => {
-    if (authToken) {
-      navigate('/users/main')
-    }
-  }, [navigate])
-
+  // --- event Handler
   const accountHandler = (useInput) => {
     dispatch(authInputActions.accountAuth(useInput))
   }
@@ -59,7 +61,6 @@ const UserLoginPage = () => {
         account: account.content,
         password: password.content,
       })
-
       if (res.status !== 200) {
         setLoadingStatus('failed')
         return

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
 // const userURL = 'https://dry-anchorage-06913.herokuapp.com/api/users'
-const userURL = 'https://e3ae-223-136-148-157.jp.ngrok.io/api/users'
+const userURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use((config) => {
 export const userSignupApi = async (payload) => {
   const { name, account, email, password, checkPassword } = payload
   try {
-    const res = await axios.post(`${userURL}`, {
+    const res = await axiosInstance.post(`${userURL}`, {
       name,
       account,
       email,
@@ -37,7 +37,7 @@ export const userSignupApi = async (payload) => {
 export const userLoginApi = async (payload) => {
   const { account, password } = payload
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       `${userURL}/login`,
       {
         account,

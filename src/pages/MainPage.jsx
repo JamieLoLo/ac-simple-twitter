@@ -15,16 +15,23 @@ import { userActions } from '../store/user-slice'
 import defaultFig from '../components/assets/icons/defaultFig.svg'
 
 const MainPage = () => {
-  const [tweetModal, setTweetModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
-  const userInfo = useSelector((state) => state.user.userInfo)
   const pathname = useLocation().pathname
   const navigate = useNavigate()
-  const [allTweetsData, setAllTweetsData] = useState([])
   const dispatch = useDispatch()
+  // --- localStorage
   const userId = localStorage.getItem('userId')
   const authToken = localStorage.getItem('authToken')
+  // --- useState
+  const [tweetModal, setTweetModal] = useState(false)
+  const [replyModal, setReplyModal] = useState(false)
+  const [allTweetsData, setAllTweetsData] = useState([])
+  // --- useSelector
+  const userInfo = useSelector((state) => state.user.userInfo)
+  const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
+  const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
+  // --- useEffect
 
+  // 清除登入資料，沒 authToken (沒經過正確登入過程) 就回去登入頁面
   useEffect(() => {
     dispatch(authInputActions.refreshAuthInput())
     if (authToken === null) {
@@ -32,22 +39,23 @@ const MainPage = () => {
     }
   }, [])
 
+  // 一進入頁面就 Get 使用者資料，以 isUserInfoUpdate 作為更新依據
   useEffect(() => {
     const userGetProfile = async () => {
       try {
-        const userId = localStorage.getItem('userId')
         const res = await userGetProfileApi(userId)
-        await dispatch(userActions.initialSetUserInfo(res.data))
+        dispatch(userActions.setUserInfo(res.data))
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    if (authToken !== null && userId !== null) {
-      userGetProfile(userId)
+    if (authToken !== null) {
+      userGetProfile()
     }
-  }, [authToken, dispatch, userId])
+  }, [isUserInfoUpdate])
 
+  // 一進入頁面就 Get 所有推文
   useEffect(() => {
     const tweetGetAll = async () => {
       try {
@@ -60,8 +68,9 @@ const MainPage = () => {
     if (authToken !== null) {
       tweetGetAll()
     }
-  }, [authToken, navigate])
+  }, [isTweetUpdate])
 
+  // --- helper constant
   const tweetsListHelper = allTweetsData.map((data) => (
     <TweetItem
       data={data}
@@ -69,26 +78,14 @@ const MainPage = () => {
       setReplyModal={setReplyModal}
       onClick={(replyModal) => {
         setReplyModal(replyModal)
+        localStorage.setItem('tweet_id', data.id)
       }}
     />
   ))
-  const tweetUserAvatar = localStorage.getItem('tweet_user_avatar')
-  const tweetUserName = localStorage.getItem('tweet_user_name')
-  const tweetUserAccount = localStorage.getItem('tweet_user_account')
-  const description = localStorage.getItem('tweet_description')
-  const createdAt = localStorage.getItem('tweet_createdAt')
 
   return (
     <>
-      <ReplyModal
-        trigger={replyModal}
-        setReplyModal={setReplyModal}
-        tweetUserAvatar={tweetUserAvatar}
-        tweetUserName={tweetUserName}
-        tweetUserAccount={tweetUserAccount}
-        description={description}
-        createdAt={createdAt}
-      />
+      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
       <TweetModal trigger={tweetModal} setTweetModal={setTweetModal} />
       <UserGrid pathname={pathname}>
         <div className={styles.title}>首頁</div>

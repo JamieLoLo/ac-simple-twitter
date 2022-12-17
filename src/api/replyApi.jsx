@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const replyURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
 // const replyURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
-const replyURL = 'https://e3ae-223-136-148-157.jp.ngrok.io/api/tweets'
+const replyURL = 'https://14f0-223-136-148-157.jp.ngrok.io/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: replyURL })
 
