@@ -1,12 +1,17 @@
 import styles from './AdminAllTweetsPage.module.scss'
-import AdminTweetItem from '../components/AdminTweetItem'
-import { AdminGrid } from '../Layout/GridSystemWrapper'
+// --- hook
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { adminGetAllTweetsApi } from '../api/adminApi'
 import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
 import InfiniteScroll from 'react-infinite-scroll-component'
+// --- component
+import AdminTweetItem from '../components/AdminTweetItem'
+import { AdminGrid } from '../Layout/GridSystemWrapper'
+// --- api
+import { adminGetAllTweetsApi } from '../api/adminApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+// --- icons
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const AdminAllTweetsPage = () => {
@@ -64,7 +69,6 @@ const AdminAllTweetsPage = () => {
     }
     adminGetAllTweets()
   }
-
   return (
     <AdminGrid pathname={pathname}>
       <div className={styles.adminAllTweets} id={'tweet__list'}>

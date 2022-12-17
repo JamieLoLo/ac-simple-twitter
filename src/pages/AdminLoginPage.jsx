@@ -1,15 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import AuthInput from '../UI/AuthInput'
-import Button from '../UI/Button'
-import { ReactComponent as Logo } from '../components/assets/icons/logo.svg'
-import { useSelector, useDispatch } from 'react-redux'
-import { authInputActions } from '../store/authInput-slice'
-import { useNavigate } from 'react-router-dom'
-import Notification from '../UI/Notification'
-import { adminLoginApi } from '../api/adminApi'
 import styles from './AdminLoginPage.module.scss'
+// --- hook
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
+// --- component
+import { Button, AuthInput, Notification } from '../UI/index'
+// --- api
+import { adminLoginApi } from '../api/adminApi'
+// --- store
+import { authInputActions } from '../store/authInput-slice'
+// --- icons
+import { logoIcon } from '../components/assets/icons/index'
 
 const AdminLoginPage = () => {
   const dispatch = useDispatch()
@@ -79,7 +80,7 @@ const AdminLoginPage = () => {
       </div>
       <div className={styles.form__container}>
         <div className={styles.logo}>
-          <Logo />
+          <img scr={logoIcon} alt='logo' />
         </div>
         <h3>後台登入</h3>
         <AuthInput

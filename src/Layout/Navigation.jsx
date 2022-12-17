@@ -104,7 +104,10 @@ const Navigation = (props) => {
                 className='button button__xl active'
                 title='推文'
                 style={{ width: '100%' }}
-                onClick={() => dispatch(modalActions.setIsTweetModalOpen(true))}
+                onClick={() => {
+                  dispatch(modalActions.setIsTweetModalOpen(true))
+                  navigate('/users/main')
+                }}
               />
             </>
           )}

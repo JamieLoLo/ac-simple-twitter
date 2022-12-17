@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 // --- component
-import { AuthInput, Button, Notification } from '../UI/index'
+import { AuthInput, Button, Notification} from '../UI/index'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 // --- api
 import { userPutSettingApi } from '../api/userApi'

@@ -111,7 +111,7 @@ const UserFollowerPage = () => {
             </Link>
           </div>
           <div className={styles.follow__list__container}>
-            {userFollowersData.length === 0 ? '沒有追隨者' : userFollowerList}
+            {userFollowersData.length === 0 ? undefined : userFollowerList}
           </div>
         </div>
       </UserGrid>

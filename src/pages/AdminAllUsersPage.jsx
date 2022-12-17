@@ -1,10 +1,15 @@
 import styles from './AdminAllUsersPage.module.scss'
-import { AdminUserPageGrid } from '../Layout/GridSystemWrapper'
+// --- hook
 import { useLocation, useNavigate } from 'react-router-dom'
-import AdminUserItem from '../components/AdminUserItem'
 import { useState, useEffect } from 'react'
-import { adminGetAllUsersApi } from '../api/adminApi'
 import InfiniteScroll from 'react-infinite-scroll-component'
+// --- component
+import { AdminUserPageGrid } from '../Layout/GridSystemWrapper'
+import AdminUserItem from '../components/AdminUserItem'
+// --- api
+import { adminGetAllUsersApi } from '../api/adminApi'
+// --- store
+// --- icons
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
 
 const AdminAllUsersPage = () => {
@@ -56,6 +61,8 @@ const AdminAllUsersPage = () => {
     adminGetAllUsers()
   }
 
+    const vh = Math.round(window.innerHeight)
+
   return (
     <AdminUserPageGrid pathname={pathname} id={'user__list'}>
       <div className={styles.title}>使用者列表</div>
@@ -69,7 +76,7 @@ const AdminAllUsersPage = () => {
             endMessage={null}
             scrollableTarget='user__list'
             loader={<LoadingIcon className={styles.loading__icon} />}
-            height={850}
+            height={vh - 110}
           >
             {adminUserItemHelper}
           </InfiniteScroll>

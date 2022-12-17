@@ -27,20 +27,15 @@ const RecommendFollowItem = ({ data }) => {
     await followApi(data.id)
     await dispatch(userActions.setIsFollowUpdate())
   }
-  const profilePageHandler = () => {
-    const userGetProfile = async () => {
-      try {
-        const res = await userGetProfileApi(id)
-        if (res) {
-          localStorage.setItem('profile_id', id)
-          navigate('/users/profile')
-        }
-      } catch (error) {
-        console.error(error)
-        return error
-      }
+  const profilePageHandler = async () => {
+    try {
+      await userGetProfileApi(id)
+      await localStorage.setItem('profile_id', id)
+      await navigate('/users/profile')
+    } catch (error) {
+      console.error(error)
+      return error
     }
-    userGetProfile()
   }
   return (
     <div className={styles.recommendFollowItem}>

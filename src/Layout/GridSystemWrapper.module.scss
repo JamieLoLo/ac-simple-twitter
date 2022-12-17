@@ -19,10 +19,14 @@
 .user__list__container {
   display: flex;
   justify-items: flex-end;
+  height: 100vh;
+  
 }
 .navigation {
   transform: translateX(145px);
+  height: 100%;
 }
 .user__list {
   border-left: 1px solid var(--border-color);
+  height: 100%;
 }
