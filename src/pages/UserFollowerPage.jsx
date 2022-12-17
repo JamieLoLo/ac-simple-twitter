@@ -71,6 +71,7 @@ const UserFollowerPage = () => {
     userGetFollowers()
   }, [isFollowUpdate, profileId])
 
+  
   const userFollowerList = userFollowersData.map((data) => (
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
