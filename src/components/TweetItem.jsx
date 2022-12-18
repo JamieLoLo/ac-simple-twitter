@@ -49,11 +49,8 @@ const TweetItem = ({ data, onClick }) => {
 
   const profilePageHandler = async () => {
     try {
-      const res = await userGetProfileApi(User.id)
-      if (res) {
-        localStorage.setItem('profile_id', User.id)
-        navigate('/users/profile')
-      }
+      localStorage.setItem('profile_id', User.id)
+      navigate('/users/profile')
     } catch (error) {
       console.error(error)
     }

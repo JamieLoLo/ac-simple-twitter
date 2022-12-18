@@ -15,10 +15,10 @@ import { userActions } from '../store/user-slice'
 import { modalActions } from '../store/modal-slice'
 
 // --- icons
-import {defaultFig} from '../components/assets/icons/index'
-
+import { defaultFig } from '../components/assets/icons/index'
 
 const ReplyModal = (props) => {
+  const userAvatar = localStorage.getItem('user_avatar')
   const dispatch = useDispatch()
   // --- localStorage
   const userId = localStorage.getItem('userId')
@@ -145,7 +145,7 @@ const ReplyModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src={userInfo.avatar === null ? defaultFig : userInfo.avatar}
+              src={userAvatar === null ? defaultFig : userAvatar}
               alt='avatar'
             />
             <div className={styles.auth__input__container}>
