@@ -47,11 +47,12 @@ const TweetItem = ({ data }) => {
   }
 
   const profilePageHandler = async () => {
-    try {
+    if (data.UserId) {
+      localStorage.setItem('profile_id', data.UserId)
+      navigate('/users/profile')
+    } else if (!data.UserId) {
       localStorage.setItem('profile_id', User.id)
       navigate('/users/profile')
-    } catch (error) {
-      console.error(error)
     }
   }
 
