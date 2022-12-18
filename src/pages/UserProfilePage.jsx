@@ -20,6 +20,7 @@ import {
 import { unfollowApi, followApi } from '../api/followshipsApi'
 // --- store
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { prevIcon, defaultFig, cover } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
@@ -52,6 +53,7 @@ const UserProfilePage = () => {
   const userTweetsData = useSelector((state) => state.user.userTweetsData)
   const userReplysData = useSelector((state) => state.user.userReplysData)
   const userLikesData = useSelector((state) => state.user.userLikesData)
+  const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // --- lazy loading related
   //userGetTweets
   const userGetTweets = async (profileId, tweetPage) => {
@@ -167,8 +169,8 @@ const UserProfilePage = () => {
         return error
       }
     }
-    if ((profileId !== null) & (authToken !== null)) {
-      userGetProfile()
+    if (profileId !== null && authToken !== null) {
+      userGetProfile(profileId)
     }
   }, [profileId, isUserInfoUpdate, isFollowUpdate])
 
@@ -215,7 +217,7 @@ const UserProfilePage = () => {
   return (
     <>
       <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
-      <ReplyModal trigger={replyModal} setReplyModal={setReplyModal} />
+      <ReplyModal trigger={isReplyModalOpen} />
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>
           <img
