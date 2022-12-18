@@ -7,8 +7,11 @@ import AdminAllUsersPage from './AdminAllUsersPage'
 import MainPage from './MainPage'
 import DetailTweetPage from './DetailTweetPage'
 import UserProfilePage from './UserProfilePage'
+import ProfilePage from './ProfilePage'
 import UserFollowerPage from './UserFollowerPage'
 import UserFollowingPage from './UserFollowingPage'
+import FollowingPage from './FollowingPage'
+import FollowerPage from './FollowerPage'
 import HomePage from './HomePage'
 
 export {
@@ -24,4 +27,7 @@ export {
   UserFollowingPage,
   UserProfilePage,
   HomePage,
+  ProfilePage,
+  FollowingPage,
+  FollowerPage,
 }

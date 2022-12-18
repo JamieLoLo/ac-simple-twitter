@@ -24,6 +24,7 @@ const TweetItem = ({ data }) => {
     data
   // --- localStorage
   const authToken = localStorage.getItem('authToken')
+  const userId = Number(localStorage.getItem('userId'))
   // --- useSelector
   // const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // --- event handler
@@ -55,10 +56,19 @@ const TweetItem = ({ data }) => {
   const profilePageHandler = async () => {
     if (data.UserId) {
       localStorage.setItem('profile_id', data.UserId)
-      navigate('/users/profile')
+      if (data.UserId === userId) {
+        console.log('OK')
+        navigate('/users/profile')
+        return
+      }
+      navigate('/users/profile/other')
     } else if (!data.UserId) {
       localStorage.setItem('profile_id', User.id)
-      navigate('/users/profile')
+      if (User.id === userId) {
+        navigate('/users/profile')
+        return
+      }
+      navigate('/users/profile/other')
     }
   }
 

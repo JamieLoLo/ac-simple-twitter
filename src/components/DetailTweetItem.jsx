@@ -1,6 +1,7 @@
 import styles from './DetailTweetItem.module.scss'
 // --- hook
 import useMoment from '../hooks/useMoment'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 // --- api
@@ -11,10 +12,13 @@ import { modalActions } from '../store/modal-slice'
 // --- icons
 import { defaultFig } from '../components/assets/icons/index'
 
-const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
+const DetailTweetItem = (props) => {
+  const { tweetData, tweetUserData, tweetUserId } = props
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   // --- localStorage
-  const tweetId = localStorage.getItem('tweet_id')
+  const tweetId = Number(localStorage.getItem('tweet_id'))
+  const userId = Number(localStorage.getItem('userId'))
   // --- useState
   const [activeColor, setActiveColor] = useState(tweetData.isLiked)
   const [likeCounts, setLikeCounts] = useState(tweetData.likeCounts)
@@ -57,6 +61,14 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
       unLike()
     }
   }
+  const changeProfilePageHandler = () => {
+    localStorage.setItem('profile_id', tweetUserId)
+    if (tweetUserId === userId) {
+      navigate('/users/profile')
+      return
+    }
+    navigate('/users/profile/other')
+  }
 
   // --- helper constant
   const createTime = useMoment(tweetData.createdAt)
@@ -69,10 +81,15 @@ const DetailTweetItem = ({ tweetData, tweetUserData, onClick }) => {
             tweetUserData.avatar === null ? defaultFig : tweetUserData.avatar
           }
           alt='Avatar'
+          onClick={changeProfilePageHandler}
         />
         <div className={styles.tweet__creator__info}>
-          <div className={styles.name}>{tweetUserData.name}</div>
-          <div className={styles.account}> @{tweetUserData.account}</div>
+          <div className={styles.name} onClick={changeProfilePageHandler}>
+            {tweetUserData.name}
+          </div>
+          <div className={styles.account} onClick={changeProfilePageHandler}>
+            @{tweetUserData.account}
+          </div>
         </div>
       </div>
       <div className={styles.tweet__content}>{tweetData.description}</div>

@@ -1,0 +1,36 @@
+.item__container {
+  display: flex;
+  padding: 16px 23px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+.info__container {
+  margin-left: 8px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.info__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  align-items: center;
+
+  .button__container {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+  }
+}
+.user__name {
+  font-weight: 700;
+  color: var(--main-text);
+  cursor: pointer;
+}
+.info__body {
+  font-size: 16px;
+  color: var(--main-text);
+}

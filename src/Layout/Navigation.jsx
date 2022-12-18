@@ -2,7 +2,7 @@ import styles from './Navigation.module.scss'
 // --- hook
 import clsx from 'clsx'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // --- component
 import { Button } from '../UI/index'
 // --- api
@@ -17,8 +17,10 @@ const Navigation = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // --- localStorage
-  const userId = localStorage.getItem('userId')
-  const profileId = localStorage.getItem('profile_id')
+  const userId = Number(localStorage.getItem('userId'))
+  const profileId = Number(localStorage.getItem('profile_id'))
+  // --- useSelector
+  const userInfo = useSelector((state)=> state.user.userInfo)
   // const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
   const getProfileIdHandler = () => {
     localStorage.setItem('profile_id', localStorage.getItem('userId'))
@@ -27,6 +29,13 @@ const Navigation = (props) => {
     localStorage.clear()
     await dispatch(authInputActions.refreshAuthInput())
     navigate('/users/login')
+  }
+
+  const settingHandler = () => {
+    dispatch(authInputActions.accountAuth(userInfo.account))
+    dispatch(authInputActions.usernameAuth(userInfo.name))
+    dispatch(authInputActions.emailAuth(userInfo.email))
+    navigate('/users/setting')
   }
 
   return (
@@ -81,9 +90,7 @@ const Navigation = (props) => {
                 </p>
               </li>
               <li
-                onClick={() => {
-                  navigate('/users/setting')
-                }}
+                onClick={settingHandler}
               >
                 <div
                   className={clsx('', {

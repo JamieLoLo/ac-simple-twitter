@@ -17,7 +17,7 @@ const UserFollowerPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // --- localStorage
-  const profileId = localStorage.getItem('profile_id')
+  const userId = Number(localStorage.getItem('userId'))
   const authToken = localStorage.getItem('authToken')
   // --- useState
   // --- useSelector
@@ -34,7 +34,7 @@ const UserFollowerPage = () => {
   useEffect(() => {
     const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(profileId)
+        const res = await userGetProfileApi(userId)
         await dispatch(userActions.setUserInfo(res.data))
       } catch (error) {
         console.error(error)
@@ -42,13 +42,13 @@ const UserFollowerPage = () => {
       }
     }
     userGetProfile()
-  }, [navigate, profileId])
+  }, [navigate, userId])
 
   // userGetFollowers
   useEffect(() => {
     const userGetFollowers = async () => {
       try {
-        const res = await userGetFollowersApi(profileId)
+        const res = await userGetFollowersApi(userId)
         await dispatch(userActions.setUserFollowersData(res.data))
       } catch (error) {
         console.error(error)
@@ -56,7 +56,7 @@ const UserFollowerPage = () => {
       }
     }
     userGetFollowers()
-  }, [isFollowUpdate, profileId])
+  }, [isFollowUpdate, userId])
   
   // --- helper constant
   const userFollowerList = userFollowersData.map((data) => (

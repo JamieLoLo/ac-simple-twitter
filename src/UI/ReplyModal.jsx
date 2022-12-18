@@ -1,14 +1,13 @@
 import styles from './ReplyModal.module.scss'
 // --- hook
+import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import useMoment from '../hooks/useMoment'
 // --- component
 import { Button, AuthInput } from './index'
 // --- api
 import { AddReplyApi } from '../api/replyApi'
-import { tweetGetOneApi } from '../api/tweetApi'
-import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
@@ -18,12 +17,11 @@ import { modalActions } from '../store/modal-slice'
 import { defaultFig } from '../components/assets/icons/index'
 
 const ReplyModal = (props) => {
-  const userAvatar = localStorage.getItem('user_avatar')
+  const { data } = props
+  const pathname = useLocation().pathname
   const dispatch = useDispatch()
   // --- localStorage
-  const userId = localStorage.getItem('userId')
-  const authToken = localStorage.getItem('authToken')
-  const tweetId = localStorage.getItem('tweet_id')
+  const tweetId = Number(localStorage.getItem('tweet_id'))
   // --- useState
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   // --- useSelector
@@ -31,26 +29,12 @@ const ReplyModal = (props) => {
   const message = useSelector((state) => state.authInput.reply.message)
   const isValid = useSelector((state) => state.authInput.reply.isValid)
   const content = useSelector((state) => state.authInput.reply.content)
-  const isUserInfoUpdate = useSelector((state) => state.user.isUserInfoUpdate)
-  const userInfo = useSelector((state) => state.user.userInfo)
   const oneTweetData = useSelector((state) => state.user.oneTweetData)
   const { User } = oneTweetData
   const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
-  // useEffect
-  useEffect(() => {
-    const userGetProfile = async () => {
-      try {
-        const res = await userGetProfileApi(userId)
-        await dispatch(userActions.setUserInfo(res.data))
-      } catch (error) {
-        console.error(error)
-        return error
-      }
-    }
-    if (authToken !== null) {
-      userGetProfile()
-    }
-  }, [isUserInfoUpdate])
+  const userInfo = useSelector((state) => state.user.userInfo)
+  // console.log(data) // 在 profileId === userId 時使用
+  // console.log(userInfo) // 在 profileId !== userId 時使用
 
   // useEffect(() => {
   //   const tweetGetOne = async () => {
@@ -144,11 +128,20 @@ const ReplyModal = (props) => {
         </div>
         <div className={styles.reply__input__area}>
           <div className={styles.container}>
-            <img
-              className={styles.avatar}
-              src={userAvatar === 'null' ? defaultFig : userAvatar}
-              alt='avatar'
-            />
+            {pathname === '/users/profile' ? (
+              <img
+                className={styles.avatar}
+                src={data.avatar === null ? defaultFig : data.avatar}
+                alt='avatar'
+              />
+            ) : (
+              <img
+                className={styles.avatar}
+                src={userInfo.avatar === null ? defaultFig : userInfo.avatar}
+                alt='avatar'
+              />
+            )}
+
             <div className={styles.auth__input__container}>
               <AuthInput
                 style={{

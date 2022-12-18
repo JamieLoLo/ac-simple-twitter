@@ -16,7 +16,7 @@ import { defaultFig } from '../components/assets/icons/index'
 const DetailReplyModal = (props) => {
   const dispatch = useDispatch()
   // --- localStorage
-  const tweetId = localStorage.getItem('tweet_id')
+  const tweetId = Number(localStorage.getItem('tweet_id'))
   // --- useState
   const [showErrorMessage, setShowErrorMessage] = useState(false)
   // --- useSelector
@@ -84,8 +84,12 @@ const DetailReplyModal = (props) => {
               <div className={styles.avatar__container}>
                 <img
                   className={styles.avatar}
-                  src={defaultFig}
-                  alt='Default Fig'
+                  src={
+                    props.tweetUserData.avatar
+                      ? props.tweetUserData.avatar
+                      : defaultFig
+                  }
+                  alt='Avatar'
                 />
               </div>
               <div className={styles.tweet__creator__info}>

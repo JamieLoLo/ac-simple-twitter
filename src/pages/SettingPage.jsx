@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 // --- component
-import { AuthInput, Button, Notification} from '../UI/index'
+import { AuthInput, Button, Notification } from '../UI/index'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 // --- api
 import { userPutSettingApi } from '../api/userApi'
@@ -19,6 +19,7 @@ const SettingPage = () => {
   const authToken = localStorage.getItem('authToken')
   // --- useState
   const [loadingStatus, setLoadingStatus] = useState('finish')
+  const [errorMessage, setErrorMessage] = useState('')
   // --- useSelector
   const account = useSelector((state) => state.authInput.account)
   const username = useSelector((state) => state.authInput.username)
@@ -32,23 +33,22 @@ const SettingPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-   dispatch(authInputActions.accountAuth(userInfo.account))
-   dispatch(authInputActions.usernameAuth(userInfo.name))
-   dispatch(authInputActions.emailAuth(userInfo.email))
+    
   }, [])
-  console.log(userInfo)
-  // account: 'user1'
-  // avatar: 'https://loremflickr.com/320/240/logo/?lock=1'
-  // cover: 'https://loremflickr.com/720/240/landscape/?lock=1'
-  // email: 'user1@example.com'
-  // followerCounts: 10
-  // followingCounts: 10
-  // id: 42
-  // introduction: 'qui'
-  // isFollowed: 0
-  // name: 'User1'
-  // role: 'user'
-  // tweetCounts: 10
+
+  useEffect(() => {
+    if (loadingStatus === 'failed' || loadingStatus === 'success') {
+      setTimeout(() => {
+        if (loadingStatus === 'success') {
+          setLoadingStatus('finish')
+          navigate('/users/main')
+        } else {
+          setLoadingStatus('finish')
+        }
+      }, 1000)
+    }
+  }, [loadingStatus, navigate])
+
 
   // --- event Handler
   const accountHandler = (useInput) => {
@@ -77,7 +77,7 @@ const SettingPage = () => {
       passwordCheck.isValid
     ) {
       try {
-        await userPutSettingApi({
+        const res = await userPutSettingApi({
           account: account.content,
           name: username.content,
           email: email.content,
@@ -85,7 +85,13 @@ const SettingPage = () => {
           checkPassword: passwordCheck.content,
           id: userInfo.id,
         })
-        navigate('/users/main')
+        if (res.status !== 200) {
+          setLoadingStatus('failed')
+          setErrorMessage(res.response.data.message)
+          return
+        }
+        setLoadingStatus('success')
+        // navigate('/users/main')
       } catch (error) {
         console.error(error)
       }
@@ -102,6 +108,25 @@ const SettingPage = () => {
       <div className={styles.notification__container}>
         {loadingStatus === 'warn' && (
           <Notification notification='warn' title='請完整輸入設定資料' />
+        )}
+        {loadingStatus === 'failed' &&
+          errorMessage ===
+            'Error: 已經註冊過的帳號,Error: 已經註冊過的email' && (
+            <Notification
+              notification='error'
+              title='account 與 email 已重複註冊'
+            />
+          )}
+        {loadingStatus === 'failed' &&
+          errorMessage === 'Error: 已經註冊過的帳號' && (
+            <Notification notification='error' title='account 已重複註冊' />
+          )}
+        {loadingStatus === 'failed' &&
+          errorMessage === 'Error: 已經註冊過的email' && (
+            <Notification notification='error' title='email 已重複註冊' />
+          )}
+        {loadingStatus === 'success' && (
+          <Notification notification='success' title='設定成功' />
         )}
       </div>
       <UserGrid page='settingPage' pathname={pathname}>
@@ -163,16 +188,6 @@ const SettingPage = () => {
             message={passwordCheck.message}
           />
           <div className={styles.button__container}>
-            {(account.content || username.content || email.content) && (
-              <Button
-                className='button button__lg'
-                title='取消變更'
-                style={{ width: '130px', margin: '0px 20px' }}
-                onClick={() => {
-                  dispatch(authInputActions.refreshAuthInput())
-                }}
-              />
-            )}
             <Button
               className='button button__lg active'
               title='儲存'
