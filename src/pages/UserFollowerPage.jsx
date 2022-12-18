@@ -7,15 +7,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import UserFollowListItem from '../components/UserFollowListItem'
 // --- api
-import {
-  userGetFollowersApi,
-  userGetTweetsApi,
-  userGetProfileApi,
-} from '../api/userApi'
+import { userGetFollowersApi, userGetProfileApi } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
 // --- icons
-import { ReactComponent as PrevIcon } from '../components/assets/icons/prev.svg'
+import { prevIcon } from '../components/assets/icons/index'
 
 const UserFollowerPage = () => {
   const dispatch = useDispatch()
@@ -27,7 +23,6 @@ const UserFollowerPage = () => {
   // --- useSelector
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const userInfo = useSelector((state) => state.user.userInfo)
-  const userTweetsData = useSelector((state) => state.user.userTweetsData)
   const userFollowersData = useSelector((state) => state.user.userFollowersData)
   // --- useEffect
   useEffect(() => {
@@ -49,20 +44,6 @@ const UserFollowerPage = () => {
     userGetProfile()
   }, [navigate, profileId])
 
-  //userGetTweets
-  useEffect(() => {
-    const userGetTweets = async () => {
-      try {
-        const res = await userGetTweetsApi(profileId)
-        await dispatch(userActions.setUserTweetsData(res.data))
-      } catch (error) {
-        console.error(error)
-        return error
-      }
-    }
-    userGetTweets()
-  }, [profileId])
-
   // userGetFollowers
   useEffect(() => {
     const userGetFollowers = async () => {
@@ -76,6 +57,7 @@ const UserFollowerPage = () => {
     }
     userGetFollowers()
   }, [isFollowUpdate, profileId])
+  
   // --- helper constant
   const userFollowerList = userFollowersData.map((data) => (
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
@@ -92,13 +74,11 @@ const UserFollowerPage = () => {
                 navigate('/users/profile')
               }}
             >
-              <PrevIcon />
+              <img src={prevIcon} alt='prev' />
             </div>
             <div className={styles.user__text}>
               <p className={styles.user__name}>{userInfo.name}</p>
-              <p className={styles.tweet__count}>
-                {userTweetsData.length} 推文
-              </p>
+              <p className={styles.tweet__count}>{userInfo.tweetCounts} 推文</p>
             </div>
           </div>
           <div className={styles.switch__button__container}>

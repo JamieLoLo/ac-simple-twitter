@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const followshipsURL =
-  'https://fierce-plains-47262.herokuapp.com/api/followships'
+// const followshipsURL =
+//   'https://fierce-plains-47262.herokuapp.com/api/followships'
 // const followshipsURL =
 //   'https://dry-anchorage-06913.herokuapp.com/api/followships'
 const followshipsURL =

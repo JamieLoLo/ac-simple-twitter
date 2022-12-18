@@ -146,6 +146,7 @@ const EditProfileModal = (props) => {
             message={username.message}
             count={username.count}
             upperLimit='50'
+            placeholder={props.data.name}
           />
           <AuthInput
             label='自我介紹'
@@ -157,6 +158,7 @@ const EditProfileModal = (props) => {
             message={info.message}
             count={info.count}
             upperLimit='160'
+            placeholder={props.data.introduction}
           />
         </div>
       </div>
