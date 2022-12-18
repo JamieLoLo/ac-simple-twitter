@@ -8,8 +8,8 @@ const AdminUserItem = ({ data }) => {
     name,
     avatar,
     cover,
-    tweetsCount,
-    likesCount,
+    tweetCounts,
+    likeCounts,
     followingCounts,
     followerCounts,
   } = data
@@ -31,11 +31,11 @@ const AdminUserItem = ({ data }) => {
         <div className={styles.tweetInfo}>
           <div className={styles.tweetNum}>
             <div className={styles.icon}></div>
-            <div className={styles.num}>{tweetsCount}</div>
+            <div className={styles.num}>{tweetCounts}</div>
           </div>
           <div className={styles.likeNum}>
             <div className={styles.icon}></div>
-            <div className={styles.num}>{likesCount}</div>
+            <div className={styles.num}>{likeCounts}</div>
           </div>
         </div>
         <div className={styles.followInfo}>
