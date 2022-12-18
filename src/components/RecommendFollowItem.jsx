@@ -29,7 +29,6 @@ const RecommendFollowItem = ({ data }) => {
   }
   const profilePageHandler = async () => {
     try {
-      await userGetProfileApi(id)
       await localStorage.setItem('profile_id', id)
       await navigate('/users/profile')
     } catch (error) {
