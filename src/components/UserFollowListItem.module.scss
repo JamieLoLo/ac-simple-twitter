@@ -11,6 +11,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .info__header {
   display: flex;
@@ -27,6 +28,7 @@
 .user__name {
   font-weight: 700;
   color: var(--main-text);
+  cursor: pointer;
 }
 .info__body {
   font-size: 16px;

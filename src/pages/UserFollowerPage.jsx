@@ -81,7 +81,6 @@ const UserFollowerPage = () => {
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
 
-
   return (
     <>
       <UserGrid>

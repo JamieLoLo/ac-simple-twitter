@@ -2,11 +2,12 @@ import styles from './UserFollowListItem.module.scss'
 // --- hook
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 // --- component
 import { Button } from '../UI/index'
 // --- api
 import { followApi, unfollowApi } from '../api/followshipsApi'
-import { userGetFollowingsApi } from '../api/userApi'
+import { userGetFollowingsApi, userGetProfileApi } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
 // --- icons
@@ -14,6 +15,7 @@ import { defaultFig } from './assets/icons/index'
 
 const UserFollowListItem = (data) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { avatar, introduction, name, followerId, followingId, isFollowed } =
     data.data
   // --- localStorage
@@ -60,9 +62,30 @@ const UserFollowListItem = (data) => {
   const temp = matchFollowing
     ? matchFollowing.followingId === followerId
     : false
+
+  const profilePageHandler = async () => {
+    if (userFollowingsData.length === 0) {
+      try {
+        await localStorage.setItem('profile_id', followerId)
+        await navigate('/users/profile')
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    } else if (userFollowingsData.length !== 0) {
+      try {
+        await localStorage.setItem('profile_id', followingId)
+        await navigate('/users/profile')
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    }
+  }
+
   return (
     <div className={styles.item__container}>
-      <div className={styles.avatar__container}>
+      <div className={styles.avatar__container} onClick={profilePageHandler}>
         <img
           className={styles.avatar}
           src={avatar ? avatar : defaultFig}
@@ -71,7 +94,9 @@ const UserFollowListItem = (data) => {
       </div>
       <div className={styles.info__container}>
         <div className={styles.info__header}>
-          <p className={styles.user__name}>{name}</p>
+          <p className={styles.user__name} onClick={profilePageHandler}>
+            {name}
+          </p>
           <div className={styles.button__container}>
             {temp || isFollowed ? (
               <Button

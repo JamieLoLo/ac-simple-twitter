@@ -2,9 +2,10 @@ import axios from 'axios'
 
 // const followshipsURL =
 //   'https://fierce-plains-47262.herokuapp.com/api/followships'
+// const followshipsURL =
+//   'https://dry-anchorage-06913.herokuapp.com/api/followships'
 const followshipsURL =
-  'https://dry-anchorage-06913.herokuapp.com/api/followships'
-
+  'https://d9de-223-136-148-157.jp.ngrok.io/api/followships'
 
 const axiosInstance = axios.create({ baseURL: followshipsURL })
 
