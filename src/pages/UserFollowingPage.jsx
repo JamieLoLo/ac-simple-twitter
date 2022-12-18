@@ -10,7 +10,6 @@ import { UserGrid } from '../Layout/GridSystemWrapper'
 import {
   userGetFollowingsApi,
   userGetProfileApi,
-  userGetTweetsApi,
 } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
@@ -26,7 +25,6 @@ const UserFollowingPage = () => {
   // --- useState
   // --- useSelector
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
-  const userTweetsData = useSelector((state) => state.user.userTweetsData)
   const userFollowingsData = useSelector(
     (state) => state.user.userFollowingsData
   )
@@ -49,20 +47,6 @@ const UserFollowingPage = () => {
       }
     }
     userGetProfile()
-  }, [])
-
-  //userGetTweets
-  useEffect(() => {
-    const userGetTweets = async () => {
-      try {
-        const res = await userGetTweetsApi(profileId)
-        await dispatch(userActions.setUserTweetsData(res.data))
-      } catch (error) {
-        console.error(error)
-        return error
-      }
-    }
-    userGetTweets()
   }, [])
 
   // userGetFollowings
@@ -97,9 +81,7 @@ const UserFollowingPage = () => {
             </div>
             <div className={styles.user__text}>
               <p className={styles.user__name}>{userInfo.name}</p>
-              <p className={styles.tweet__count}>
-                {userTweetsData.length} 推文
-              </p>
+              <p className={styles.tweet__count}>{userInfo.tweetCounts} 推文</p>
             </div>
           </div>
           <div className={styles.switch__button__container}>

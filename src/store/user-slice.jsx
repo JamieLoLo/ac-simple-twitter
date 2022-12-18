@@ -5,6 +5,7 @@ const initialState = {
   isTweetUpdate: false,
   isUserInfoUpdate: false,
   userInfo: [],
+  profileInfo: [],
   allTweetsData: [],
   oneTweetData: [],
   replysForOneTweet: [],
@@ -33,10 +34,15 @@ const userSlice = createSlice({
     setIsTweetUpdate(state) {
       state.isTweetUpdate = !state.isTweetUpdate
     },
-    // userInfo 內容
+    // 登入者的 userInfo 內容
     setUserInfo(state, action) {
       state.userInfo = action.payload
     },
+    // 非登入者的使用者 profileInfo 內容
+    setProfileInfo(state, action) {
+      state.profileInfo = action.payload
+    }
+    ,
     // 特定貼文內容
     setOneTweetData(state, action) {
       state.oneTweetData = action.payload

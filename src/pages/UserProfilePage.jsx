@@ -144,6 +144,7 @@ const UserProfilePage = () => {
       navigate('/users/login')
     }
   }, [])
+  
   useEffect(() => {
     setIntroHeight(ref.current.clientHeight)
   }, [])

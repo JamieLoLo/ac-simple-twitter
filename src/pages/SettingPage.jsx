@@ -32,7 +32,23 @@ const SettingPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
+   dispatch(authInputActions.accountAuth(userInfo.account))
+   dispatch(authInputActions.usernameAuth(userInfo.name))
+   dispatch(authInputActions.emailAuth(userInfo.email))
   }, [])
+  console.log(userInfo)
+  // account: 'user1'
+  // avatar: 'https://loremflickr.com/320/240/logo/?lock=1'
+  // cover: 'https://loremflickr.com/720/240/landscape/?lock=1'
+  // email: 'user1@example.com'
+  // followerCounts: 10
+  // followingCounts: 10
+  // id: 42
+  // introduction: 'qui'
+  // isFollowed: 0
+  // name: 'User1'
+  // role: 'user'
+  // tweetCounts: 10
 
   // --- event Handler
   const accountHandler = (useInput) => {
