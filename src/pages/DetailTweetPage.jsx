@@ -22,11 +22,12 @@ const DetailTweetPage = () => {
   const dispatch = useDispatch()
   // --- localStorage
   const authToken = localStorage.getItem('authToken')
-  const replyId = localStorage.getItem('reply_id')
-  const tweetId = localStorage.getItem('tweet_id')
+  const replyId = Number(localStorage.getItem('reply_id'))
+  const tweetId = Number(localStorage.getItem('tweet_id'))
   // --- useState
   const [tweetUserData, setTweetUserData] = useState([])
   const [detailReplyModal, setDetailReplyModal] = useState(false)
+  const [tweetUserId, setTweetUserId] = useState()
   // --- useSelector
   const likeCount = useSelector((state) => state.user.likeCount)
   const oneTweetData = useSelector((state) => state.user.oneTweetData)
@@ -70,6 +71,7 @@ const DetailTweetPage = () => {
         const res = await tweetGetOneApi(tweetId)
         dispatch(userActions.setOneTweetData(res.data))
         setTweetUserData(res.data.User)
+        setTweetUserId(res.data.UserId)
       } catch (error) {
         console.error(error)
       }
@@ -100,6 +102,7 @@ const DetailTweetPage = () => {
         setDetailReplyModal={setDetailReplyModal}
         tweetData={oneTweetData}
         tweetUserData={tweetUserData}
+        tweetUserId={tweetUserId}
         setSubmitReRender={setSubmitReRender}
       />
       <UserGrid id={'reply__list'}>
@@ -114,6 +117,7 @@ const DetailTweetPage = () => {
         <DetailTweetItem
           tweetData={oneTweetData}
           tweetUserData={tweetUserData}
+          tweetUserId={tweetUserId}
           setReplyModal={setDetailReplyModal}
           onClick={(replyModal) => setDetailReplyModal(replyModal)}
         />

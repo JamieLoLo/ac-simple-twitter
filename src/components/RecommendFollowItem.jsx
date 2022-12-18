@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../UI/index'
 // --- api
 import { unfollowApi, followApi } from '../api/followshipsApi'
-import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
 // --- icons
@@ -30,7 +29,11 @@ const RecommendFollowItem = ({ data }) => {
   const profilePageHandler = async () => {
     try {
       await localStorage.setItem('profile_id', id)
-      await navigate('/users/profile')
+      if (id === userId) {
+        await navigate('/users/profile')
+        return
+      }
+      await navigate('/users/profile/other')
     } catch (error) {
       console.error(error)
       return error

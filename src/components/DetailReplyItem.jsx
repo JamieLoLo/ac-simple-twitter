@@ -1,12 +1,24 @@
 import styles from './DetailReplyItem.module.scss'
 // --- hook
+import { useNavigate } from 'react-router-dom'
 import useMoment from '../hooks/useMoment'
 // --- api
 // --- store
 // --- icons
 import { defaultFig } from '../components/assets/icons/index'
 
-const DetailReplyItem = ({ replyData, tweetUserData }) => {
+const DetailReplyItem = (props) => {
+  const { replyData, tweetUserData } = props
+  const navigate = useNavigate()
+  const userId = Number(localStorage.getItem('userId'))
+  const changeProfilePageHandler = () => {
+    localStorage.setItem('profile_id', replyData.UserId)
+    if (replyData.UserId === userId) {
+      navigate('/users/profile')
+      return
+    }
+    navigate('/users/profile/other')
+  }
   // helper constant
   const createTime = useMoment(replyData.createdAt)
   return (
@@ -18,11 +30,16 @@ const DetailReplyItem = ({ replyData, tweetUserData }) => {
             replyData.User.avatar === null ? defaultFig : replyData.User.avatar
           }
           alt='Default Fig'
+          onClick={changeProfilePageHandler}
         />
         <div className={styles.tweetCreatorInfo}>
           <div className={styles.container}>
-            <div className={styles.name}>{replyData.User.name}</div>
-            <div className={styles.account}>{replyData.User.account}</div>
+            <div className={styles.name} onClick={changeProfilePageHandler}>
+              {replyData.User.name}
+            </div>
+            <div className={styles.account} onClick={changeProfilePageHandler}>
+              {replyData.User.account}
+            </div>
           </div>
           <div className={styles.createTime}>・{createTime}</div>
         </div>

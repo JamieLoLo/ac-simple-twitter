@@ -4,6 +4,7 @@ import authInputSlice from './authInput-slice'
 import adminSlice from './admin-slice'
 import userSlice from './user-slice'
 import modalSlice from './modal-slice'
+import profileSlice from './profile-slice'
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     admin: adminSlice,
     user: userSlice,
     modal: modalSlice,
+    profile: profileSlice,
   },
 })
 

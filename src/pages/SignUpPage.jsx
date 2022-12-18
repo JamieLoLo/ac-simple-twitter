@@ -19,6 +19,7 @@ const SignUpPage = () => {
   const authToken = localStorage.getItem('authToken')
   // --- useState
   const [loadingStatus, setLoadingStatus] = useState('finish')
+  const [errorMessage, setErrorMessage] = useState('')
   // --- useSelector
   let account = useSelector((state) => state.authInput.account)
   let name = useSelector((state) => state.authInput.username)
@@ -64,6 +65,7 @@ const SignUpPage = () => {
   }
   const userSignupHandler = async () => {
     try {
+      localStorage.clear()
       setLoadingStatus('start')
       const res = await userSignupApi({
         account: account.content,
@@ -75,6 +77,7 @@ const SignUpPage = () => {
 
       if (res.status !== 200) {
         setLoadingStatus('failed')
+        setErrorMessage(res.response.data.message)
         return
       }
       const { data } = res
@@ -87,6 +90,10 @@ const SignUpPage = () => {
       console.error(error)
     }
   }
+
+  // "Error: 已經註冊過的帳號,Error: 已經註冊過的email"
+  // "Error: 已經註冊過的帳號"
+  // "Error: 已經註冊過的email"
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
   }
@@ -94,9 +101,22 @@ const SignUpPage = () => {
   return (
     <>
       <div className={styles.notification__container}>
-        {loadingStatus === 'failed' && (
-          <Notification notification='error' title='帳號不存在' />
-        )}
+        {loadingStatus === 'failed' &&
+          errorMessage ===
+            'Error: 已經註冊過的帳號,Error: 已經註冊過的email' && (
+            <Notification
+              notification='error'
+              title='account 與 email 已重複註冊'
+            />
+          )}
+        {loadingStatus === 'failed' &&
+          errorMessage === 'Error: 已經註冊過的帳號' && (
+            <Notification notification='error' title='account 已重複註冊' />
+          )}
+        {loadingStatus === 'failed' &&
+          errorMessage === 'Error: 已經註冊過的email' && (
+            <Notification notification='error' title='email 已重複註冊' />
+          )}
         {loadingStatus === 'success' && (
           <Notification notification='success' title='註冊成功' />
         )}

@@ -1,34 +1,30 @@
-import styles from './UserFollowingPage.module.scss'
+import styles from './FollowerPage.module.scss'
 // --- hook
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 // --- component
-import UserFollowListItem from '../components/UserFollowListItem'
 import { UserGrid } from '../Layout/GridSystemWrapper'
+import UserFollowListItem from '../components/UserFollowListItem'
 // --- api
-import {
-  userGetFollowingsApi,
-  userGetProfileApi,
-} from '../api/userApi'
+import { userGetFollowersApi, userGetProfileApi } from '../api/userApi'
 // --- store
-import { userActions } from '../store/user-slice'
+import { profileActions } from '../store/profile-slice'
 // --- icons
 import { prevIcon } from '../components/assets/icons/index'
 
-const UserFollowingPage = () => {
-  const navigate = useNavigate()
+const UserFollowerPage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   // --- localStorage
-  const userId = Number(localStorage.getItem('userId'))
+  const profileId = Number(localStorage.getItem('profile_id'))
   const authToken = localStorage.getItem('authToken')
   // --- useState
   // --- useSelector
-  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
-  const userFollowingsData = useSelector(
-    (state) => state.user.userFollowingsData
+  const profileInfo = useSelector((state) => state.user.userInfo)
+  const profileFollowersData = useSelector(
+    (state) => state.user.userFollowersData
   )
-  const userInfo = useSelector((state) => state.user.userInfo)
   // --- useEffect
   useEffect(() => {
     if (authToken === null) {
@@ -39,33 +35,35 @@ const UserFollowingPage = () => {
   useEffect(() => {
     const userGetProfile = async () => {
       try {
-        const res = await userGetProfileApi(userId)
-        await dispatch(userActions.setUserInfo(res.data))
+        const res = await userGetProfileApi(profileId)
+        await dispatch(profileActions.setProfileInfo(res.data))
       } catch (error) {
         console.error(error)
         return error
       }
     }
     userGetProfile()
-  }, [])
+  }, [dispatch, profileId])
 
-  // userGetFollowings
+  // userGetFollowers
   useEffect(() => {
-    const userGetFollowings = async () => {
+    const userGetFollowers = async () => {
       try {
-        const res = await userGetFollowingsApi(userId)
-        await dispatch(userActions.setUserFollowingsData(res.data))
+        const res = await userGetFollowersApi(profileId)
+        await dispatch(profileActions.setProfileFollowersData(res.data))
       } catch (error) {
         console.error(error)
         return error
       }
     }
-    userGetFollowings()
-  }, [isFollowUpdate, userId])
+    userGetFollowers()
+  }, [dispatch, profileId])
 
-  const userFollowingList = userFollowingsData.map((data) => (
+  // --- helper constant
+  const userFollowerList = profileFollowersData.map((data) => (
     <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
+
   return (
     <>
       <UserGrid>
@@ -74,26 +72,28 @@ const UserFollowingPage = () => {
             <div
               className={styles.icon__container}
               onClick={() => {
-                navigate('/users/profile')
+                navigate('/users/profile/other')
               }}
             >
               <img src={prevIcon} alt='prev' />
             </div>
             <div className={styles.user__text}>
-              <p className={styles.user__name}>{userInfo.name}</p>
-              <p className={styles.tweet__count}>{userInfo.tweetCounts} 推文</p>
+              <p className={styles.user__name}>{profileInfo.name}</p>
+              <p className={styles.tweet__count}>
+                {profileInfo.tweetCounts} 推文
+              </p>
             </div>
           </div>
           <div className={styles.switch__button__container}>
-            <Link to='/users/follower' className={styles.link}>
-              <p className={styles.switch__button}>追隨者</p>
-            </Link>
             <p className={`${styles.switch__button} ${styles.active}`}>
-              正在追隨
+              追隨者
             </p>
+            <Link to='/users/following' className={styles.link}>
+              <p className={styles.switch__button}>正在追隨</p>
+            </Link>
           </div>
           <div className={styles.follow__list__container}>
-            {userFollowingsData.length === 0 ? undefined : userFollowingList}
+            {profileFollowersData.length === 0 ? undefined : userFollowerList}
           </div>
         </div>
       </UserGrid>
@@ -101,4 +101,4 @@ const UserFollowingPage = () => {
   )
 }
 
-export default UserFollowingPage
+export default UserFollowerPage

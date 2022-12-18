@@ -36,7 +36,7 @@ const useMoment = (createdAt) => {
   const date = new Date(createdAt)
   const timestamp = date.getTime()
   const fromNow = moment(timestamp).fromNow().replace('ago', '')
-  let result
+  let result = '剛剛'
 
   if (fromNow.includes('hour')) {
     if (fromNow.includes('an')) {
@@ -45,6 +45,7 @@ const useMoment = (createdAt) => {
       result = fromNow.replace('hours', '') + ' 小時前'
     }
   }
+
 
   if (fromNow.includes('minutes')) {
     result = '1 小時內'
@@ -56,6 +57,8 @@ const useMoment = (createdAt) => {
   // an hour
   // minutes
   // days
+
+  
 
   return result
 }

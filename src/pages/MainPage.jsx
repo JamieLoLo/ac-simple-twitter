@@ -24,7 +24,7 @@ const MainPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // --- localStorage
-  const userId = localStorage.getItem('userId')
+  const userId = Number(localStorage.getItem('userId'))
   const authToken = localStorage.getItem('authToken')
   // --- useState
   const [tweetModal, setTweetModal] = useState(false) // TweetModal 的開關控制
@@ -60,7 +60,6 @@ const MainPage = () => {
       console.error(error)
     }
   }
-
   // --- useEffect
   // 清除登入資料，沒 authToken (沒經過正確登入過程) 就回去登入頁面
   useEffect(() => {
@@ -76,7 +75,6 @@ const MainPage = () => {
       try {
         const res = await userGetProfileApi(userId)
         dispatch(userActions.setUserInfo(res.data))
-        localStorage.setItem('user_avatar', res.data.avatar)
       } catch (error) {
         console.error(error)
         return error
@@ -109,7 +107,7 @@ const MainPage = () => {
   const vh = Math.round(window.innerHeight)
   return (
     <div>
-      <ReplyModal trigger={isReplyModalOpen} />
+      <ReplyModal trigger={isReplyModalOpen} data={userInfo} />
       <TweetModal
         trigger={isTweetModalOpen}
         setSubmitReRender={setSubmitReRender}
