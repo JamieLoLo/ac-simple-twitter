@@ -216,7 +216,7 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <EditProfileModal trigger={editModal} setEditModal={setEditModal} />
+      <EditProfileModal trigger={editModal} setEditModal={setEditModal} data={userInfo}/>
       <ReplyModal trigger={isReplyModalOpen} />
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>

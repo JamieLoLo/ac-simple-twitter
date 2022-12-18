@@ -25,12 +25,12 @@ const EditProfileModal = (props) => {
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
-  const userInfo = useSelector((state) => state.user.userInfo)
+
 
   // --- useEffect
   useEffect(() => {
-    setEditAvatarUrl(userInfo.avatar)
-    setEditCoverUrl(userInfo.cover)
+    setEditAvatarUrl(props.data.avatar)
+    setEditCoverUrl(props.data.cover)
   }, [])
 
   // --- event handler
@@ -53,13 +53,13 @@ const EditProfileModal = (props) => {
   }
   const saveProfileHandler = async () => {
     if (username.content.length === 0) {
-      formData.append('name', userInfo.name)
+      formData.append('name', props.data.name)
     } else {
       formData.append('name', username.content)
     }
 
     if (info.content.length === 0) {
-      formData.append('introduction', userInfo.introduction)
+      formData.append('introduction', props.data.introduction)
     } else {
       formData.append('introduction', info.content)
     }
