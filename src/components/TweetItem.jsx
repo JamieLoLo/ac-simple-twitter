@@ -3,11 +3,10 @@ import styles from './TweetItem.module.scss'
 import useMoment from '../hooks/useMoment'
 import { useNavigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 // --- component
 // --- api
 import { likeApi, unLikeApi } from '../api/likeApi'
-import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
 import { modalActions } from '../store/modal-slice'
@@ -18,7 +17,7 @@ import {
   defaultFig,
 } from '../components/assets/icons/index'
 
-const TweetItem = ({ data, onClick }) => {
+const TweetItem = ({ data }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { id, User, createdAt, description, isLiked, likeCounts, replyCounts } =

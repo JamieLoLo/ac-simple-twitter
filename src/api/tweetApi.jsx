@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const tweetURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
 // const tweetURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
-const tweetURL = 'https://d9de-223-136-148-157.jp.ngrok.io/api/tweets'
+const tweetURL = 'https://4b39-223-136-148-157.jp.ngrok.io/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: tweetURL })
 

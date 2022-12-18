@@ -43,8 +43,6 @@ const AdminAllTweetsPage = () => {
       setData(res.data)
     } catch (error) {
       console.error(error)
-      navigate('/admin/login')
-      localStorage.removeItem('authToken')
     }
   }
 
