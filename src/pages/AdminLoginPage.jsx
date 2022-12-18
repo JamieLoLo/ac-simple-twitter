@@ -80,7 +80,7 @@ const AdminLoginPage = () => {
       </div>
       <div className={styles.form__container}>
         <div className={styles.logo}>
-          <img scr={logoIcon} alt='logo' />
+          <img src={logoIcon} alt='logo' />
         </div>
         <h3>後台登入</h3>
         <AuthInput

@@ -2,7 +2,8 @@ import axios from 'axios'
 
 const adminURL = 'https://fierce-plains-47262.herokuapp.com/api/admin'
 // const adminURL = 'https://dry-anchorage-06913.herokuapp.com/api/admin'
-// const adminURL = 'https://d9de-223-136-148-157.jp.ngrok.io/api/admin'
+const adminURL = 'https://4b39-223-136-148-157.jp.ngrok.io/api/admin'
+
 
 const axiosInstance = axios.create({ baseURL: adminURL })
 

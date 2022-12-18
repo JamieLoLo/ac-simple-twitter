@@ -16,7 +16,7 @@ const useMoment = (createdAt) => {
         return hour >= 11 ? hour : hour + 12
       }
     },
-    meridiem: function (hour, minute, isLower) {
+    meridiem: function (hour, minute) {
       const hm = hour * 100 + minute
       if (hm < 600) {
         return '凌晨'
@@ -35,16 +35,27 @@ const useMoment = (createdAt) => {
   })
   const date = new Date(createdAt)
   const timestamp = date.getTime()
-  const fromNow = Number(moment(timestamp).fromNow().replace('hours ago', ''))
-  let result = moment(timestamp).format('AHH:mm[・]YYYY[年]MM[月]DD[日]')
+  const fromNow = moment(timestamp).fromNow().replace('ago', '')
+  let result
 
-  if (fromNow < 24) {
-    result = fromNow + '小時'
+  if (fromNow.includes('hour')) {
+    if (fromNow.includes('an')) {
+      result = '1 小時前'
+    } else {
+      result = fromNow.replace('hours', '') + ' 小時前'
+    }
   }
 
-  if (!fromNow) {
-    result = '1小時內'
+  if (fromNow.includes('minutes')) {
+    result = '1 小時內'
   }
+
+  if (fromNow.includes('day')) {
+    result = moment(timestamp).format('AHH:mm[・]YYYY[年]MM[月]DD[日]')
+  }
+  // an hour
+  // minutes
+  // days
 
   return result
 }
