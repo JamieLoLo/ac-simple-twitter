@@ -216,7 +216,11 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <EditProfileModal trigger={editModal} setEditModal={setEditModal} data={userInfo}/>
+      <EditProfileModal
+        trigger={editModal}
+        setEditModal={setEditModal}
+        data={userInfo}
+      />
       <ReplyModal trigger={isReplyModalOpen} />
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>
@@ -229,9 +233,7 @@ const UserProfilePage = () => {
           />
           <div className={styles.container}>
             <div className={styles.name}>{userInfo.name}</div>
-            <div className={styles.tweet__num}>
-              {userTweetsData.length} 推文
-            </div>
+            <div className={styles.tweet__num}>{userInfo.tweetCounts} 推文</div>
           </div>
         </div>
         <div className={styles.user__profile__collection}>

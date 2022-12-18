@@ -76,6 +76,7 @@ const MainPage = () => {
       try {
         const res = await userGetProfileApi(userId)
         dispatch(userActions.setUserInfo(res.data))
+        localStorage.setItem('user_avatar', res.data.avatar)
       } catch (error) {
         console.error(error)
         return error
@@ -139,7 +140,7 @@ const MainPage = () => {
             loader={<LoadingIcon className={styles.loading__icon} />}
             endMessage={null}
             scrollableTarget='tweet__list'
-            height={vh -220}
+            height={vh - 220}
           >
             {tweetsListHelper}
           </InfiniteScroll>
