@@ -52,20 +52,20 @@ const ReplyModal = (props) => {
     }
   }, [isUserInfoUpdate])
 
-  useEffect(() => {
-    const tweetGetOne = async () => {
-      try {
-        const res = await tweetGetOneApi(tweetId)
-        dispatch(userActions.setOneTweetData(res.data))
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    if (tweetId === null) {
-      return
-    }
-    tweetGetOne()
-  }, [tweetId])
+  // useEffect(() => {
+  //   const tweetGetOne = async () => {
+  //     try {
+  //       const res = await tweetGetOneApi(tweetId)
+  //       dispatch(userActions.setOneTweetData(res.data))
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   if (tweetId === null) {
+  //     return
+  //   }
+  //   tweetGetOne()
+  // }, [tweetId])
 
   // event Handler
   const createTime = useMoment(oneTweetData.createdAt)
@@ -89,6 +89,7 @@ const ReplyModal = (props) => {
       }
     }
   }
+
   return isReplyModalOpen ? (
     <div className={styles.modal}>
       <div
@@ -145,7 +146,7 @@ const ReplyModal = (props) => {
           <div className={styles.container}>
             <img
               className={styles.avatar}
-              src={userAvatar === null ? defaultFig : userAvatar}
+              src={userAvatar === 'null' ? defaultFig : userAvatar}
               alt='avatar'
             />
             <div className={styles.auth__input__container}>

@@ -2,11 +2,11 @@ import styles from './TweetItem.module.scss'
 // --- hook
 import useMoment from '../hooks/useMoment'
 import { useNavigate } from 'react-router-dom'
-
 import { useDispatch } from 'react-redux'
 // --- component
 // --- api
 import { likeApi, unLikeApi } from '../api/likeApi'
+import { tweetGetOneApi } from '../api/tweetApi'
 // --- store
 import { userActions } from '../store/user-slice'
 import { modalActions } from '../store/modal-slice'
@@ -41,9 +41,15 @@ const TweetItem = ({ data }) => {
     await unLikeApi(id)
     await dispatch(userActions.setIsTweetUpdate())
   }
-  const replyHandler = () => {
-    localStorage.setItem('tweet_id', id)
-    dispatch(modalActions.setIsReplyModalOpen(true))
+  const replyHandler = async () => {
+    try {
+      const res = await tweetGetOneApi(id)
+      await dispatch(userActions.setOneTweetData(res.data))
+      await localStorage.setItem('tweet_id', id)
+      dispatch(modalActions.setIsReplyModalOpen(true))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const profilePageHandler = async () => {
