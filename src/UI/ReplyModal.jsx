@@ -117,7 +117,7 @@ const ReplyModal = (props) => {
                 <img
                   className={styles.avatar}
                   src={User.avatar === null ? defaultFig : User.avatar}
-                  alt='Default Fig'
+                  alt='Avatar'
                 />
               </div>
               <div className={styles.tweet__creator__info}>
