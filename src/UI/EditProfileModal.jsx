@@ -24,6 +24,7 @@ const EditProfileModal = (props) => {
   const [editAvatarFile, setEditAvatarFile] = useState()
   const [loadingStatus, setLoadingStatus] = useState('finish')
   const [isStart, setIsStart] = useState(false)
+  const [coverKey, setCoverKey] = useState(Math.random())
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
@@ -51,8 +52,7 @@ const EditProfileModal = (props) => {
     setEditCoverUrl('')
     props.setEditModal(false)
   }
-  const changeCoverHandler = (event) => {
-
+  const changeCoverHandler = async (event) => {
     setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
     setEditCoverFile(event.target.files[0])
   }
@@ -116,6 +116,7 @@ const EditProfileModal = (props) => {
                     type='file'
                     accept='image/png'
                     onChange={changeCoverHandler}
+                    key={coverKey}
                   />
                 </div>
                 <img
@@ -123,6 +124,8 @@ const EditProfileModal = (props) => {
                   alt='delete'
                   onClick={() => {
                     setEditCoverUrl(props.data.cover)
+                    setCoverKey(Math.random())
+                    setEditCoverFile()
                   }}
                 />
               </div>
