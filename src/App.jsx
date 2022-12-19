@@ -21,11 +21,11 @@ import {
 } from './pages/index'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// const basename = process.env.PUBLIC_URL
+const basename = process.env.PUBLIC_URL
 
 const App = () => {
   return (
-    <div className='App'>
+    <div className='App' basename={basename}>
       <BrowserRouter>
         <Routes>
           <Route path='signup' element={<SignUpPage />} />
@@ -42,6 +42,7 @@ const App = () => {
           <Route path='users/following' element={<UserFollowingPage />} />
           <Route path='users/follower/other' element={<FollowerPage />} />
           <Route path='users/following/other' element={<FollowingPage />} />
+          <Route path='/' element={<UserLoginPage />} />
           <Route path='*' element={<HomePage />} />
         </Routes>
       </BrowserRouter>
