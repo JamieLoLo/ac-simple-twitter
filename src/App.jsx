@@ -36,13 +36,13 @@ const App = () => {
           <Route path='users/profile/other' element={<ProfilePage />} />
           <Route path='users/main' element={<MainPage />} />
           <Route path='users/login' element={<UserLoginPage />} />
-          <Route path='/' element={<UserLoginPage />} />
           <Route path='users/tweet' element={<DetailTweetPage />} />
           <Route path='users/setting' element={<SettingPage />} />
           <Route path='users/follower' element={<UserFollowerPage />} />
           <Route path='users/following' element={<UserFollowingPage />} />
           <Route path='users/follower/other' element={<FollowerPage />} />
           <Route path='users/following/other' element={<FollowingPage />} />
+          <Route path='/' element={<UserLoginPage />} />
           <Route path='*' element={<HomePage />} />
         </Routes>
       </BrowserRouter>
