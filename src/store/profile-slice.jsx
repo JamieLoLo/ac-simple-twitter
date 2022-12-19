@@ -45,7 +45,7 @@ const profileSlice = createSlice({
     },
     // 非登入者的使用者的 Following
     setProfileFollowingsData(state, action) {
-      state.ProfileFollowingsData = action.payload
+      state.profileFollowingsData = action.payload
     },
     changePayload(state, action) {
       state.payload = action.payload.payload

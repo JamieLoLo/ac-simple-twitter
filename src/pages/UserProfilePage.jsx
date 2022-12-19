@@ -236,7 +236,9 @@ const UserProfilePage = () => {
             <div className={styles.name}>{userInfo.name}</div>
             <div className={styles.account}>@{userInfo.account}</div>
             <div className={styles.intro} ref={ref}>
-              {userInfo.introduction}
+              {(userInfo.introduction === 'null' || userInfo.introduction === null)
+                ? `Hello! My name is ${userInfo.name}`
+                : userInfo.introduction}
             </div>
             <div className={styles.follow__info}>
               <Link to='/users/following' className={styles.link}>

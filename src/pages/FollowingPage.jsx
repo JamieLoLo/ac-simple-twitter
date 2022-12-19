@@ -25,6 +25,7 @@ const UserFollowingPage = () => {
     (state) => state.profile.profileFollowingsData
   )
   const profileInfo = useSelector((state) => state.profile.profileInfo)
+  const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   // --- useEffect
   useEffect(() => {
     if (authToken === null) {
@@ -57,8 +58,7 @@ const UserFollowingPage = () => {
       }
     }
     userGetFollowings()
-  }, [dispatch, profileId])
-
+  }, [dispatch ,isFollowUpdate])
   const FollowingList = profileFollowingsData.map((data) => (
     <FollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
@@ -77,11 +77,13 @@ const UserFollowingPage = () => {
             </div>
             <div className={styles.user__text}>
               <p className={styles.user__name}>{profileInfo.name}</p>
-              <p className={styles.tweet__count}>{profileInfo.tweetCounts} 推文</p>
+              <p className={styles.tweet__count}>
+                {profileInfo.tweetCounts} 推文
+              </p>
             </div>
           </div>
           <div className={styles.switch__button__container}>
-            <Link to='/users/follower' className={styles.link}>
+            <Link to='/users/follower/other' className={styles.link}>
               <p className={styles.switch__button}>追隨者</p>
             </Link>
             <p className={`${styles.switch__button} ${styles.active}`}>

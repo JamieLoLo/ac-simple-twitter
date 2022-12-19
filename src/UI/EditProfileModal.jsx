@@ -23,15 +23,17 @@ const EditProfileModal = (props) => {
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
   const [loadingStatus, setLoadingStatus] = useState('finish')
+  const [isStart, setIsStart] = useState(false)
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
 
   // --- useEffect
   useEffect(() => {
+    setIsStart(true)
     setEditAvatarUrl(props.data.avatar)
     setEditCoverUrl(props.data.cover)
-  }, [])
+  }, [isStart, props.data.avatar, props.data.cover])
 
   // --- event handler
   const usernameHandler = (useInput) => {
@@ -42,14 +44,24 @@ const EditProfileModal = (props) => {
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
+    setIsStart(false)
+    setEditAvatarFile('')
+    setEditCoverFile('')
+    setEditAvatarUrl('')
+    setEditCoverFile('')
+    props.setEditModal(false)
   }
   const changeCoverHandler = (event) => {
-    setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
-    setEditCoverFile(event.target.files[0])
+    if (event.target.files[0]) {
+      setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
+      setEditCoverFile(event.target.files[0])
+    }
   }
   const changeAvatarHandler = (event) => {
-    setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
-    setEditAvatarFile(event.target.files[0])
+    if (event.target.files[0]) {
+      setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
+      setEditAvatarFile(event.target.files[0])
+    }
   }
   const saveProfileHandler = async () => {
     await setLoadingStatus('loading')
@@ -72,31 +84,22 @@ const EditProfileModal = (props) => {
       dispatch(userActions.setIsTweetUpdate)
       await setLoadingStatus('finish')
       props.setEditModal(false)
+      return
     }
   }
 
   return props.trigger ? (
     <div className={styles.modal}>
-      <div
-        className={styles.backdrop}
-        onClick={() => {
-          props.setEditModal(false)
-          refreshHandler()
-        }}
-      ></div>
+      <div className={styles.backdrop} onClick={refreshHandler}></div>
       <div className={styles.modal__container}>
-        {loadingStatus === 'loading' && <div className={styles.loadingMessage}>設定中請稍候</div>}
+        {loadingStatus === 'loading' && (
+          <div className={styles.loadingMessage}>設定中請稍候</div>
+        )}
         {loadingStatus === 'finish' && (
           <>
             <div className={styles.top}>
               <div className={styles.container}>
-                <div
-                  className={styles.del__btn}
-                  onClick={() => {
-                    props.setEditModal(false)
-                    refreshHandler()
-                  }}
-                ></div>
+                <div className={styles.del__btn} onClick={refreshHandler}></div>
                 <div className={styles.title}>編輯個人資料</div>
               </div>
               <Button
@@ -125,7 +128,7 @@ const EditProfileModal = (props) => {
                 />
               </div>
               <div className={styles.backdrop}></div>
-              <img src={editCoverUrl ? editCoverUrl : cover} alt='cover' />
+              <img src={editCoverUrl ? editCoverUrl : cover} alt='cover' className={styles.cover}/>
             </div>
             <div className={styles.avatar__container}>
               <div className={styles.upload}>

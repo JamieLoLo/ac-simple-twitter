@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { UserGrid } from '../Layout/GridSystemWrapper'
 import TweetItem from '../components/TweetItem'
 import ReplyItem from '../components/ReplyItem'
-import { Button, EditProfileModal, ReplyModal } from '../UI/index'
+import { Button, ReplyModal } from '../UI/index'
 // --- api
 import {
   userGetProfileApi,
@@ -21,7 +21,6 @@ import { unfollowApi, followApi } from '../api/followshipsApi'
 // --- store
 // import { userActions } from '../store/user-slice'
 import { userActions } from '../store/user-slice'
-import { modalActions } from '../store/modal-slice'
 import { profileActions } from '../store/profile-slice'
 // --- icons
 import { prevIcon, defaultFig, cover } from '../components/assets/icons/index'
@@ -36,7 +35,6 @@ const ProfilePage = () => {
   const userId = Number(localStorage.getItem('userId'))
   const profileId = Number(localStorage.getItem('profile_id'))
   // --- useState
-  const [editModal, setEditModal] = useState(false)
   const [replyModal, setReplyModal] = useState(false)
   const [profilePage, setProfilePage] = useState('tweet')
   const [isUserFollowed, setIsUserFollowed] = useState(false)
@@ -265,17 +263,19 @@ const ProfilePage = () => {
             <div className={styles.name}>{profileInfo.name}</div>
             <div className={styles.account}>@{profileInfo.account}</div>
             <div className={styles.intro} ref={ref}>
-              {profileInfo.introduction}
+              {profileInfo.introduction === 'null'
+                ? `Hello! My name is ${profileInfo.name}`
+                : profileInfo.introduction}
             </div>
             <div className={styles.follow__info}>
-              <Link to='/users/following' className={styles.link}>
+              <Link to='/users/following/other' className={styles.link}>
                 <div className={styles.num} style={{ color: '#171725' }}>
                   {profileInfo.followingCounts} 個
                 </div>
                 <p>跟隨中</p>
               </Link>
               <div className={styles.container}>
-                <Link to='/users/follower' className={styles.link}>
+                <Link to='/users/follower/other' className={styles.link}>
                   <div className={styles.num} style={{ color: '#171725' }}>
                     {profileInfo.followerCounts} 位
                   </div>
