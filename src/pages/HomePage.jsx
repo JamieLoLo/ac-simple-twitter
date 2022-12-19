@@ -27,7 +27,7 @@ const HomePage = () => {
         {redirect === 'main' && (
           <Notification
             notification='loading'
-            title='正在導向首頁'
+            title='頁面不存在'
             title2='正在導向首頁'
           />
         )}
