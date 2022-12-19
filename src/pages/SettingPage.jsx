@@ -34,7 +34,7 @@ const SettingPage = () => {
       navigate('/users/login')
     }
     
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {

@@ -31,7 +31,7 @@ const RecommendFollowList = () => {
       }
     }
     userGetTopUsers()
-  }, [isFollowUpdate, isUserInfoUpdate])
+  }, [dispatch, isFollowUpdate, isUserInfoUpdate])
   // --- helper constant
   const userRecommendFollowList = recommendFollowData.map((data) => (
     <RecommendFollowItem data={data} key={data.id} />

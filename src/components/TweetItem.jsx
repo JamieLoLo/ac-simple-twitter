@@ -57,7 +57,6 @@ const TweetItem = ({ data }) => {
     if (data.UserId) {
       localStorage.setItem('profile_id', data.UserId)
       if (data.UserId === userId) {
-        console.log('OK')
         navigate('/users/profile')
         return
       }

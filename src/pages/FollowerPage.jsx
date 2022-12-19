@@ -30,7 +30,7 @@ const UserFollowerPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {

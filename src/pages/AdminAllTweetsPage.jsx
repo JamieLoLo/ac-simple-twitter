@@ -31,7 +31,7 @@ const AdminAllTweetsPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, dispatch, navigate])
 
   const adminTweetItemHelper = data.map((data) => (
     <AdminTweetItem data={data} key={data.id} />

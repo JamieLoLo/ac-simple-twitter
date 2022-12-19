@@ -156,7 +156,7 @@ const ProfilePage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     setIntroHeight(ref.current.clientHeight)
