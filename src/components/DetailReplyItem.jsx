@@ -29,7 +29,7 @@ const DetailReplyItem = (props) => {
           src={
             replyData.User.avatar === null ? defaultFig : replyData.User.avatar
           }
-          alt='Default Fig'
+          alt='Avatar'
           onClick={changeProfilePageHandler}
         />
         <div className={styles.tweetCreatorInfo}>
