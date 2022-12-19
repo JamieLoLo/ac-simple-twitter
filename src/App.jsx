@@ -26,6 +26,7 @@ const basename = process.env.PUBLIC_URL
 const App = () => {
   return (
     <div className='App' basename={basename}>
+      homepage
       <BrowserRouter>
         <Routes>
           <Route path='signup' element={<SignUpPage />} />
