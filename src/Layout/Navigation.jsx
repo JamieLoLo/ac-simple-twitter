@@ -17,8 +17,6 @@ const Navigation = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // --- localStorage
-  const userId = Number(localStorage.getItem('userId'))
-  const profileId = Number(localStorage.getItem('profile_id'))
   // --- useSelector
   const userInfo = useSelector((state)=> state.user.userInfo)
   // const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
@@ -76,13 +74,13 @@ const Navigation = (props) => {
                     [styles.icon__personal__active]:
                       pathname === '/users/profile',
                     [styles.icon__personal]:
-                      pathname !== '/users/profile' || userId !== profileId,
+                      pathname !== '/users/profile',
                   })}
                 ></div>
                 <p
                   className={clsx('', {
                     [styles.active]:
-                      pathname === '/users/profile' && userId === profileId,
+                      pathname === '/users/profile',
                   })}
                   onClick={getProfileIdHandler}
                 >

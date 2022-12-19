@@ -32,7 +32,7 @@ const SignUpPage = () => {
     if (authToken !== null) {
       navigate('/users/main')
     }
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {

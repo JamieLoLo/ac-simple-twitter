@@ -24,7 +24,7 @@ const AdminAllUsersPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
 
   const filterData = data.filter((user) => user.account !== 'root')
   const adminUserItemHelper = filterData.map((data) => (

@@ -67,7 +67,7 @@ const MainPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, dispatch, navigate])
 
   // 一進入頁面就 Get 使用者資料，以 isUserInfoUpdate 作為更新依據
   useEffect(() => {
@@ -83,7 +83,7 @@ const MainPage = () => {
     if (authToken !== null) {
       userGetProfile()
     }
-  }, [isUserInfoUpdate])
+  }, [authToken, dispatch, isUserInfoUpdate, userId])
 
   // 一進入頁面就 Get 所有推文
   useEffect(() => {

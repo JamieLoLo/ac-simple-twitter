@@ -1,7 +1,7 @@
 import styles from './UserProfilePage.module.scss'
 // --- hook
 import { useLocation, Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector, useDispatch } from 'react-redux'
 // --- component
@@ -18,7 +18,7 @@ import {
 } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
-import { modalActions } from '../store/modal-slice'
+// import { modalActions } from '../store/modal-slice'
 // --- icons
 import { prevIcon, defaultFig, cover } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
@@ -52,7 +52,7 @@ const UserProfilePage = () => {
   const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
   // --- lazy loading related
   //userGetTweets
-  const userGetTweets = async (userId, tweetPage) => {
+  const userGetTweets = useCallback(async (userId, tweetPage) => {
     try {
       const res = await userGetTweetsApi(userId, tweetPage)
       await dispatch(userActions.setUserTweetsData(res.data))
@@ -60,7 +60,7 @@ const UserProfilePage = () => {
       console.error(error)
       return error
     }
-  }
+  },[dispatch])
   // lazy loading for tweet list
   const changeTweetPage = () => {
     const tweetGetAll = async () => {
@@ -78,7 +78,7 @@ const UserProfilePage = () => {
     tweetGetAll()
   }
   //userGetReplys
-  const userGetReplys = async (userId, replyPage) => {
+  const userGetReplys = useCallback(async (userId, replyPage) => {
     try {
       const res = await userGetReplysApi(userId, replyPage)
       await dispatch(userActions.setUserReplysData(res.data))
@@ -86,7 +86,7 @@ const UserProfilePage = () => {
       console.error(error)
       return error
     }
-  }
+  },[dispatch])
   // lazy loading for reply list
   const changeReplyPage = () => {
     const replyGetAll = async () => {
@@ -104,7 +104,7 @@ const UserProfilePage = () => {
     replyGetAll()
   }
   //userGetLikes
-  const userGetLikes = async (userId, likePage) => {
+  const userGetLikes = useCallback(async (userId, likePage) => {
     try {
       const res = await userGetLikesApi(userId, likePage)
       const temp = res.data
@@ -114,7 +114,7 @@ const UserProfilePage = () => {
       console.error(error)
       return error
     }
-  }
+  },[dispatch])
   // lazy loading for like list
   const changeLikePage = () => {
     const likeGetAll = async () => {
@@ -139,7 +139,7 @@ const UserProfilePage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     setIntroHeight(ref.current.clientHeight)
@@ -159,7 +159,7 @@ const UserProfilePage = () => {
     if (authToken !== null) {
       userGetProfile()
     }
-  }, [isUserInfoUpdate, isFollowUpdate])
+  }, [isUserInfoUpdate, isFollowUpdate, authToken, userId, dispatch])
 
   useEffect(() => {
     userGetTweets(userId, 1)

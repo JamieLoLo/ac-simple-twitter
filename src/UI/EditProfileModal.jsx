@@ -48,7 +48,7 @@ const EditProfileModal = (props) => {
     setEditAvatarFile('')
     setEditCoverFile('')
     setEditAvatarUrl('')
-    setEditCoverFile('')
+    setEditCoverUrl('')
     props.setEditModal(false)
   }
   const changeCoverHandler = (event) => {
@@ -57,12 +57,14 @@ const EditProfileModal = (props) => {
       setEditCoverFile(event.target.files[0])
     }
   }
+
   const changeAvatarHandler = (event) => {
     if (event.target.files[0]) {
       setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
       setEditAvatarFile(event.target.files[0])
     }
   }
+
   const saveProfileHandler = async () => {
     await setLoadingStatus('loading')
     if (username.content.length === 0) {
@@ -123,7 +125,7 @@ const EditProfileModal = (props) => {
                   src={delBtn}
                   alt='delete'
                   onClick={() => {
-                    setEditCoverUrl(cover)
+                    setEditCoverUrl(props.data.cover)
                   }}
                 />
               </div>

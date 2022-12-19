@@ -27,7 +27,7 @@ const UserLoginPage = () => {
     if (authToken !== null) {
       navigate('/users/main')
     }
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     if (loadingStatus === 'failed' || loadingStatus === 'success') {
@@ -40,7 +40,7 @@ const UserLoginPage = () => {
         }
       }, 1000)
     }
-  }, [loadingStatus])
+  }, [loadingStatus, navigate])
 
   // --- event Handler
   const accountHandler = (useInput) => {

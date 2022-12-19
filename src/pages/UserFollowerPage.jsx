@@ -29,7 +29,7 @@ const UserFollowerPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
   // userGetProfile
   useEffect(() => {
     const userGetProfile = async () => {
@@ -42,7 +42,7 @@ const UserFollowerPage = () => {
       }
     }
     userGetProfile()
-  }, [navigate, userId])
+  }, [dispatch, navigate, userId])
 
   // userGetFollowers
   useEffect(() => {
@@ -56,7 +56,7 @@ const UserFollowerPage = () => {
       }
     }
     userGetFollowers()
-  }, [isFollowUpdate, userId])
+  }, [dispatch, isFollowUpdate, userId])
   
   // --- helper constant
   const userFollowerList = userFollowersData.map((data) => (

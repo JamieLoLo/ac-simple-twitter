@@ -1,6 +1,6 @@
 import styles from './DetailTweetPage.module.scss'
 // --- hook
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -37,14 +37,14 @@ const DetailTweetPage = () => {
   const [hasMore, setHasMore] = useState(true)
   const [submitReRender, setSubmitReRender] = useState(false)
   // 取得單一推文的回覆列表
-  const replyGetOne = async (tweetId, page) => {
+  const replyGetOne = useCallback(async (tweetId, page) => {
     try {
       const res = await replyGetOneApi(tweetId, page)
       await dispatch(userActions.setReplysForOneTweet(res.data))
     } catch (error) {
       console.error(error)
     }
-  }
+  },[dispatch])
   // lazy loading for reply list
   const changeReplyPage = async () => {
     try {
@@ -63,7 +63,7 @@ const DetailTweetPage = () => {
     if (authToken === null) {
       navigate('/users/login')
     }
-  }, [])
+  }, [authToken, navigate])
 
   useEffect(() => {
     const tweetGetOne = async () => {
@@ -79,7 +79,7 @@ const DetailTweetPage = () => {
     if (tweetId !== null) {
       tweetGetOne()
     }
-  }, [likeCount, tweetId, replyId])
+  }, [likeCount, tweetId, replyId, dispatch])
 
   useEffect(() => {
     replyGetOne(tweetId, 1)

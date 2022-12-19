@@ -40,7 +40,7 @@ const UserFollowListItem = (data) => {
       }
     }
     userGetFollowings()
-  }, [isFollowUpdate, userId])
+  }, [dispatch, isFollowUpdate, userId])
 
   // --- evnet handler
   const followHandler = async () => {
