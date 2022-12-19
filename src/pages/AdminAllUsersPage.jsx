@@ -26,7 +26,8 @@ const AdminAllUsersPage = () => {
     }
   }, [])
 
-  const adminUserItemHelper = data.map((data) => (
+  const filterData = data.filter((user) => user.account !== 'root')
+  const adminUserItemHelper = filterData.map((data) => (
     <AdminUserItem data={data} key={data.id} />
   ))
 
@@ -35,7 +36,7 @@ const AdminAllUsersPage = () => {
   const adminGetAllUsers = async () => {
     try {
       const res = await adminGetAllUsersApi(1)
-      setData(res.data)
+      await setData(res.data)
     } catch (error) {
       console.error(error)
     }
@@ -61,7 +62,7 @@ const AdminAllUsersPage = () => {
     adminGetAllUsers()
   }
 
-    const vh = Math.round(window.innerHeight)
+  const vh = Math.round(window.innerHeight)
 
   return (
     <AdminUserPageGrid pathname={pathname} id={'user__list'}>
