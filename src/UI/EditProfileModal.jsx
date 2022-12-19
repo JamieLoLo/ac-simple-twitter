@@ -31,8 +31,8 @@ const EditProfileModal = (props) => {
   // --- useEffect
   useEffect(() => {
     setIsStart(true)
-    setEditAvatarUrl(props.data.avatar)
     setEditCoverUrl(props.data.cover)
+    setEditAvatarUrl(props.data.avatar)
   }, [isStart, props.data.avatar, props.data.cover])
 
   // --- event handler
@@ -52,17 +52,14 @@ const EditProfileModal = (props) => {
     props.setEditModal(false)
   }
   const changeCoverHandler = (event) => {
-    if (event.target.files[0]) {
-      setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
-      setEditCoverFile(event.target.files[0])
-    }
+
+    setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
+    setEditCoverFile(event.target.files[0])
   }
 
   const changeAvatarHandler = (event) => {
-    if (event.target.files[0]) {
-      setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
-      setEditAvatarFile(event.target.files[0])
-    }
+    setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
+    setEditAvatarFile(event.target.files[0])
   }
 
   const saveProfileHandler = async () => {
@@ -130,7 +127,11 @@ const EditProfileModal = (props) => {
                 />
               </div>
               <div className={styles.backdrop}></div>
-              <img src={editCoverUrl ? editCoverUrl : cover} alt='cover' className={styles.cover}/>
+              <img
+                src={editCoverUrl ? editCoverUrl : cover}
+                alt='cover'
+                className={styles.cover}
+              />
             </div>
             <div className={styles.avatar__container}>
               <div className={styles.upload}>
