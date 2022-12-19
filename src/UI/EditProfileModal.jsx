@@ -52,7 +52,6 @@ const EditProfileModal = (props) => {
     props.setEditModal(false)
   }
   const changeCoverHandler = (event) => {
-
     setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
     setEditCoverFile(event.target.files[0])
   }
