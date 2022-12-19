@@ -61,7 +61,11 @@ const UserFollowListItem = (data) => {
     : false
 
   const profilePageHandler = async () => {
-    if (pathname === '/users/follower' || '/users/follower/other') {
+    if (
+      pathname === '/users/follower' ||
+      pathname === '/users/follower/other'
+    ) {
+      console.log(pathname)
       localStorage.setItem('profile_id', followerId)
       if (followerId === userId) {
         navigate('/users/profile')
@@ -69,8 +73,10 @@ const UserFollowListItem = (data) => {
       }
       navigate('/users/profile/other')
       return
-    }
-    if (pathname === '/users/following' || pathname === '/users/following/other') {
+    } else if (
+      pathname === '/users/following' ||
+      pathname === '/users/following/other'
+    ) {
       localStorage.setItem('profile_id', followingId)
       if (followingId === userId) {
         navigate('/users/profile')

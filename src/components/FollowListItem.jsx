@@ -2,7 +2,7 @@ import styles from './UserFollowListItem.module.scss'
 // --- hook
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 // --- component
 import { Button } from '../UI/index'
 // --- api
@@ -14,23 +14,26 @@ import { userActions } from '../store/user-slice'
 import { defaultFig } from './assets/icons/index'
 
 const FollowListItem = (data) => {
+  const pathname = useLocation().pathname
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { avatar, introduction, name, followerId, followingId, isFollowed } =
     data.data
   // --- localStorage
   const profileId = Number(localStorage.getItem('profile_id'))
+  const userId = Number(localStorage.getItem('userId'))
   // --- useSelector
   const profileFollowingsData = useSelector(
     (state) => state.profile.profileFollowingsData
   )
+  const isFollowUpdate = useSelector((state)=> state.user.isFollowUpdate)
 
   // --- useEffect
   // userGetFollowings
   useEffect(() => {
     const userGetFollowings = async () => {
       try {
-        const res = await userGetFollowingsApi(profileId)
+        const res = await userGetFollowingsApi(userId)
         await dispatch(userActions.setUserFollowingsData(res.data))
       } catch (error) {
         console.error(error)
@@ -38,14 +41,16 @@ const FollowListItem = (data) => {
       }
     }
     userGetFollowings()
-  }, [dispatch, profileId])
+  }, [dispatch, profileId, isFollowUpdate])
 
   // --- evnet handler
   const followHandler = async () => {
-      await followApi(followerId)
+    await followApi(followerId)
+    dispatch(userActions.setIsFollowUpdate())
   }
   const unfollowHandler = async () => {
-      await unfollowApi(isFollowed === 1 ? followingId : followerId)
+    await unfollowApi(isFollowed === 1 ? followingId : followerId)
+    dispatch(userActions.setIsFollowUpdate())
   }
 
   // helper constant
@@ -58,22 +63,28 @@ const FollowListItem = (data) => {
     : false
 
   const profilePageHandler = async () => {
-    if (profileFollowingsData.length === 0) {
-      try {
-        await localStorage.setItem('profile_id', followerId)
-        await navigate('/users/profile/other')
-      } catch (error) {
-        console.error(error)
-        return error
+    if (
+      pathname === '/users/follower' ||
+      pathname === '/users/follower/other'
+    ) {
+      localStorage.setItem('profile_id', followerId)
+      if (followerId === userId) {
+        navigate('/users/profile')
+        return
       }
-    } else if (profileFollowingsData.length !== 0) {
-      try {
-        await localStorage.setItem('profile_id', followingId)
-        await navigate('/users/profile/other')
-      } catch (error) {
-        console.error(error)
-        return error
+      navigate('/users/profile/other')
+      return
+    } else if (
+      pathname === '/users/following' ||
+      pathname === '/users/following/other'
+    ) {
+      localStorage.setItem('profile_id', followingId)
+      if (followingId === userId) {
+        navigate('/users/profile')
+        return
       }
+      navigate('/users/profile/other')
+      return
     }
   }
 
@@ -91,7 +102,7 @@ const FollowListItem = (data) => {
           <p className={styles.user__name} onClick={profilePageHandler}>
             {name}
           </p>
-          <div className={styles.button__container}>
+          {/* <div className={styles.button__container}>
             {temp || isFollowed ? (
               <Button
                 className='button button__md active'
@@ -107,10 +118,10 @@ const FollowListItem = (data) => {
                 onClick={followHandler}
               />
             )}
-          </div>
+          </div> */}
         </div>
         <div className={styles.info__body}>
-          <p>{introduction || defaultIntro}</p>
+          <p>{introduction === 'null' ? defaultIntro: introduction}</p>
         </div>
       </div>
     </div>

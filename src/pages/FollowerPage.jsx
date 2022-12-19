@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 // --- component
 import { UserGrid } from '../Layout/GridSystemWrapper'
-import UserFollowListItem from '../components/UserFollowListItem'
+import FollowListItem from '../components/FollowListItem'
 // --- api
 import { userGetFollowersApi, userGetProfileApi } from '../api/userApi'
 // --- store
@@ -21,9 +21,9 @@ const UserFollowerPage = () => {
   const authToken = localStorage.getItem('authToken')
   // --- useState
   // --- useSelector
-  const profileInfo = useSelector((state) => state.user.userInfo)
+  const profileInfo = useSelector((state) => state.profile.profileInfo)
   const profileFollowersData = useSelector(
-    (state) => state.user.userFollowersData
+    (state) => state.profile.profileFollowersData
   )
   // --- useEffect
   useEffect(() => {
@@ -61,7 +61,7 @@ const UserFollowerPage = () => {
 
   // --- helper constant
   const userFollowerList = profileFollowersData.map((data) => (
-    <UserFollowListItem data={data} key={`${data.followerId}_${data.name}`} />
+    <FollowListItem data={data} key={`${data.followerId}_${data.name}`} />
   ))
 
   return (
@@ -88,7 +88,7 @@ const UserFollowerPage = () => {
             <p className={`${styles.switch__button} ${styles.active}`}>
               追隨者
             </p>
-            <Link to='/users/following' className={styles.link}>
+            <Link to='/users/following/other' className={styles.link}>
               <p className={styles.switch__button}>正在追隨</p>
             </Link>
           </div>
