@@ -1,6 +1,6 @@
 .replyItem {
   width: 100%;
-  padding: 16px 24px -10px 24px;
+  padding: 16px 24px 0px 24px;
   border-bottom: solid 1px #e6ecf0;
   .tweetInfo {
     display: flex;
@@ -55,35 +55,5 @@
     line-height: 22px;
     font-weight: 500;
     font-size: 14px;
-  }
-  .tweetFeedback {
-    border-bottom: solid 1px #e6ecf0;
-    margin-top: -25px;
-    padding-bottom: 17px;
-    display: flex;
-    font-size: 14px;
-    .like,
-    .reply {
-      display: flex;
-    }
-    .reply {
-      margin-left: 58px;
-    }
-    .like {
-      margin-left: 40px;
-    }
-    .num {
-      color: var(--secondary-color);
-      margin-left: 8px;
-    }
-
-    .messageIcon {
-      width: 16px;
-      content: url(../components/assets/icons/message.svg);
-    }
-    .likeIcon {
-      width: 16px;
-      content: url(../components/assets/icons/like.svg);
-    }
   }
 }

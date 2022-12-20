@@ -38,7 +38,7 @@ const DetailReplyItem = (props) => {
               {replyData.User.name}
             </div>
             <div className={styles.account} onClick={changeProfilePageHandler}>
-              {replyData.User.account}
+              @{replyData.User.account}
             </div>
           </div>
           <div className={styles.createTime}>・{createTime}</div>
