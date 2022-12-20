@@ -3,7 +3,7 @@ import styles from './EditProfileModal.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 // --- component
-import { Button, AuthInput } from './index'
+import { Button, AuthInput, Notification } from './index'
 // --- api
 import { editProfileApi } from '../api/userApi'
 // --- store
@@ -24,6 +24,7 @@ const EditProfileModal = (props) => {
   const [editCoverFile, setEditCoverFile] = useState()
   const [editAvatarFile, setEditAvatarFile] = useState()
   const [loadingStatus, setLoadingStatus] = useState('finish')
+  const [authInput, setAuthInput] = useState('finish')
   const [isStart, setIsStart] = useState(false)
   const [coverKey, setCoverKey] = useState(Math.random())
   // --- useSelector
@@ -39,6 +40,14 @@ const EditProfileModal = (props) => {
     setEditCoverUrl(props.data.cover)
     setEditAvatarUrl(props.data.avatar)
   }, [isStart, props.data.avatar, props.data.cover])
+
+  useEffect(() => {
+    if (authInput === 'failed') {
+      setTimeout(() => {
+        setAuthInput('finish')
+      }, 1500)
+    }
+  }, [authInput])
 
   // --- event handler
   const usernameHandler = (useInput) => {
@@ -68,6 +77,7 @@ const EditProfileModal = (props) => {
 
   const saveProfileHandler = async () => {
     await setLoadingStatus('loading')
+
     if (username.content.length === 0) {
       formData.append('name', props.data.name)
     } else {
@@ -79,6 +89,7 @@ const EditProfileModal = (props) => {
     } else {
       formData.append('introduction', info.content)
     }
+
     formData.append('cover', editCoverFile)
     formData.append('avatar', editAvatarFile)
     const res = await editProfileApi(userId, formData)
@@ -92,100 +103,116 @@ const EditProfileModal = (props) => {
   }
 
   return isEditProfileModalOpen ? (
-    <div className={styles.modal}>
-      <div className={styles.backdrop} onClick={refreshHandler}></div>
-      <div className={styles.modal__container}>
-        {loadingStatus === 'loading' && (
-          <div className={styles.loadingMessage}>設定中請稍候</div>
+    <>
+      <div className={styles.notification__container}>
+        {authInput === 'failed' && (
+          <Notification notification='error' title='請輸入內容 並符合格式' />
         )}
-        {loadingStatus === 'finish' && (
-          <>
-            <div className={styles.top}>
-              <div className={styles.container}>
-                <div className={styles.del__btn} onClick={refreshHandler}></div>
-                <div className={styles.title}>編輯個人資料</div>
-              </div>
-              <Button
-                className='button button__sm active'
-                title='儲存'
-                onClick={saveProfileHandler}
-              />
-            </div>
-            <div className={styles.cover__container}>
-              <div className={styles.icons}>
-                <div className={styles.upload}>
-                  <label htmlFor='uploadCover'></label>
-                  <input
-                    id='uploadCover'
-                    type='file'
-                    accept='image/png'
-                    onChange={changeCoverHandler}
-                    key={coverKey}
-                  />
+      </div>
+      <div className={styles.modal}>
+        <div className={styles.backdrop} onClick={refreshHandler}></div>
+        <div className={styles.modal__container}>
+          {loadingStatus === 'loading' && (
+            <div className={styles.loadingMessage}>設定中請稍候</div>
+          )}
+          {loadingStatus === 'finish' && (
+            <>
+              <div className={styles.top}>
+                <div className={styles.container}>
+                  <div
+                    className={styles.del__btn}
+                    onClick={refreshHandler}
+                  ></div>
+                  <div className={styles.title}>編輯個人資料</div>
                 </div>
-                <img
-                  src={delBtn}
-                  alt='delete'
+                <Button
+                  className='button button__sm active'
+                  title='儲存'
                   onClick={() => {
-                    setEditCoverUrl(props.data.cover)
-                    setCoverKey(Math.random())
-                    setEditCoverFile()
+                    if (!info.isValid || !username.isValid) {
+                      setAuthInput('failed')
+                    } else {
+                      saveProfileHandler()
+                    }
                   }}
                 />
               </div>
-              <div className={styles.backdrop}></div>
-              <img
-                src={editCoverUrl ? editCoverUrl : cover}
-                alt='cover'
-                className={styles.cover}
-              />
-            </div>
-            <div className={styles.avatar__container}>
-              <div className={styles.upload}>
-                <label htmlFor='uploadAvatar' />
-                <input
-                  id='uploadAvatar'
-                  type='file'
-                  accept='image/png'
-                  onChange={changeAvatarHandler}
+              <div className={styles.cover__container}>
+                <div className={styles.icons}>
+                  <div className={styles.upload}>
+                    <label htmlFor='uploadCover'></label>
+                    <input
+                      id='uploadCover'
+                      type='file'
+                      accept='image/png'
+                      onChange={changeCoverHandler}
+                      key={coverKey}
+                    />
+                  </div>
+                  <img
+                    src={delBtn}
+                    alt='delete'
+                    onClick={() => {
+                      setEditCoverUrl(props.data.cover)
+                      setCoverKey(Math.random())
+                      setEditCoverFile()
+                    }}
+                  />
+                </div>
+                <div className={styles.backdrop}></div>
+                <img
+                  src={editCoverUrl ? editCoverUrl : cover}
+                  alt='cover'
+                  className={styles.cover}
                 />
               </div>
-              <div className={styles.backdrop}></div>
-              <img
-                className={styles.avatar}
-                src={editAvatarUrl ? editAvatarUrl : defaultFig}
-                alt='avatar'
-              />
-            </div>
-            <div className={styles.auth__input__container}>
-              <AuthInput
-                label='名稱'
-                style={{ width: '602px' }}
-                onChange={usernameHandler}
-                value={username.content}
-                isValid={username.isValid}
-                message={username.message}
-                count={username.count}
-                upperLimit='50'
-                placeholder={props.data.name}
-              />
-              <AuthInput
-                label='自我介紹'
-                textArea={true}
-                style={{ width: '602px' }}
-                onChange={infoHandler}
-                value={info.content}
-                isValid={info.isValid}
-                message={info.message}
-                count={info.count}
-                upperLimit='160'
-                placeholder={props.data.introduction}
-              />
-            </div>
-          </>
-        )}
+              <div className={styles.avatar__container}>
+                <div className={styles.upload}>
+                  <label htmlFor='uploadAvatar' />
+                  <input
+                    id='uploadAvatar'
+                    type='file'
+                    accept='image/png'
+                    onChange={changeAvatarHandler}
+                  />
+                </div>
+                <div className={styles.backdrop}></div>
+                <img
+                  className={styles.avatar}
+                  src={editAvatarUrl ? editAvatarUrl : defaultFig}
+                  alt='avatar'
+                />
+              </div>
+              <div className={styles.auth__input__container}>
+                <AuthInput
+                  label='名稱'
+                  style={{ width: '602px' }}
+                  onChange={usernameHandler}
+                  value={username.content}
+                  isValid={username.isValid}
+                  message={username.message}
+                  count={username.count}
+                  upperLimit='50'
+                  placeholder={props.data.name}
+                />
+                <AuthInput
+                  label='自我介紹'
+                  textArea={true}
+                  style={{ width: '602px' }}
+                  onChange={infoHandler}
+                  value={info.content}
+                  isValid={info.isValid}
+                  message={info.message}
+                  count={info.count}
+                  upperLimit='160'
+                  placeholder={props.data.introduction}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   ) : (
     ''
   )
