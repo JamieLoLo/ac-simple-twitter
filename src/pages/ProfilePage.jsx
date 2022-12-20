@@ -35,7 +35,6 @@ const ProfilePage = () => {
   const userId = Number(localStorage.getItem('userId'))
   const profileId = Number(localStorage.getItem('profile_id'))
   // --- useState
-  const [replyModal, setReplyModal] = useState(false)
   const [profilePage, setProfilePage] = useState('tweet')
   const [isUserFollowed, setIsUserFollowed] = useState(false)
   const [tweetPage, setTweetPage] = useState(1) // lazy loading
@@ -48,7 +47,7 @@ const ProfilePage = () => {
   // --- useSelector
   const isFollowUpdate = useSelector((state) => state.user.isFollowUpdate)
   const isTweetUpdate = useSelector((state) => state.user.isTweetUpdate)
-  
+
   const profileInfo = useSelector((state) => state.profile.profileInfo)
   const profileTweetsData = useSelector(
     (state) => state.profile.profileTweetsData
@@ -205,12 +204,7 @@ const ProfilePage = () => {
 
   // --- helper constant
   const profileTweetList = profileTweetsData.map((data) => (
-    <TweetItem
-      data={data}
-      key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={(replyModal) => setReplyModal(replyModal)}
-    />
+    <TweetItem data={data} key={data.id} />
   ))
 
   const profileReplyList = profileReplysData.map((data) => (
@@ -218,12 +212,7 @@ const ProfilePage = () => {
   ))
 
   const profileLikeList = profileLikesData.map((data) => (
-    <TweetItem
-      data={data}
-      key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={(replyModal) => setReplyModal(replyModal)}
-    />
+    <TweetItem data={data} key={data.id} />
   ))
 
   const vh = Math.round(window.innerHeight)

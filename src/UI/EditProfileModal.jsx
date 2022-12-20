@@ -9,6 +9,7 @@ import { editProfileApi } from '../api/userApi'
 // --- store
 import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { cover, defaultFig, delBtn } from '../components/assets/icons/index'
 
@@ -28,6 +29,9 @@ const EditProfileModal = (props) => {
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
+  const isEditProfileModalOpen = useSelector(
+    (state) => state.modal.isEditProfileModalOpen
+  )
 
   // --- useEffect
   useEffect(() => {
@@ -50,7 +54,7 @@ const EditProfileModal = (props) => {
     setEditCoverFile('')
     setEditAvatarUrl('')
     setEditCoverUrl('')
-    props.setEditModal(false)
+    dispatch(modalActions.setIsEditProfileModalOpen(false))
   }
   const changeCoverHandler = async (event) => {
     setEditCoverUrl(URL.createObjectURL(event.target.files[0]))
@@ -82,12 +86,12 @@ const EditProfileModal = (props) => {
       dispatch(userActions.setIsUserInfoUpdate())
       dispatch(userActions.setIsTweetUpdate)
       await setLoadingStatus('finish')
-      props.setEditModal(false)
+      dispatch(modalActions.setIsEditProfileModalOpen(false))
       return
     }
   }
 
-  return props.trigger ? (
+  return isEditProfileModalOpen ? (
     <div className={styles.modal}>
       <div className={styles.backdrop} onClick={refreshHandler}></div>
       <div className={styles.modal__container}>

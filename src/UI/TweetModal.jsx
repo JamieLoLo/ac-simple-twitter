@@ -33,7 +33,6 @@ const TweetModal = (props) => {
     dispatch(authInputActions.refreshAuthInput())
   }
   const submitHandler = async () => {
-    console.log('OK')
     if (content === '' || !isValid) {
       setShowErrorMessage(true)
     } else {

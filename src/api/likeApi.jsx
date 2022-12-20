@@ -1,14 +1,10 @@
 import axios from 'axios'
 
 const likeURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
-// const likeURL = 'https://dry-anchorage-06913.herokuapp.com/api/tweets'
-// const likeURL = 'https://ce7e-223-136-148-157.jp.ngrok.io/api/tweets'
-
 
 const axiosInstance = axios.create({ baseURL: likeURL })
 
 axiosInstance.interceptors.request.use((config) => {
-  config.headers['ngrok-skip-browser-warning'] = 'any'
   const authToken = localStorage.getItem('authToken')
   if (authToken) {
     config.headers['Authorization'] = `Bearer ${authToken}`

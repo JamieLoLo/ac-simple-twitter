@@ -1,13 +1,10 @@
 import axios from 'axios'
 
 const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
-// const userURL = 'https://dry-anchorage-06913.herokuapp.com/api/users'
-// const userURL = 'https://ce7e-223-136-148-157.jp.ngrok.io/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
 axiosInstance.interceptors.request.use((config) => {
-  config.headers['ngrok-skip-browser-warning'] = 'any'
   const authToken = localStorage.getItem('authToken')
   if (authToken) {
     config.headers['Authorization'] = `Bearer ${authToken}`

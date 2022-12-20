@@ -14,10 +14,10 @@ import { userGetProfileApi } from '../api/userApi'
 // --- store
 import { authInputActions } from '../store/authInput-slice'
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { defaultFig } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
-import { modalActions } from '../store/modal-slice'
 
 const MainPage = () => {
   const pathname = useLocation().pathname
@@ -27,8 +27,6 @@ const MainPage = () => {
   const userId = Number(localStorage.getItem('userId'))
   const authToken = localStorage.getItem('authToken')
   // --- useState
-  const [tweetModal, setTweetModal] = useState(false) // TweetModal 的開關控制
-  const [replyModal, setReplyModal] = useState(false) // ReplyModal 的開關控制
   const [page, setPage] = useState(1) // lazy loading 相關
   const [hasMore, setHasMore] = useState(true) // lazy loading 相關
   const [submitReRender, setSubmitReRender] = useState(false) // lazy loading 相關
@@ -97,10 +95,8 @@ const MainPage = () => {
     <TweetItem
       data={data}
       key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={async (replyModal) => {
+      onClick={async () => {
         await localStorage.setItem('tweet_id', data.id)
-        setReplyModal(replyModal)
       }}
     />
   ))
@@ -115,7 +111,7 @@ const MainPage = () => {
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
-          <div className={styles.container} onClick={() => setTweetModal(true)}>
+          <div className={styles.container}>
             <img
               className={styles.avatar}
               src={userInfo.avatar ? userInfo.avatar : defaultFig}
