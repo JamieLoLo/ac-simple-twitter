@@ -144,3 +144,9 @@
     opacity: 1;
   }
 }
+.notification__container {
+  position: fixed;
+  z-index: 3;
+  right: 10px;
+  top: 10px;
+}
