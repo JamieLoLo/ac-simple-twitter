@@ -111,7 +111,10 @@ const MainPage = () => {
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>首頁</div>
         <div className={styles.tweet__input__area}>
-          <div className={styles.container}>
+          <div
+            className={styles.container}
+            onClick={() => dispatch(modalActions.setIsTweetModalOpen(true))}
+          >
             <img
               className={styles.avatar}
               src={userInfo.avatar ? userInfo.avatar : defaultFig}
