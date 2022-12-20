@@ -25,11 +25,7 @@ const HomePage = () => {
     <div className={styles.main__container}>
       <div className={styles.notification__container}>
         {redirect === 'main' && (
-          <Notification
-            notification='loading'
-            title='正在導向首頁'
-            title2='正在導向首頁'
-          />
+          <Notification notification='loading' title='正在導向首頁' />
         )}
         {redirect === 'login' && (
           <Notification

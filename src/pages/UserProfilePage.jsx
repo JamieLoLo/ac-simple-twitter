@@ -18,7 +18,7 @@ import {
 } from '../api/userApi'
 // --- store
 import { userActions } from '../store/user-slice'
-// import { modalActions } from '../store/modal-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { prevIcon, defaultFig, cover } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
@@ -31,8 +31,6 @@ const UserProfilePage = () => {
   const authToken = localStorage.getItem('authToken')
   const userId = Number(localStorage.getItem('userId'))
   // --- useState
-  const [editModal, setEditModal] = useState(false)
-  const [replyModal, setReplyModal] = useState(false)
   const [profilePage, setProfilePage] = useState('tweet')
   const [tweetPage, setTweetPage] = useState(1) // lazy loading
   const [replyPage, setReplyPage] = useState(1) // lazy loading
@@ -50,17 +48,23 @@ const UserProfilePage = () => {
   const userReplysData = useSelector((state) => state.user.userReplysData)
   const userLikesData = useSelector((state) => state.user.userLikesData)
   const isReplyModalOpen = useSelector((state) => state.modal.isReplyModalOpen)
+  const isEditProfileModalOpen = useSelector(
+    (state) => state.modal.isEditProfileModalOpen
+  )
   // --- lazy loading related
   //userGetTweets
-  const userGetTweets = useCallback(async (userId, tweetPage) => {
-    try {
-      const res = await userGetTweetsApi(userId, tweetPage)
-      await dispatch(userActions.setUserTweetsData(res.data))
-    } catch (error) {
-      console.error(error)
-      return error
-    }
-  },[dispatch])
+  const userGetTweets = useCallback(
+    async (userId, tweetPage) => {
+      try {
+        const res = await userGetTweetsApi(userId, tweetPage)
+        await dispatch(userActions.setUserTweetsData(res.data))
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    },
+    [dispatch]
+  )
   // lazy loading for tweet list
   const changeTweetPage = () => {
     const tweetGetAll = async () => {
@@ -78,15 +82,18 @@ const UserProfilePage = () => {
     tweetGetAll()
   }
   //userGetReplys
-  const userGetReplys = useCallback(async (userId, replyPage) => {
-    try {
-      const res = await userGetReplysApi(userId, replyPage)
-      await dispatch(userActions.setUserReplysData(res.data))
-    } catch (error) {
-      console.error(error)
-      return error
-    }
-  },[dispatch])
+  const userGetReplys = useCallback(
+    async (userId, replyPage) => {
+      try {
+        const res = await userGetReplysApi(userId, replyPage)
+        await dispatch(userActions.setUserReplysData(res.data))
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    },
+    [dispatch]
+  )
   // lazy loading for reply list
   const changeReplyPage = () => {
     const replyGetAll = async () => {
@@ -104,17 +111,20 @@ const UserProfilePage = () => {
     replyGetAll()
   }
   //userGetLikes
-  const userGetLikes = useCallback(async (userId, likePage) => {
-    try {
-      const res = await userGetLikesApi(userId, likePage)
-      const temp = res.data
-      const tweetDatas = temp.map((data) => data.Tweet)
-      await dispatch(userActions.setUserLikesData(tweetDatas))
-    } catch (error) {
-      console.error(error)
-      return error
-    }
-  },[dispatch])
+  const userGetLikes = useCallback(
+    async (userId, likePage) => {
+      try {
+        const res = await userGetLikesApi(userId, likePage)
+        const temp = res.data
+        const tweetDatas = temp.map((data) => data.Tweet)
+        await dispatch(userActions.setUserLikesData(tweetDatas))
+      } catch (error) {
+        console.error(error)
+        return error
+      }
+    },
+    [dispatch]
+  )
   // lazy loading for like list
   const changeLikePage = () => {
     const likeGetAll = async () => {
@@ -178,12 +188,7 @@ const UserProfilePage = () => {
 
   // --- helper constant
   const userTweetList = userTweetsData.map((data) => (
-    <TweetItem
-      data={data}
-      key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={(replyModal) => setReplyModal(replyModal)}
-    />
+    <TweetItem data={data} key={data.id} />
   ))
 
   const userReplyList = userReplysData.map((data) => (
@@ -191,23 +196,14 @@ const UserProfilePage = () => {
   ))
 
   const userLikeList = userLikesData.map((data) => (
-    <TweetItem
-      data={data}
-      key={data.id}
-      setReplyModal={setReplyModal}
-      onClick={(replyModal) => setReplyModal(replyModal)}
-    />
+    <TweetItem data={data} key={data.id} />
   ))
 
   const vh = Math.round(window.innerHeight)
 
   return (
     <>
-      <EditProfileModal
-        trigger={editModal}
-        setEditModal={setEditModal}
-        data={userInfo}
-      />
+      <EditProfileModal trigger={isEditProfileModalOpen} data={userInfo} />
       <ReplyModal trigger={isReplyModalOpen} data={userInfo} />
       <UserGrid pathname={pathname} id={'tweet__list'}>
         <div className={styles.title}>
@@ -236,7 +232,8 @@ const UserProfilePage = () => {
             <div className={styles.name}>{userInfo.name}</div>
             <div className={styles.account}>@{userInfo.account}</div>
             <div className={styles.intro} ref={ref}>
-              {(userInfo.introduction === 'null' || userInfo.introduction === null)
+              {userInfo.introduction === 'null' ||
+              userInfo.introduction === null
                 ? `Hello! My name is ${userInfo.name}`
                 : userInfo.introduction}
             </div>
@@ -261,7 +258,9 @@ const UserProfilePage = () => {
             className={`button button__md ${styles.button}`}
             title='編輯個人資料'
             style={{ width: '140px' }}
-            onClick={() => setEditModal(true)}
+            onClick={() =>
+              dispatch(modalActions.setIsEditProfileModalOpen(true))
+            }
           />
         </div>
         <ul className={styles.bookmark}>

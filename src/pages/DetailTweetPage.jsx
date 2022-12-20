@@ -13,6 +13,7 @@ import DetailReplyModal from '../UI/DetailReplyModal'
 import { tweetGetOneApi, replyGetOneApi } from '../api/tweetApi'
 // --- store
 import { userActions } from '../store/user-slice'
+import { modalActions } from '../store/modal-slice'
 // --- icons
 import { prevIcon } from '../components/assets/icons/index'
 import { ReactComponent as LoadingIcon } from '../components/assets/icons/loading.svg'
@@ -26,25 +27,30 @@ const DetailTweetPage = () => {
   const tweetId = Number(localStorage.getItem('tweet_id'))
   // --- useState
   const [tweetUserData, setTweetUserData] = useState([])
-  const [detailReplyModal, setDetailReplyModal] = useState(false)
   const [tweetUserId, setTweetUserId] = useState()
   // --- useSelector
   const likeCount = useSelector((state) => state.user.likeCount)
   const oneTweetData = useSelector((state) => state.user.oneTweetData)
   const replysForOneTweet = useSelector((state) => state.user.replysForOneTweet)
+  const isDetailReplyModalOpen = useSelector(
+    (state) => state.modal.isDetailReplyModalOpen
+  )
   // --- lazy loading related
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [submitReRender, setSubmitReRender] = useState(false)
   // 取得單一推文的回覆列表
-  const replyGetOne = useCallback(async (tweetId, page) => {
-    try {
-      const res = await replyGetOneApi(tweetId, page)
-      await dispatch(userActions.setReplysForOneTweet(res.data))
-    } catch (error) {
-      console.error(error)
-    }
-  },[dispatch])
+  const replyGetOne = useCallback(
+    async (tweetId, page) => {
+      try {
+        const res = await replyGetOneApi(tweetId, page)
+        await dispatch(userActions.setReplysForOneTweet(res.data))
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    [dispatch]
+  )
   // lazy loading for reply list
   const changeReplyPage = async () => {
     try {
@@ -98,8 +104,7 @@ const DetailTweetPage = () => {
   return (
     <>
       <DetailReplyModal
-        trigger={detailReplyModal}
-        setDetailReplyModal={setDetailReplyModal}
+        trigger={isDetailReplyModalOpen}
         tweetData={oneTweetData}
         tweetUserData={tweetUserData}
         tweetUserId={tweetUserId}
@@ -118,8 +123,6 @@ const DetailTweetPage = () => {
           tweetData={oneTweetData}
           tweetUserData={tweetUserData}
           tweetUserId={tweetUserId}
-          setReplyModal={setDetailReplyModal}
-          onClick={(replyModal) => setDetailReplyModal(replyModal)}
         />
         {replysForOneTweet.length !== 0 && (
           <InfiniteScroll

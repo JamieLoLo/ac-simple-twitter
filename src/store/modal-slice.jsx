@@ -4,6 +4,7 @@ const initialState = {
   isReplyModalOpen: false,
   isTweetModalOpen: false,
   isDetailReplyModalOpen: false,
+  isEditProfileModalOpen: false,
 }
 
 const modalSlice = createSlice({
@@ -19,6 +20,9 @@ const modalSlice = createSlice({
     },
     setIsDetailReplyModalOpen(state, action) {
       state.isDetailReplyModalOpen = action.payload
+    },
+    setIsEditProfileModalOpen(state, action) {
+      state.isEditProfileModalOpen = action.payload
     },
   },
 })
