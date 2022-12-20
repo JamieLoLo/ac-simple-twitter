@@ -20,7 +20,7 @@ const ReplyItem = (props) => {
         <div className={styles.tweetCreatorInfo}>
           <div className={styles.container}>
             <div className={styles.name}>{User.name}</div>
-            <div className={styles.account}>@{User.account}</div>
+            <div className={styles.account}> @{User.account}</div>
           </div>
           <div className={styles.createTime}>・{createTime}</div>
         </div>
