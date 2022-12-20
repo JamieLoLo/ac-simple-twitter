@@ -98,6 +98,7 @@ const EditProfileModal = (props) => {
       dispatch(userActions.setIsTweetUpdate)
       await setLoadingStatus('finish')
       dispatch(modalActions.setIsEditProfileModalOpen(false))
+      refreshHandler()
       return
     }
   }
