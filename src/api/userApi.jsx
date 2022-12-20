@@ -34,18 +34,10 @@ export const userSignupApi = async (payload) => {
 export const userLoginApi = async (payload) => {
   const { account, password } = payload
   try {
-    const res = await axiosInstance.post(
-      `${userURL}/login`,
-      {
-        account,
-        password,
-      },
-      {
-        headers: {
-          'ngrok-skip-browser-warning': 'any',
-        },
-      }
-    )
+    const res = await axiosInstance.post(`${userURL}/login`, {
+      account,
+      password,
+    })
     return res
   } catch (error) {
     console.error('[User Login Failed]: ', error)
