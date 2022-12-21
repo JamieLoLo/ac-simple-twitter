@@ -46,7 +46,13 @@ const EditProfileModal = (props) => {
     setEditAvatarUrl(props.data.avatar)
     setName(props.data.name)
     setInfoValue(props.data.introduction)
-  }, [isStart, props.data.avatar, props.data.cover])
+  }, [
+    isStart,
+    props.data.avatar,
+    props.data.cover,
+    props.data.name,
+    props.data.introduction,
+  ])
 
   useEffect(() => {
     if (authInput === 'failed') {
