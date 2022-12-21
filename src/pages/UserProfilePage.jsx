@@ -161,7 +161,6 @@ const UserProfilePage = () => {
       try {
         const res = await userGetProfileApi(userId)
         await dispatch(userActions.setUserInfo(res.data))
-        console.log(res.data)
       } catch (error) {
         console.error(error)
         return error
