@@ -86,10 +86,10 @@ const authInputSlice = createSlice({
       }
     },
     emailAuth(state, action) {
-      if (!action.payload.includes('@')) {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(action.payload)) {
         state.email.content = action.payload
         state.email.isValid = false
-        state.email.message = 'Email 請輸入包含 "@" 字元的正確格式'
+        state.email.message = '請輸入有效 Email'
       } else {
         state.email.content = action.payload
         state.email.isValid = true
