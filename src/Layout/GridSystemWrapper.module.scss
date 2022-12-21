@@ -20,15 +20,15 @@
   display: flex;
   justify-items: flex-end;
   height: 100vh;
-  border: 1px solid red;
 }
 .navigation__container {
   height: 100%;
+  width: 14vw;
 }
 .user__list {
   border-left: 1px solid var(--border-color);
   height: 100%;
 }
 .space {
-  width: 6vw;
+  width: 10vw;
 }

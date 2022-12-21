@@ -38,7 +38,7 @@ const Navigation = (props) => {
 
   return (
     <>
-      <nav className={styles.nav} style={props.style}>
+      <nav className={styles.nav}>
         <ul>
           <li style={{ cursor: 'default' }}>
             <img src={logoIcon} alt='logoIcon' />
