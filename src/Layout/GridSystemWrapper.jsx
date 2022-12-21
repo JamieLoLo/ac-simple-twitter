@@ -16,10 +16,15 @@ export const AdminGrid = ({ children, pathname }) => {
 export const AdminUserPageGrid = ({ children, pathname }) => {
   return (
     <div className={styles.user__list__container}>
-      <div className={`col-3 ${styles.col_2} ${styles.navigation}`}>
-        <Navigation condition='admin' pathname={pathname} />
+      <div className={`col-1 ${styles.space}`}></div>
+      <div className={`col-2 ${styles.col_2} ${styles.navigation__container}`}>
+        <Navigation
+          condition='admin'
+          pathname={pathname}
+          style={{ alignItems: 'flex-end' }}
+        />
       </div>
-      <div className={`col-7 ${styles.user__list}`}>{children}</div>
+      <div className={`col-9 ${styles.user__list}`}>{children}</div>
     </div>
   )
 }

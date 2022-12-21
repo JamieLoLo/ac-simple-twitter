@@ -1,7 +1,6 @@
 .user__card__list {
-  position: absolute;
   padding: 16px 0 0 16px;
-  width: 75%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
@@ -15,8 +14,7 @@
 }
 
 .title {
-  position: absolute;
-  width: 1076px;
+  width: 102%;
   height: 75px;
   border-bottom: solid 1px var(--border-color);
   padding: 24px;
