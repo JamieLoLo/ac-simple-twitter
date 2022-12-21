@@ -19,17 +19,20 @@
       margin-left: 8px;
       display: flex;
       height: 26px;
-
       .name {
         font-weight: 700;
         line-height: 26px;
         color: var(--dark-100);
+        max-width: 200px;
+        overflow: scroll;
       }
       .account {
         font-size: 14px;
         line-height: 22px;
         color: var(--secondary-color);
         margin-left: 8px;
+        max-width: 200px;
+        overflow: scroll;
       }
     }
   }

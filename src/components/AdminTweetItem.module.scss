@@ -19,11 +19,15 @@
       display: flex;
       height: 24px;
       .name {
+        max-width: 400px;
+        overflow: scroll;
         font-weight: 700;
         line-height: 26px;
         color: var(--dark-100);
       }
       .account {
+        max-width: 300px;
+        overflow: scroll;
         font-size: 14px;
         line-height: 22px;
         color: var(--secondary-color);
