@@ -18,12 +18,13 @@
       margin-left: 8px;
       display: flex;
       height: 26px;
-
       .name {
         font-weight: 700;
         line-height: 26px;
         color: var(--dark-100);
         cursor: pointer;
+        max-width: 200px;
+        overflow: scroll;
       }
       .account {
         font-size: 14px;
@@ -31,6 +32,8 @@
         color: var(--secondary-color);
         margin-left: 8px;
         cursor: pointer;
+        max-width: 200px;
+        overflow: scroll;
       }
     }
   }
