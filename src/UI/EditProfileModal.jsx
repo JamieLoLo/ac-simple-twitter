@@ -102,7 +102,7 @@ const EditProfileModal = (props) => {
     }
 
     if (info.content.length === 0) {
-      formData.append('introduction', '')
+      formData.append('introduction', props.data.introduction)
     } else {
       formData.append('introduction', info.content)
     }
