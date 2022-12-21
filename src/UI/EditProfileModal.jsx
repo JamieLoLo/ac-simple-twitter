@@ -27,8 +27,9 @@ const EditProfileModal = (props) => {
   const [authInput, setAuthInput] = useState('finish')
   const [isStart, setIsStart] = useState(false)
   const [coverKey, setCoverKey] = useState(Math.random())
-  const [name, setName] = useState(props.data.name)
-  const [infoValue, setInfoValue] = useState(props.data.introduction)
+  const [name, setName] = useState(props.data.name) // 用來維持原本資料預設值
+  const [infoValue, setInfoValue] = useState(props.data.introduction) // 用來維持原本資料預設值
+
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
