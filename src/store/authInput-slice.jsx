@@ -13,6 +13,12 @@ const initialState = {
     message: '',
     count: '',
   },
+  editUsername: {
+    content: '',
+    isValid: true,
+    message: '',
+    count: '',
+  },
   email: {
     content: '',
     isValid: false,
@@ -32,6 +38,12 @@ const initialState = {
   info: {
     content: '',
     isValid: false,
+    message: '',
+    count: '',
+  },
+  editInfo: {
+    content: '',
+    isValid: true,
     message: '',
     count: '',
   },
@@ -83,6 +95,24 @@ const authInputSlice = createSlice({
         state.username.isValid = true
         state.username.message = ''
         state.username.count = ''
+      }
+    },
+    editUsernameAuth(state, action) {
+      if (action.payload.trim().length === 0 || !action.payload.trim().length) {
+        state.editUsername.content = action.payload
+        state.editUsername.isValid = false
+        state.editUsername.message = '名稱請輸入 1 到 50 個字元'
+        state.editUsername.count = action.payload.trim().length
+      } else if (action.payload.trim().length > 50) {
+        state.editUsername.content = action.payload
+        state.editUsername.isValid = false
+        state.editUsername.message = '名稱請輸入 1 到 50 個字元'
+        state.editUsername.count = action.payload.trim().length
+      } else {
+        state.editUsername.content = action.payload
+        state.editUsername.isValid = true
+        state.editUsername.message = ''
+        state.editUsername.count = ''
       }
     },
     emailAuth(state, action) {
@@ -137,6 +167,19 @@ const authInputSlice = createSlice({
         state.info.isValid = true
         state.info.message = ''
         state.info.count = ''
+      }
+    },
+    editInfoAuth(state, action) {
+      if (action.payload.trim().length > 160) {
+        state.editInfo.content = action.payload
+        state.editInfo.isValid = false
+        state.editInfo.message = '字數超出上限!'
+        state.editInfo.count = action.payload.trim().length
+      } else {
+        state.editInfo.content = action.payload
+        state.editInfo.isValid = true
+        state.editInfo.message = ''
+        state.editInfo.count = ''
       }
     },
     tweetAuth(state, action) {
