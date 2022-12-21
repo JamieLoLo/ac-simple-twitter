@@ -30,9 +30,13 @@ const EditProfileModal = (props) => {
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
+  const editUsername = useSelector((state) => state.authInput.editUsername)
+  const editInfo = useSelector((state) => state.authInput.editInfo)
   const isEditProfileModalOpen = useSelector(
     (state) => state.modal.isEditProfileModalOpen
   )
+  const [name, setName] = useState(props.data.name)
+  const [infoValue, setInfoValue] = useState(props.data.introduction)
 
   // --- useEffect
   useEffect(() => {
@@ -50,11 +54,17 @@ const EditProfileModal = (props) => {
   }, [authInput])
 
   // --- event handler
-  const usernameHandler = (useInput) => {
-    dispatch(authInputActions.usernameAuth(useInput))
+  const usernameHandler = (userInput) => {
+    dispatch(authInputActions.usernameAuth(userInput))
   }
-  const infoHandler = (useInput) => {
-    dispatch(authInputActions.infoAuth(useInput))
+  const infoHandler = (userInput) => {
+    dispatch(authInputActions.infoAuth(userInput))
+  }
+  const editUsernameHandler = () => {
+    dispatch(authInputActions.editUsernameAuth(name))
+  }
+  const editInfoHandler = () => {
+    dispatch(authInputActions.editInfoAuth(infoValue))
   }
   const refreshHandler = () => {
     dispatch(authInputActions.refreshAuthInput())
@@ -85,7 +95,7 @@ const EditProfileModal = (props) => {
     }
 
     if (info.content.length === 0) {
-      formData.append('introduction', props.data.introduction)
+      formData.append('introduction', '')
     } else {
       formData.append('introduction', info.content)
     }
@@ -102,16 +112,22 @@ const EditProfileModal = (props) => {
       return
     }
   }
-
   return isEditProfileModalOpen ? (
     <>
       <div className={styles.notification__container}>
         {authInput === 'failed' && (
-          <Notification notification='error' title='請輸入內容 並符合格式' />
+          <Notification notification='error' title='請輸入正確格式' />
         )}
       </div>
       <div className={styles.modal}>
-        <div className={styles.backdrop} onClick={refreshHandler}></div>
+        <div
+          className={styles.backdrop}
+          onClick={() => {
+            refreshHandler()
+            setName(props.data.name)
+            setInfoValue(props.data.introduction)
+          }}
+        ></div>
         <div className={styles.modal__container}>
           {loadingStatus === 'loading' && (
             <div className={styles.loadingMessage}>設定中請稍候</div>
@@ -122,7 +138,11 @@ const EditProfileModal = (props) => {
                 <div className={styles.container}>
                   <div
                     className={styles.del__btn}
-                    onClick={refreshHandler}
+                    onClick={() => {
+                      refreshHandler()
+                      setName(props.data.name)
+                      setInfoValue(props.data.introduction)
+                    }}
                   ></div>
                   <div className={styles.title}>編輯個人資料</div>
                 </div>
@@ -130,7 +150,7 @@ const EditProfileModal = (props) => {
                   className='button button__sm active'
                   title='儲存'
                   onClick={() => {
-                    if (!info.isValid || !username.isValid) {
+                    if (username.count > 50 || info.count > 160) {
                       setAuthInput('failed')
                     } else {
                       saveProfileHandler()
@@ -188,8 +208,11 @@ const EditProfileModal = (props) => {
                 <AuthInput
                   label='名稱'
                   style={{ width: '602px' }}
-                  onChange={usernameHandler}
-                  value={username.content}
+                  onChange={(userInput) => {
+                    usernameHandler(userInput)
+                    editUsernameHandler(setName(userInput))
+                  }}
+                  value={name}
                   isValid={username.isValid}
                   message={username.message}
                   count={username.count}
@@ -200,13 +223,15 @@ const EditProfileModal = (props) => {
                   label='自我介紹'
                   textArea={true}
                   style={{ width: '602px' }}
-                  onChange={infoHandler}
-                  value={info.content}
+                  onChange={(userInput) => {
+                    infoHandler(userInput)
+                    editInfoHandler(setInfoValue(userInput))
+                  }}
+                  value={infoValue}
                   isValid={info.isValid}
                   message={info.message}
                   count={info.count}
                   upperLimit='160'
-                  placeholder={props.data.introduction}
                 />
               </div>
             </>
