@@ -33,8 +33,6 @@ const EditProfileModal = (props) => {
   // --- useSelector
   const username = useSelector((state) => state.authInput.username)
   const info = useSelector((state) => state.authInput.info)
-  const editUsername = useSelector((state) => state.authInput.editUsername)
-  const editInfo = useSelector((state) => state.authInput.editInfo)
   const isEditProfileModalOpen = useSelector(
     (state) => state.modal.isEditProfileModalOpen
   )
