@@ -18,7 +18,7 @@ const Navigation = (props) => {
   const dispatch = useDispatch()
   // --- localStorage
   // --- useSelector
-  const userInfo = useSelector((state)=> state.user.userInfo)
+  const userInfo = useSelector((state) => state.user.userInfo)
   // const isTweetModalOpen = useSelector((state) => state.modal.isTweetModalOpen)
   const getProfileIdHandler = () => {
     localStorage.setItem('profile_id', localStorage.getItem('userId'))
@@ -38,7 +38,7 @@ const Navigation = (props) => {
 
   return (
     <>
-      <nav className={styles.nav}>
+      <nav className={styles.nav} style={props.style}>
         <ul>
           <li style={{ cursor: 'default' }}>
             <img src={logoIcon} alt='logoIcon' />
@@ -73,23 +73,19 @@ const Navigation = (props) => {
                   className={clsx('', {
                     [styles.icon__personal__active]:
                       pathname === '/users/profile',
-                    [styles.icon__personal]:
-                      pathname !== '/users/profile',
+                    [styles.icon__personal]: pathname !== '/users/profile',
                   })}
                 ></div>
                 <p
                   className={clsx('', {
-                    [styles.active]:
-                      pathname === '/users/profile',
+                    [styles.active]: pathname === '/users/profile',
                   })}
                   onClick={getProfileIdHandler}
                 >
                   個人資料
                 </p>
               </li>
-              <li
-                onClick={settingHandler}
-              >
+              <li onClick={settingHandler}>
                 <div
                   className={clsx('', {
                     [styles.icon__setting__active]:

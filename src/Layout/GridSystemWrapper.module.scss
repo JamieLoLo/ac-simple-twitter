@@ -20,13 +20,15 @@
   display: flex;
   justify-items: flex-end;
   height: 100vh;
-  
+  border: 1px solid red;
 }
-.navigation {
-  transform: translateX(145px);
+.navigation__container {
   height: 100%;
 }
 .user__list {
   border-left: 1px solid var(--border-color);
   height: 100%;
+}
+.space {
+  width: 6vw;
 }
