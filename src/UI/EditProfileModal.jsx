@@ -91,7 +91,7 @@ const EditProfileModal = (props) => {
     setEditAvatarUrl(URL.createObjectURL(event.target.files[0]))
     setEditAvatarFile(event.target.files[0])
   }
-
+  // 使用者名稱清空將維持原本預設資料
   const saveProfileHandler = async () => {
     await setLoadingStatus('loading')
 
