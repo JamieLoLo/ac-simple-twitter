@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const replyURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+const replyURL = 'https://lit-earth-68562.herokuapp.com/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: replyURL })
 

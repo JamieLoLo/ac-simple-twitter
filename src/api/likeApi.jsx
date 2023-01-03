@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const likeURL = 'https://fierce-plains-47262.herokuapp.com/api/tweets'
+const likeURL = 'https://lit-earth-68562.herokuapp.com/api/tweets'
 
 const axiosInstance = axios.create({ baseURL: likeURL })
 

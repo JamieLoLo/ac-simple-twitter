@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const followshipsURL =
-  'https://fierce-plains-47262.herokuapp.com/api/followships'
+const followshipsURL = 'https://lit-earth-68562.herokuapp.com/api/followships'
 
 const axiosInstance = axios.create({ baseURL: followshipsURL })
 
