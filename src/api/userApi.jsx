@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const userURL = 'https://fierce-plains-47262.herokuapp.com/api/users'
+const userURL = 'https://lit-earth-68562.herokuapp.com/api/users'
 
 const axiosInstance = axios.create({ baseURL: userURL })
 
