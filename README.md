@@ -4,6 +4,11 @@
 <br/>
 <br/>
 
+## GitHub Page
+https://jamielolo.github.io/ac-simple-twitter/
+<br/>
+<br/>
+
 ## 專案畫面
 
 【登入頁面】
